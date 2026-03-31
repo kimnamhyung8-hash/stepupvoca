@@ -14,7 +14,7 @@ const config: CapacitorConfig = {
       iosAppId: 'ca-app-pub-3940256099942544~1458002511',
     },
     FirebaseAuthentication: {
-      skipNativeAuth: false,
+      skipNativeAuth: true,
       providers: ["google.com"],
     }
   }
