@@ -23,7 +23,7 @@ export const decryptApiKey = (encrypted: string) => {
 };
 
 // ─── [NEW] HYBRID AI CONFIGURATION ──────────────────────────────────────────
-export const SERVER_API_KEY = "AIzaSyCr8WiEHfknD591mSGticuZPBvjLGE7hOo";
+export const SERVER_API_KEY = ""; // 구글 시스템에 의해 하드코딩된 키가 유출(Leaked) 차단되었습니다! 새 키가 필요합니다.
 // 2026 Migration: Use 3.1 Pro for reasoning, 3.1 Flash Lite for speed
 export const HIGH_PERFORMANCE_MODEL = "gemini-3.1-pro-preview"; 
 export const LIGHTWEIGHT_MODEL = "gemini-3.1-flash-lite-preview";

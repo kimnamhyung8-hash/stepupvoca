@@ -829,9 +829,17 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
 
             // 2. Native (Capacitor) 환경일 경우
             if (!isWeb) {
-                const { available } = await SpeechRecognition.available();
-                if (!available) {
-                    // Native 지원 안될 경우 WebSR 시도 (하이브리드 지원용)
+                let isNativeSupport = false;
+                try {
+                    const { available } = await SpeechRecognition.available();
+                    isNativeSupport = available;
+                } catch (e: any) {
+                    console.warn("Speech plugin error (likely UNIMPLEMENTED on iOS):", e);
+                    isNativeSupport = false; // 안전하게 fallback 모드로 우회
+                }
+
+                if (!isNativeSupport) {
+                    // Native 지원 안될 경우 WebSR 시도 (하이브리드 지원용 또는 알림 창)
                     if (WebSR) {
                         if (isListening) {
                             if (webRecognitionRef.current) {
@@ -855,7 +863,8 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                         };
                         rec.start();
                     } else {
-                        alert(t('sr_not_supported'));
+                        alert("현재 iOS 기기에서는 플러그인 업데이트 대기로 인해 마이크 기능을 사용할 수 없습니다. 대화를 텍스트로 입력해 주세요! 📝");
+                        setIsListening(false);
                     }
                     return;
                 }
