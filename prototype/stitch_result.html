@@ -1,0 +1,135 @@
+<html class="dark"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f48c25",
+            "background-light": "#f8f7f5",
+            "background-dark": "#221910",
+          },
+          fontFamily: {
+            "display": ["Lexend"]
+          },
+          borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .bg-gradient-mesh {
+      background: radial-gradient(circle at 20% 20%, rgba(244, 140, 37, 0.15) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 80%, rgba(88, 28, 135, 0.3) 0%, transparent 50%),
+                  #221910;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .text-glow-gold {
+      text-shadow: 0 0 20px rgba(244, 140, 37, 0.5), 0 0 40px rgba(244, 140, 37, 0.3);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col bg-gradient-mesh overflow-hidden">
+<!-- Top Bar -->
+<div class="flex items-center p-6 justify-between z-10">
+<div class="text-slate-100 flex size-10 shrink-0 items-center justify-center rounded-full glass-card">
+<span class="material-symbols-outlined">close</span>
+</div>
+<h2 class="text-slate-100 text-lg font-bold leading-tight tracking-tight">VocaQuest</h2>
+<div class="flex w-10 items-center justify-end">
+<button class="flex size-10 items-center justify-center rounded-full glass-card text-slate-100">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+<!-- Celebration Hero Section -->
+<div class="flex flex-col items-center justify-center px-4 pt-4 pb-8 relative">
+<!-- Decorative Elements (Simulated 3D shapes) -->
+<div class="absolute top-10 left-10 text-primary opacity-60">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1">stars</span>
+</div>
+<div class="absolute top-20 right-12 text-purple-400 opacity-60">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1">filter_vintage</span>
+</div>
+<div class="absolute bottom-0 left-20 text-yellow-500 opacity-40">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">square</span>
+</div>
+<div class="w-full max-w-[280px] aspect-square relative flex items-center justify-center mb-4">
+<div class="absolute inset-0 bg-primary/20 rounded-full blur-3xl"></div>
+<img class="relative z-10 w-full h-full object-contain drop-shadow-2xl" data-alt="3D golden trophy and colorful confetti" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvsLNTC0g-b66yoQlnfj6ru4oHhj6huinBJaQnUeFiDdLm2gy96HS8Hfwy36eEZfMqdTECY_O7tk9mZQw_pu92j4atyuMft_5nVUc_xUQaLiDeG28dfm3rtzTrcgu0YZ3twl7q_uJHd6Of9hWNF3l1YIUf6z7Ej5dUfewqeHd7-rknhcX5V7byx2NqUKhg_VnboGrjwl4FTl_SeLG_RZGW8RgnKEoHV750rmnezm4VoyGZMvjuadogkyPSdByWwJrPzmFYEOOwbsI"/>
+</div>
+<h1 class="text-primary text-glow-gold tracking-tight text-4xl font-extrabold leading-tight text-center">
+        Level Up! <br/>
+<span class="text-slate-100">LV. 51</span>
+</h1>
+</div>
+<!-- Stats Card -->
+<div class="px-6 mb-8">
+<div class="glass-card rounded-xl p-6 flex flex-col gap-6 shadow-2xl">
+<div class="grid grid-cols-3 gap-4">
+<div class="flex flex-col items-center gap-2">
+<div class="size-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<p class="text-slate-400 text-xs font-medium">Accuracy</p>
+<p class="text-slate-100 text-xl font-bold">95%</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="size-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+<span class="material-symbols-outlined">timer</span>
+</div>
+<p class="text-slate-400 text-xs font-medium">Avg Time</p>
+<p class="text-slate-100 text-xl font-bold">2.4s</p>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">military_tech</span>
+</div>
+<p class="text-slate-400 text-xs font-medium">Rank</p>
+<p class="text-slate-100 text-xl font-bold text-center leading-none">Top 3%</p>
+</div>
+</div>
+<div class="h-px bg-slate-100/10 w-full"></div>
+<p class="text-slate-100 text-center text-lg font-semibold leading-snug">
+          You proved an 11th-grade US vocabulary level!
+        </p>
+</div>
+</div>
+<!-- Social Actions -->
+<div class="mt-auto px-6 pb-12 flex flex-col gap-4">
+<p class="text-slate-400 text-center text-sm font-medium mb-1">Share your achievement</p>
+<button class="flex items-center justify-center gap-3 w-full py-4 rounded-full bg-slate-900 text-white font-bold text-lg shadow-lg border border-slate-800 transition-transform active:scale-95">
+<div class="flex items-center justify-center">
+<svg class="size-6" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.03 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.28-2.26.74-4.63 2.54-6.04 1.34-1.08 3.05-1.66 4.78-1.58.01 1.43-.01 2.87 0 4.3-.92-.25-1.95-.08-2.69.52-.96.72-1.36 1.95-1.04 3.09.23.95.95 1.73 1.83 2.11 1.01.44 2.21.31 3.08-.36.75-.54 1.18-1.4 1.25-2.32.06-4.57.03-9.14.04-13.71z"></path>
+</svg>
+</div>
+        Share to TikTok
+      </button>
+<button class="flex items-center justify-center gap-3 w-full py-4 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white font-bold text-lg shadow-lg transition-transform active:scale-95">
+<div class="flex items-center justify-center">
+<svg class="size-6" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path>
+</svg>
+</div>
+        Instagram Reels
+      </button>
+</div>
+</div>
+</body></html>

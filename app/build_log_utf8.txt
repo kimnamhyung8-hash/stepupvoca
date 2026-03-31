@@ -1,0 +1,402 @@
+﻿
+> app@1.5.0 build
+> tsc -b && vite build
+
+src/AdminScreens.tsx(331,10): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/AdminScreens.tsx(335,41): error TS1003: Identifier expected.
+src/AdminScreens.tsx(335,154): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(336,41): error TS1003: Identifier expected.
+src/AdminScreens.tsx(336,158): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(363,30): error TS17008: JSX element 'span' has no corresponding closing tag.
+src/AdminScreens.tsx(363,47): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(364,50): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(365,35): error TS17002: Expected corresponding JSX closing tag for 'span'.
+src/AdminScreens.tsx(375,64): error TS1003: Identifier expected.
+src/AdminScreens.tsx(375,153): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(376,82): error TS1003: Identifier expected.
+src/AdminScreens.tsx(376,154): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(377,96): error TS1003: Identifier expected.
+src/AdminScreens.tsx(377,154): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(378,89): error TS1003: Identifier expected.
+src/AdminScreens.tsx(378,145): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(387,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(390,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(391,70): error TS1003: Identifier expected.
+src/AdminScreens.tsx(391,76): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(393,60): error TS17008: JSX element 'Partial' has no corresponding closing tag.
+src/AdminScreens.tsx(393,89): error TS1005: '}' expected.
+src/AdminScreens.tsx(393,162): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(394,70): error TS1003: Identifier expected.
+src/AdminScreens.tsx(394,72): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(396,37): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(397,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(397,40): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(398,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(401,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(402,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(404,57): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(410,33): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(411,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(412,39): error TS1005: '}' expected.
+src/AdminScreens.tsx(413,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(414,73): error TS1005: '}' expected.
+src/AdminScreens.tsx(415,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(416,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(418,43): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(421,22): error TS1005: '}' expected.
+src/AdminScreens.tsx(422,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(425,18): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/AdminScreens.tsx(427,22): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/AdminScreens.tsx(437,33): error TS1005: '}' expected.
+src/AdminScreens.tsx(440,35): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(441,17): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(444,31): error TS17002: Expected corresponding JSX closing tag for 'span'.
+src/AdminScreens.tsx(502,26): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/AdminScreens.tsx(504,34): error TS17008: JSX element 'table' has no corresponding closing tag.
+src/AdminScreens.tsx(516,79): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(519,85): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(521,96): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(522,55): error TS17002: Expected corresponding JSX closing tag for 'th'.
+src/AdminScreens.tsx(523,51): error TS17002: Expected corresponding JSX closing tag for 'th'.
+src/AdminScreens.tsx(555,141): error TS1002: Unterminated string literal.
+src/AdminScreens.tsx(556,41): error TS1005: '}' expected.
+src/AdminScreens.tsx(573,47): error TS17002: Expected corresponding JSX closing tag for 'th'.
+src/AdminScreens.tsx(574,43): error TS17002: Expected corresponding JSX closing tag for 'tr'.
+src/AdminScreens.tsx(575,39): error TS17002: Expected corresponding JSX closing tag for 'thead'.
+src/AdminScreens.tsx(600,66): error TS17008: JSX element 'span' has no corresponding closing tag.
+src/AdminScreens.tsx(600,134): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(666,58): error TS17008: JSX element 'label' has no corresponding closing tag.
+src/AdminScreens.tsx(666,169): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(670,58): error TS17008: JSX element 'label' has no corresponding closing tag.
+src/AdminScreens.tsx(670,169): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(708,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(711,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(711,42): error TS1003: Identifier expected.
+src/AdminScreens.tsx(711,77): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(712,57): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(778,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(781,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(781,38): error TS1003: Identifier expected.
+src/AdminScreens.tsx(781,52): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(783,76): error TS17008: JSX element 'any' has no corresponding closing tag.
+src/AdminScreens.tsx(786,34): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(787,41): error TS1005: '}' expected.
+src/AdminScreens.tsx(788,33): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(789,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(790,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(792,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(794,34): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(795,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(797,35): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(800,70): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(801,70): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(802,70): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(804,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(806,34): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(807,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(809,39): error TS1005: '}' expected.
+src/AdminScreens.tsx(816,39): error TS1005: '}' expected.
+src/AdminScreens.tsx(820,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(821,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(822,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(824,38): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(825,82): error TS1005: '}' expected.
+src/AdminScreens.tsx(826,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(828,38): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(829,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(832,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(834,90): error TS1005: '}' expected.
+src/AdminScreens.tsx(834,175): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(840,46): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(842,85): error TS1005: '}' expected.
+src/AdminScreens.tsx(844,41): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(845,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(846,60): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(847,22): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(852,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(853,53): error TS1005: '}' expected.
+src/AdminScreens.tsx(855,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(856,55): error TS1005: '}' expected.
+src/AdminScreens.tsx(857,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(858,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(860,71): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(861,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(866,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(867,43): error TS1005: '}' expected.
+src/AdminScreens.tsx(868,57): error TS1005: '}' expected.
+src/AdminScreens.tsx(868,78): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(870,45): error TS1005: '}' expected.
+src/AdminScreens.tsx(870,54): error TS1005: '}' expected.
+src/AdminScreens.tsx(870,62): error TS1005: '}' expected.
+src/AdminScreens.tsx(870,234): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(870,237): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(871,17): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(872,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(878,88): error TS1005: '}' expected.
+src/AdminScreens.tsx(878,117): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(882,67): error TS1005: '}' expected.
+src/AdminScreens.tsx(885,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(887,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(888,91): error TS1005: '}' expected.
+src/AdminScreens.tsx(889,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(890,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(893,34): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/AdminScreens.tsx(913,54): error TS17008: JSX element 'table' has no corresponding closing tag.
+src/AdminScreens.tsx(917,104): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(919,125): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(920,71): error TS17002: Expected corresponding JSX closing tag for 'th'.
+src/AdminScreens.tsx(921,67): error TS17002: Expected corresponding JSX closing tag for 'th'.
+src/AdminScreens.tsx(938,63): error TS17002: Expected corresponding JSX closing tag for 'tr'.
+src/AdminScreens.tsx(939,59): error TS17002: Expected corresponding JSX closing tag for 'thead'.
+src/AdminScreens.tsx(966,14): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1029,108): error TS1002: Unterminated string literal.
+src/AdminScreens.tsx(1030,29): error TS1005: '}' expected.
+src/AdminScreens.tsx(1036,38): error TS1005: ':' expected.
+src/AdminScreens.tsx(1037,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1040,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(1042,28): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1043,72): error TS1005: '}' expected.
+src/AdminScreens.tsx(1045,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1065,46): error TS17008: JSX element 'button' has no corresponding closing tag.
+src/AdminScreens.tsx(1065,230): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1069,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1072,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(1073,98): error TS1005: '}' expected.
+src/AdminScreens.tsx(1073,133): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1075,19): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1076,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(1076,39): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1077,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(1078,17): error TS1109: Expression expected.
+src/AdminScreens.tsx(1081,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1082,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1084,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1086,42): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1087,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(1088,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(1090,75): error TS1005: '}' expected.
+src/AdminScreens.tsx(1090,82): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1092,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1092,57): error TS1005: '}' expected.
+src/AdminScreens.tsx(1092,59): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1093,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1105,50): error TS17008: JSX element 'p' has no corresponding closing tag.
+src/AdminScreens.tsx(1105,134): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1119,58): error TS17008: JSX element 'label' has no corresponding closing tag.
+src/AdminScreens.tsx(1119,173): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1124,144): error TS1002: Unterminated string literal.
+src/AdminScreens.tsx(1125,37): error TS1005: '}' expected.
+src/AdminScreens.tsx(1146,58): error TS17008: JSX element 'h5' has no corresponding closing tag.
+src/AdminScreens.tsx(1146,151): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1201,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1204,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(1204,50): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1221,152): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1225,54): error TS17008: JSX element 'span' has no corresponding closing tag.
+src/AdminScreens.tsx(1225,171): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1235,50): error TS17008: JSX element 'h4' has no corresponding closing tag.
+src/AdminScreens.tsx(1235,160): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1243,50): error TS17008: JSX element 'p' has no corresponding closing tag.
+src/AdminScreens.tsx(1243,146): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1269,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1272,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(1320,58): error TS17008: JSX element 'button' has no corresponding closing tag.
+src/AdminScreens.tsx(1320,253): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1328,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1333,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(1333,50): error TS1003: Identifier expected.
+src/AdminScreens.tsx(1333,52): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1337,87): error TS1003: Identifier expected.
+src/AdminScreens.tsx(1337,93): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1341,19): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1342,55): error TS1005: '}' expected.
+src/AdminScreens.tsx(1343,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1345,36): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1346,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(1347,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(1349,41): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1349,47): error TS1005: '}' expected.
+src/AdminScreens.tsx(1349,67): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1350,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1351,85): error TS1005: '}' expected.
+src/AdminScreens.tsx(1352,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1353,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1355,33): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1356,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(1359,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(1360,70): error TS1003: Identifier expected.
+src/AdminScreens.tsx(1360,78): error TS1005: '}' expected.
+src/AdminScreens.tsx(1360,104): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1360,105): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1361,43): error TS1005: '}' expected.
+src/AdminScreens.tsx(1361,51): error TS1005: '}' expected.
+src/AdminScreens.tsx(1361,82): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1362,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1365,17): error TS1109: Expression expected.
+src/AdminScreens.tsx(1366,21): error TS1109: Expression expected.
+src/AdminScreens.tsx(1367,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1367,66): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1368,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1368,67): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1369,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1369,77): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1370,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1370,69): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1371,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1371,78): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1380,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1381,21): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1384,47): error TS1005: '}' expected.
+src/AdminScreens.tsx(1385,61): error TS1005: '}' expected.
+src/AdminScreens.tsx(1385,82): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1386,67): error TS1005: '}' expected.
+src/AdminScreens.tsx(1386,76): error TS1005: '}' expected.
+src/AdminScreens.tsx(1386,84): error TS1005: '}' expected.
+src/AdminScreens.tsx(1386,93): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1386,96): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1386,99): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1387,21): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1390,25): error TS1109: Expression expected.
+src/AdminScreens.tsx(1395,21): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1396,17): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1397,85): error TS1005: '}' expected.
+src/AdminScreens.tsx(1398,17): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1399,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1402,49): error TS1005: '}' expected.
+src/AdminScreens.tsx(1406,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1410,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1411,69): error TS1005: '}' expected.
+src/AdminScreens.tsx(1412,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1413,58): error TS1005: '}' expected.
+src/AdminScreens.tsx(1414,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1415,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1417,46): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1418,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(1421,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(1422,46): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1426,61): error TS1005: '}' expected.
+src/AdminScreens.tsx(1426,95): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1429,17): error TS1109: Expression expected.
+src/AdminScreens.tsx(1430,21): error TS1109: Expression expected.
+src/AdminScreens.tsx(1431,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1431,66): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1432,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1432,67): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1433,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1433,77): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1434,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1434,69): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1435,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1435,78): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1444,42): error TS1005: '}' expected.
+src/AdminScreens.tsx(1445,21): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1448,47): error TS1005: '}' expected.
+src/AdminScreens.tsx(1449,61): error TS1005: '}' expected.
+src/AdminScreens.tsx(1449,82): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1450,67): error TS1005: '}' expected.
+src/AdminScreens.tsx(1450,76): error TS1005: '}' expected.
+src/AdminScreens.tsx(1450,84): error TS1005: '}' expected.
+src/AdminScreens.tsx(1450,93): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1450,96): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1450,99): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1451,21): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1454,25): error TS1109: Expression expected.
+src/AdminScreens.tsx(1459,21): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1460,17): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1461,99): error TS1005: '}' expected.
+src/AdminScreens.tsx(1462,17): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1463,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1466,49): error TS1005: '}' expected.
+src/AdminScreens.tsx(1469,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1472,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1473,69): error TS1005: '}' expected.
+src/AdminScreens.tsx(1474,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1475,58): error TS1005: '}' expected.
+src/AdminScreens.tsx(1476,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1477,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1479,44): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1480,64): error TS1005: '}' expected.
+src/AdminScreens.tsx(1483,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1485,46): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1486,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(1488,80): error TS1005: '}' expected.
+src/AdminScreens.tsx(1490,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1491,70): error TS1005: '}' expected.
+src/AdminScreens.tsx(1492,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1493,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1582,121): error TS1002: Unterminated string literal.
+src/AdminScreens.tsx(1583,37): error TS1005: '}' expected.
+src/AdminScreens.tsx(1612,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1616,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(1618,74): error TS17008: JSX element 'any' has no corresponding closing tag.
+src/AdminScreens.tsx(1620,38): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1621,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(1624,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(1635,65): error TS1005: '}' expected.
+src/AdminScreens.tsx(1636,49): error TS1005: '}' expected.
+src/AdminScreens.tsx(1636,104): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1637,49): error TS1005: '}' expected.
+src/AdminScreens.tsx(1637,72): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1640,61): error TS1005: '}' expected.
+src/AdminScreens.tsx(1643,3): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1645,56): error TS1005: '}' expected.
+src/AdminScreens.tsx(1646,3): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1648,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1653,51): error TS1005: '}' expected.
+src/AdminScreens.tsx(1654,65): error TS1005: '}' expected.
+src/AdminScreens.tsx(1654,86): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1655,71): error TS1005: '}' expected.
+src/AdminScreens.tsx(1655,80): error TS1005: '}' expected.
+src/AdminScreens.tsx(1655,88): error TS1005: '}' expected.
+src/AdminScreens.tsx(1655,97): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1655,100): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1655,103): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1656,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1663,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1664,86): error TS1005: '}' expected.
+src/AdminScreens.tsx(1665,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1666,64): error TS1005: '}' expected.
+src/AdminScreens.tsx(1667,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1668,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1670,45): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1671,80): error TS1005: '}' expected.
+src/AdminScreens.tsx(1673,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1799,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1802,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(1803,52): error TS1005: '}' expected.
+src/AdminScreens.tsx(1808,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1827,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1830,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(1831,52): error TS1005: '}' expected.
+src/AdminScreens.tsx(1835,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1838,49): error TS1005: '}' expected.
+src/AdminScreens.tsx(1842,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1854,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1858,5): error TS1109: Expression expected.
+src/AdminScreens.tsx(1858,74): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1859,9): error TS1109: Expression expected.
+src/AdminScreens.tsx(1862,13): error TS1109: Expression expected.
+src/AdminScreens.tsx(1863,17): error TS1109: Expression expected.
+src/AdminScreens.tsx(1864,73): error TS1005: '}' expected.
+src/AdminScreens.tsx(1864,84): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1865,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1870,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1871,68): error TS1005: '}' expected.
+src/AdminScreens.tsx(1872,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1873,5): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1911,78): error TS17008: JSX element 'p' has no corresponding closing tag.
+src/AdminScreens.tsx(1911,151): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1919,78): error TS17008: JSX element 'p' has no corresponding closing tag.
+src/AdminScreens.tsx(1919,151): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/AdminScreens.tsx(1952,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/AdminScreens.tsx(1953,1): error TS1005: '</' expected.
+src/screens/OnboardingScreen.tsx(1,1): error TS1490: File appears to be binary.
+src/screens/OnboardingScreen.tsx(55,46): error TS1109: Expression expected.
+src/screens/OnboardingScreen.tsx(320,1): error TS1005: '}' expected.
+src/screens/ProfileScreen.tsx(50,27): error TS1002: Unterminated string literal.
+src/screens/ProfileScreen.tsx(51,9): error TS1005: ',' expected.
+src/screens/StoreScreen.tsx(49,51): error TS1005: ',' expected.
+src/screens/StoreScreen.tsx(49,57): error TS1005: ',' expected.
+src/screens/StoreScreen.tsx(49,74): error TS1002: Unterminated string literal.
+src/screens/StoreScreen.tsx(50,9): error TS1005: ':' expected.
+src/screens/StoreScreen.tsx(51,9): error TS1136: Property assignment expected.

@@ -1,0 +1,118 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // [중요: 관리자 여부 확인 함수] 
+    // users 컬렉션에 isAdmin=true 로 설정된 문서가 있는지 확인합니다.
+    function isAdmin() {
+      return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // 1. 유저 정보 (사용자 프로필, 포인트 등)
+    match /users/{userId} {
+      allow read: if true; // 리더보드 등 공개 프로필 조회를 위해 허용
+      
+      // 생성/삭제는 본인과 관리자만 허용
+      allow create, delete: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      
+      // 수정은 본인이거나 관리자이거나, 혹은 'unreadCommunityNotif' 필드만 업데이트하는 경우 누구나 허용
+      allow update: if request.auth != null && (
+        request.auth.uid == userId || 
+        isAdmin() ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['unreadCommunityNotif'])
+      );
+
+      // 커뮤니티 댓글 알림을 위한 서브컬렉션 권한
+      match /notifications/{notifId} {
+        allow read, update, delete: if request.auth != null && (request.auth.uid == userId || isAdmin());
+        allow create: if request.auth != null; // 로그인한 누구나 타인에게 알림(댓글알림)을 추가할 수 있음
+      }
+    }
+
+    // 2. 1:1 배틀 (실시간 단어 배틀)
+    match /battles/{battleId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // 2-1. 빠른 매칭 대기열
+    match /quick_matches/{matchId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // 3. 글로벌 채팅 (live_chats)
+    match /live_chats/{roomId} {
+      allow read, write: if request.auth != null;
+      
+      // 채팅 메시지 서브컬렉션
+      match /messages/{messageId} {
+        allow read, write: if request.auth != null;
+      }
+      
+      // WebRTC 화상 통신을 위한 시그널링 데이터 서브컬렉션
+      match /signaling/{signalId} {
+        allow read, write: if request.auth != null;
+      }
+    }
+
+    // 4. 피드백 및 건의사항
+    match /feedbacks/{feedbackId} {
+      // 피드백 생성은 누구나 가능 (비로그인 익명 유저 고려)
+      allow create: if true; 
+      // 읽기, 수정, 삭제는 로그인한 회원 혹은 관리자만
+      allow read, update, delete: if request.auth != null;
+    }
+    
+    // 5. 채팅 신고 내역 (UGC 정책 관련)
+    match /chat_reports/{reportId} {
+      allow create: if request.auth != null;
+      // 가급적 관리자 전용으로 하는 것이 좋지만, 
+      // 현재 관리자 판별 기준에 따라 일반 사용자도 접근할 수 있도록 열어둠
+      allow read, update, delete: if request.auth != null;
+    }
+
+    match /notices/{noticeId} {
+      allow read: if true;
+      allow write: if request.auth != null; 
+    }
+
+    // 10. 글로벌 커뮤니티 게시판
+    match /community_posts/{postId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null && (
+        resource.data.authorId == request.auth.uid || 
+        isAdmin() ||
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reports']))
+      );
+      allow delete: if request.auth != null && (resource.data.authorId == request.auth.uid || isAdmin());
+    }
+
+    match /community_comments/{commentId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null && (
+        resource.data.authorId == request.auth.uid || 
+        isAdmin() ||
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reports']))
+      );
+      allow delete: if request.auth != null && (resource.data.authorId == request.auth.uid || isAdmin());
+    }
+
+    // 7. 커스텀 단어장 / 스테이지 데이터
+    match /custom_voca/{wordId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // 8. 앱 설정 및 상태 (config/app_status 등)
+    match /config/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // 9. 잠재적으로 쓰지 않는 옛날 컬렉션 등 안전망
+    match /challenges/{challengeId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

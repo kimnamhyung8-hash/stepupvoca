@@ -1,0 +1,382 @@
+
+import React from 'react';
+import {
+    Flame,
+    Coins,
+    Zap,
+    BookOpen,
+    MessageSquare,
+    BookMarked,
+    Bot,
+    CheckCircle2,
+    Trophy,
+    Sparkles,
+    BarChart3,
+    Swords,
+    Target,
+    Globe,
+    Play,
+    ChevronRight
+} from 'lucide-react';
+import { t } from '../i18n';
+
+interface HomeScreenProps {
+    settings: any;
+    setScreen: (s: string) => void;
+    userPoints: number;
+    streak: number;
+    streakMax: number;
+    todayDone: boolean;
+    userInfo: any;
+    currentLevel: number;
+    equippedSkin: string;
+}
+
+export const HomeScreen: React.FC<HomeScreenProps> = ({
+    settings,
+    setScreen,
+    userPoints,
+    streak,
+    streakMax,
+    todayDone,
+    userInfo,
+    currentLevel,
+    equippedSkin,
+}) => {
+    const lang = settings.lang || 'ko';
+
+    // Mock/Estimated stats for the UI
+    const collectedWords = 20; 
+    const unmemorizedWords = 0;
+
+    const skins: Record<string, { emoji: string; special?: string }> = {
+        default: { emoji: '🐣' },
+        ninja: { emoji: '🥷' },
+        wizard: { emoji: '🧙‍♂️', special: 'animate-float' },
+        king: { emoji: '👑', special: 'animate-float' },
+        dragon: { emoji: '🐉', special: 'animate-float premium-shine' },
+        alien: { emoji: '👽', special: 'animate-pulse' },
+        robot: { emoji: '🤖', special: 'animate-pulse' },
+        vampire: { emoji: '🧛', special: 'animate-float' },
+        hero: { emoji: '🦸‍♂️', special: 'animate-float' },
+        ghost: { emoji: '👻', special: 'animate-float opacity-80' },
+        tiger: { emoji: '🐯', special: 'animate-pulse' },
+        unicorn: { emoji: '🦄', special: 'animate-float premium-shine' },
+        devil: { emoji: '😈', special: 'animate-float' },
+        angel: { emoji: '😇', special: 'animate-float premium-shine' },
+        cat: { emoji: '🐱' },
+        dog: { emoji: '🐶' }
+    };
+
+    const skinData = skins[equippedSkin] || skins.default;
+
+    return (
+        <div className="screen bg-[#F8FAFF] flex flex-col font-sans select-none overflow-hidden">
+            {/* Header */}
+            <header className="flex items-center justify-between px-6 py-4 bg-white sticky top-0 z-20">
+                <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-[#FF6B35] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+                        <Bot size={24} className="text-white" />
+                    </div>
+                    <h1 className="text-2xl font-black text-[#1E293B] tracking-tight">VocaQuest</h1>
+                </div>
+                <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 bg-[#FFF7ED] px-3 py-1.5 rounded-2xl border border-orange-100 shadow-sm">
+                        <Flame size={14} className="text-[#FF6B35]" fill="#FF6B35" />
+                        <span className="text-sm font-black text-orange-700">{streak}</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-[#FFFBEB] px-3.5 py-2 rounded-2xl border border-amber-100 shadow-sm font-black">
+                        <Coins size={18} className="text-amber-500" />
+                        <span className="text-lg font-black text-amber-700">{userPoints.toLocaleString()}</span>
+                    </div>
+                </div>
+            </header>
+
+            <div className="flex-1 overflow-y-auto pb-24 px-6 space-y-6">
+                
+                {/* Streak Banner */}
+                <div className="mt-4 bg-white p-5 rounded-[32px] border border-slate-100 shadow-sm flex items-center gap-4 relative">
+                    <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center shrink-0">
+                        <Flame size={32} className="text-[#FF6B35]" fill="#FF6B35" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        <h3 className="font-black text-slate-800 text-[15px] leading-tight truncate">
+                            {todayDone ? t(lang, 'streak_active', { n: streak }) : t(lang, 'streak_warning', { n: streak })}
+                        </h3>
+                        <div className="flex items-center gap-1 text-slate-400 text-[11px] font-bold mt-1">
+                            {t(lang, 'streak_max_record', { n: streakMax })} <Trophy size={10} className="text-amber-500" />
+                        </div>
+                    </div>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${todayDone ? 'bg-emerald-50 border-emerald-100 text-emerald-500' : 'bg-slate-50 border-slate-100 text-slate-200'}`}>
+                        <CheckCircle2 size={20} />
+                    </div>
+                </div>
+
+                {/* Character Hero Section */}
+                <div className="flex flex-col items-center pt-4 animate-fade-in transition-all">
+                    <div className="relative mb-4">
+                        <div className={`w-36 h-36 bg-white rounded-full flex items-center justify-center text-8xl shadow-xl shadow-slate-200/50 border-4 border-white overflow-hidden ${skinData.special?.includes('premium-shine') ? 'premium-shine' : ''}`}>
+                            <span className={skinData.special || ''}>
+                                {skinData.emoji}
+                            </span>
+                        </div>
+                        <div className="absolute bottom-0 right-0 bg-[#FFD700] border-4 border-white text-[#854D0E] text-[12px] font-black px-3 py-1.5 rounded-2xl shadow-lg flex items-center gap-1 transform translate-x-3 translate-y-1">
+                            <span className="text-[10px] opacity-70">LV</span>
+                            <span>{currentLevel}</span>
+                        </div>
+                    </div>
+
+                    <h2 className="text-[32px] font-black text-[#1E293B] tracking-tight leading-tight mb-2">
+                        {userInfo?.nickname || "Guest"}
+                    </h2>
+                    <p className="text-slate-400 font-bold text-[13px] tracking-wide">
+                        {t(lang, 'home_stats_label', { collected: collectedWords, weak: unmemorizedWords })}
+                    </p>
+
+                    <button
+                        onClick={() => setScreen('QUIZ')}
+                        className="w-full mt-8 bg-[#4F46E5] py-6 rounded-[32px] text-white flex items-center justify-center gap-3 shadow-2xl shadow-indigo-500/40 active:scale-95 transition-all group"
+                    >
+                        <Zap size={28} className="fill-white" />
+                        <span className="text-2xl font-black">{t(lang, 'start_challenge')}</span>
+                    </button>
+                </div>
+
+                {/* Feature Grid */}
+                <div className="space-y-5">
+                    {/* Row 1 */}
+                    <div className="grid grid-cols-2 gap-5">
+                        <button
+                            onClick={() => setScreen('CONVERSATION_LIST')}
+                            className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left relative"
+                        >
+                            <div className="w-14 h-14 bg-[#F5F7FF] text-[#6366F1] rounded-2xl flex items-center justify-center border border-indigo-50/50">
+                                <MessageSquare size={28} />
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="font-bold text-[13px] text-slate-800 leading-tight">
+                                    {t(lang, 'ai_conversation_title')}
+                                </span>
+                                <span className="text-[9px] font-black bg-indigo-100 text-indigo-600 px-1 py-0.5 rounded-md">AI</span>
+                            </div>
+                        </button>
+
+                        <button
+                            onClick={() => setScreen('MASTERY')}
+                            className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left"
+                        >
+                            <div className="w-14 h-14 bg-[#F0FDF4] text-[#22C55E] rounded-2xl flex items-center justify-center border border-emerald-50/50">
+                                <BookOpen size={28} />
+                            </div>
+                            <span className="font-bold text-[13px] text-slate-800 leading-tight">
+                                {t(lang, 'study_tab')}
+                            </span>
+                        </button>
+                    </div>
+
+                    {/* Wide Card */}
+                    <button
+                        onClick={() => setScreen('MY_PHRASES')}
+                        className="w-full bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex items-center gap-5 active:scale-95 transition-all text-left relative"
+                    >
+                        <div className="w-14 h-14 bg-[#FFF7ED] text-[#F97316] rounded-2xl flex items-center justify-center border border-orange-50/50 shrink-0">
+                            <BookMarked size={28} />
+                        </div>
+                        <div className="flex-1 flex items-center gap-2">
+                            <h4 className="font-bold text-[15px] text-slate-800 leading-tight">
+                                {t(lang, 'phrase_bible_title')}
+                            </h4>
+                            <span className="text-[9px] font-black bg-orange-100 text-orange-600 px-1 py-0.5 rounded-md">AI</span>
+                        </div>
+                        <div className="px-3 py-1 bg-[#FFEDD5] text-[#9A3412] text-[9px] font-bold rounded-xl shadow-sm">
+                            {t(lang, 'new_label')}
+                        </div>
+                    </button>
+
+                    {/* Row 3 */}
+                    <div className="grid grid-cols-2 gap-5">
+                        <button
+                            onClick={() => setScreen('BIBLE')}
+                            className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="w-14 h-14 bg-[#EFF6FF] text-[#3B82F6] rounded-2xl flex items-center justify-center border border-blue-50/50">
+                                    <BookOpen size={28} />
+                                </div>
+                                <span className="bg-[#3B82F6] text-white text-[8px] font-black px-2 py-1 rounded-full tracking-wider shadow-sm uppercase whitespace-nowrap">CORE 50</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 mt-1">
+                                <h4 className="font-bold text-[13px] text-slate-800 leading-tight">
+                                    {t(lang, 'bible_title')}
+                                </h4>
+                                <span className="text-[9px] font-black bg-blue-100 text-blue-600 px-1 py-0.5 rounded-md">AI</span>
+                            </div>
+                        </button>
+
+                        <button
+                            onClick={() => setScreen('REVIEW')}
+                            className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left"
+                        >
+                            <div className="w-14 h-14 bg-[#FAF5FF] text-[#A855F7] rounded-2xl flex items-center justify-center border border-purple-50/50">
+                                <BookOpen size={28} />
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="font-bold text-[13px] text-slate-800 leading-tight">
+                                    {t(lang, 'review')}
+                                </span>
+                                <span className="text-[9px] font-black bg-purple-100 text-purple-600 px-1 py-0.5 rounded-md">AI</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    {/* AI Dictionary & AI Report */}
+                    <div className="grid grid-cols-2 gap-5">
+                        <button
+                            onClick={() => setScreen('DICTIONARY')}
+                            className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left"
+                        >
+                            <div className="relative">
+                                <div className="w-14 h-14 bg-[#ECFEFF] text-[#0891B2] rounded-2xl flex items-center justify-center border border-cyan-50/50">
+                                    <Sparkles size={28} />
+                                </div>
+                                <div className="absolute -top-1 -right-2 bg-[#22D3EE] text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg tracking-tighter whitespace-nowrap shadow-sm">
+                                    {t(lang, 'ai_new_label')}
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="font-bold text-[13px] text-slate-800 leading-tight">
+                                    {t(lang, 'ai_dictionary')}
+                                </span>
+                                <span className="text-[9px] font-black bg-cyan-100 text-cyan-600 px-1 py-0.5 rounded-md">AI</span>
+                            </div>
+                        </button>
+
+                        <button
+                            onClick={() => setScreen('AI_REPORT')}
+                            className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left"
+                        >
+                            <div className="relative">
+                                <div className="w-14 h-14 bg-[#F5F3FF] text-[#8B5CF6] rounded-2xl flex items-center justify-center border border-purple-50/50">
+                                    <BarChart3 size={28} />
+                                </div>
+                                <div className="absolute -top-1 -right-3 bg-[#FBBF24] text-[#78350F] text-[7px] font-black px-1.5 py-0.5 rounded-lg tracking-tighter shadow-sm">
+                                    PRO
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="font-bold text-[13px] text-slate-800 leading-tight">
+                                    {t(lang, 'ai_report_title')}
+                                </span>
+                                <span className="text-[9px] font-black bg-indigo-100 text-indigo-600 px-1 py-0.5 rounded-md">AI</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    {/* Voca Battle & Arcade Game */}
+                    <div className="grid grid-cols-2 gap-5">
+                        <button
+                            onClick={() => setScreen('BATTLE')}
+                            className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left"
+                        >
+                            <div className="relative">
+                                <div className="w-14 h-14 bg-[#FFF1F2] text-[#E11D48] rounded-2xl flex items-center justify-center border border-rose-50/50">
+                                    <Swords size={28} />
+                                </div>
+                                <div className="absolute top-0 -right-2 bg-[#F43F5E] text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg tracking-tighter shadow-sm">
+                                    {t(lang, 'live_label')}
+                                </div>
+                            </div>
+                            <span className="font-bold text-[13px] text-slate-800 leading-tight">
+                                {t(lang, 'battle_title')}
+                            </span>
+                        </button>
+
+                        <button
+                            onClick={() => setScreen('MINIGAME')}
+                            className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left"
+                        >
+                            <div className="w-14 h-14 bg-[#FFFBEB] text-[#D97706] rounded-2xl flex items-center justify-center border border-amber-50/50">
+                                <Target size={28} />
+                            </div>
+                            <span className="font-bold text-[13px] text-slate-800 leading-tight">
+                                {t(lang, 'defender_title')}
+                            </span>
+                        </button>
+                    </div>
+
+                    {/* Live Chat Banner */}
+                    <button
+                        onClick={() => setScreen('LIVE_CHAT')}
+                        className="w-full bg-[#F0FDF4] p-5 rounded-[32px] border border-[#DCFCE7] shadow-sm flex items-center gap-4 active:scale-95 transition-all text-left"
+                    >
+                        <div className="w-14 h-14 bg-[#DCFCE7] text-[#16A34A] rounded-2xl flex items-center justify-center shrink-0 border border-[#BBF7D0]">
+                            <Globe size={28} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                                <h4 className="font-bold text-[16px] text-[#166534] leading-tight">
+                                    {t(lang, 'global_live_chat_title')}
+                                </h4>
+                                <span className="text-[9px] font-black bg-green-100 text-green-600 px-1 py-0.5 rounded-md">AI</span>
+                            </div>
+                            <p className="text-[#15803D] text-[10px] font-bold mt-0.5 opacity-80">
+                                {t(lang, 'global_live_chat_desc')}
+                            </p>
+                        </div>
+                        <div className="bg-[#10B981] text-white text-[9px] font-black px-2.5 py-1 rounded-lg">
+                            {t(lang, 'live_label')}
+                        </div>
+                    </button>
+
+                    {/* Ad-free Hour Button */}
+                    <button
+                        className="w-full bg-white p-4.5 rounded-[32px] border-2 border-indigo-100/80 shadow-sm flex items-center justify-center gap-3 active:scale-95 transition-all text-[#4F46E5] font-black group"
+                    >
+                        <Bot size={22} className="group-hover:animate-bounce" />
+                        <span className="text-[14px] font-bold">{t(lang, 'ad_free_hour_btn')}</span>
+                    </button>
+
+                    {/* Level Test Button (Premium Gradient) */}
+                    <button
+                        onClick={() => setScreen('LEVEL_TEST')}
+                        className="w-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] p-1 rounded-[40px] shadow-xl shadow-indigo-100 active:scale-[0.98] transition-all"
+                    >
+                        <div className="flex items-center gap-5 pr-8">
+                            <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-[28px] flex items-center justify-center m-1 shadow-inner outline outline-1 outline-white/20">
+                                <BarChart3 size={28} className="text-white" />
+                            </div>
+                            <div className="flex-1 text-center">
+                                <h4 className="text-white font-bold text-lg tracking-tight">
+                                    {t(lang, 'level_test_title')}
+                                </h4>
+                                <p className="text-white/70 font-bold text-[10px] mt-0.5 tracking-wider uppercase italic">
+                                    {t(lang, 'level_test_desc_short')}
+                                </p>
+                            </div>
+                        </div>
+                    </button>
+
+                    {/* Reward Ad Card */}
+                    <button
+                        onClick={() => setScreen('STORE')}
+                        className="w-full bg-[#EEF2FF]/80 p-5 rounded-[32px] border border-[#E0E7FF] shadow-sm flex items-center gap-4 active:scale-95 transition-all text-left"
+                    >
+                        <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm border border-[#EEF2FF]">
+                            <Play size={24} className="text-[#4F46E5] fill-[#4F46E5]/10" />
+                        </div>
+                        <div className="flex-1">
+                            <h4 className="font-bold text-[14px] text-slate-800 leading-tight">
+                                {t(lang, 'ad_title')}
+                            </h4>
+                            <p className="text-slate-500 text-[11px] font-bold mt-0.5">
+                                {t(lang, 'ad_desc')}
+                            </p>
+                        </div>
+                        <ChevronRight size={18} className="text-slate-300" />
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    );
+};

@@ -1,0 +1,230 @@
+[
+  {
+    "level": 1,
+    "description": "자동 생성된 레벨 1 어휘",
+    "words": [
+      {
+        "id": "w_1_1",
+        "word": "Cat",
+        "meaning": "고양이",
+        "example_en": "The cat is cute.",
+        "example_ko": "그 고양이는 귀여워요.",
+        "options": [
+          "고양이",
+          "개",
+          "새",
+          "쥐"
+        ],
+        "answer_index": 0
+      },
+      {
+        "id": "w_1_2",
+        "word": "Dog",
+        "meaning": "개",
+        "example_en": "I have a dog.",
+        "example_ko": "나는 개 한 마리가 있어요.",
+        "options": [
+          "개",
+          "고양이",
+          "토끼",
+          "말"
+        ],
+        "answer_index": 0
+      },
+      {
+        "id": "w_1_3",
+        "word": "Sun",
+        "meaning": "해, 태양",
+        "example_en": "The sun is bright.",
+        "example_ko": "해가 밝아요.",
+        "options": [
+          "해, 태양",
+          "달",
+          "별",
+          "구름"
+        ],
+        "answer_index": 0
+      },
+      {
+        "id": "w_1_4",
+        "word": "Run",
+        "meaning": "달리다",
+        "example_en": "I can run fast.",
+        "example_ko": "나는 빨리 달릴 수 있어요.",
+        "options": [
+          "달리다",
+          "걷다",
+          "먹다",
+          "자다"
+        ],
+        "answer_index": 0
+      },
+      {
+        "id": "w_1_5",
+        "word": "Big",
+        "meaning": "큰",
+        "example_en": "It's a big house.",
+        "example_ko": "그것은 큰 집이에요.",
+        "options": [
+          "큰",
+          "작은",
+          "새로운",
+          "오래된"
+        ],
+        "answer_index": 0
+      }
+    ]
+  },
+  {
+    "level": 5,
+    "description": "자동 생성된 레벨 5 어휘",
+    "words": [
+      {
+        "id": "w_5_1",
+        "word": "cat",
+        "meaning": "고양이",
+        "example_en": "I see a cute cat.",
+        "example_ko": "나는 귀여운 고양이를 봐요.",
+        "options": [
+          "강아지",
+          "고양이",
+          "새",
+          "물고기"
+        ],
+        "answer_index": 1
+      },
+      {
+        "id": "w_5_2",
+        "word": "run",
+        "meaning": "달리다",
+        "example_en": "The boy can run fast.",
+        "example_ko": "그 소년은 빠르게 달릴 수 있어요.",
+        "options": [
+          "자다",
+          "먹다",
+          "달리다",
+          "놀다"
+        ],
+        "answer_index": 2
+      },
+      {
+        "id": "w_5_3",
+        "word": "red",
+        "meaning": "빨간",
+        "example_en": "I have a red apple.",
+        "example_ko": "나는 빨간 사과를 가지고 있어요.",
+        "options": [
+          "노란",
+          "파란",
+          "빨간",
+          "초록"
+        ],
+        "answer_index": 2
+      },
+      {
+        "id": "w_5_4",
+        "word": "cup",
+        "meaning": "컵",
+        "example_en": "Drink water from your cup.",
+        "example_ko": "컵으로 물을 마셔요.",
+        "options": [
+          "컵",
+          "접시",
+          "숟가락",
+          "포크"
+        ],
+        "answer_index": 0
+      },
+      {
+        "id": "w_5_5",
+        "word": "big",
+        "meaning": "큰",
+        "example_en": "Look at the big ball.",
+        "example_ko": "큰 공을 봐요.",
+        "options": [
+          "작은",
+          "큰",
+          "새로운",
+          "오래된"
+        ],
+        "answer_index": 1
+      }
+    ]
+  },
+  {
+    "level": 10,
+    "description": "자동 생성된 레벨 10 어휘",
+    "words": [
+      {
+        "id": "w_10_1",
+        "word": "Cat",
+        "meaning": "고양이",
+        "example_en": "The cat sleeps on the mat.",
+        "example_ko": "고양이는 돗자리 위에서 잠을 잔다.",
+        "options": [
+          "고양이",
+          "개",
+          "새",
+          "물고기"
+        ],
+        "answer_index": 0
+      },
+      {
+        "id": "w_10_2",
+        "word": "Dog",
+        "meaning": "개",
+        "example_en": "My dog likes to run.",
+        "example_ko": "우리 개는 달리는 것을 좋아한다.",
+        "options": [
+          "개",
+          "고양이",
+          "말",
+          "돼지"
+        ],
+        "answer_index": 0
+      },
+      {
+        "id": "w_10_3",
+        "word": "Run",
+        "meaning": "달리다",
+        "example_en": "Kids run in the park.",
+        "example_ko": "아이들은 공원에서 달린다.",
+        "options": [
+          "달리다",
+          "먹다",
+          "자다",
+          "놀다"
+        ],
+        "answer_index": 0
+      },
+      {
+        "id": "w_10_4",
+        "word": "Big",
+        "meaning": "큰",
+        "example_en": "I have a big ball.",
+        "example_ko": "나는 큰 공을 가지고 있다.",
+        "options": [
+          "큰",
+          "작은",
+          "높은",
+          "낮은"
+        ],
+        "answer_index": 0
+      },
+      {
+        "id": "w_10_5",
+        "word": "Red",
+        "meaning": "빨간",
+        "example_en": "This apple is red.",
+        "example_ko": "이 사과는 빨간색이다.",
+        "options": [
+          "빨간",
+          "파란",
+          "노란",
+          "초록"
+        ],
+        "answer_index": 0
+      }
+    ]
+  }
+]

@@ -1,0 +1,172 @@
+﻿
+import React, { useState } from 'react';
+import {
+    ChevronLeft,
+    Coins,
+    Sparkles,
+    Crown,
+    Zap,
+    ShieldCheck,
+    ShoppingBag,
+    CreditCard,
+    Tv,
+    Trash2,
+    Lock,
+    ChevronRight
+} from 'lucide-react';
+import { t } from '../i18n';
+
+interface StoreScreenProps {
+    settings: any;
+    setScreen: (s: string) => void;
+    userPoints: number;
+    setUserPoints: (p: any) => void;
+    purchasedSkins: string[];
+    setPurchasedSkins: (s: string[]) => void;
+    equippedSkin: string;
+    setEquippedSkin: (s: string) => void;
+    setIsPremium: (v: boolean) => void;
+    isPremium: boolean;
+}
+
+export const StoreScreen: React.FC<StoreScreenProps> = ({
+    settings,
+    setScreen,
+    userPoints,
+    setUserPoints,
+    purchasedSkins,
+    setPurchasedSkins,
+    equippedSkin,
+    setEquippedSkin,
+    setIsPremium,
+    isPremium
+}) => {
+    const lang = settings.lang || 'ko';
+
+    const skins = [
+        { id: 'default', emoji: '?��', label: 'Classic', price: 0 },
+        { id: 'ninja', emoji: '?��', label: 'Ninja', price: 1000 },
+        { id: 'wizard', emoji: '?��?�♂�?, label: 'Wizard', price: 2000 },
+        { id: 'king', emoji: '?��', label: 'King', price: 5000 },
+        { id: 'dragon', emoji: '?��', label: 'Dragon', price: 10000 },
+        { id: 'alien', emoji: '?��', label: 'Alien', price: 15000 },
+        { id: 'robot', emoji: '?��', label: 'Robot', price: 20000 }
+    ];
+
+    const handleBuySkin = (skin: any) => {
+        if (purchasedSkins.includes(skin.id)) {
+            setEquippedSkin(skin.id);
+            return;
+        }
+
+        if (userPoints < skin.price) {
+            alert(lang === 'ko' ? "?�인?��? 부족합?�다." : "Not enough points.");
+            return;
+        }
+
+        if (confirm(lang === 'ko' ? `${skin.label} ?�킨??구매?�시겠습?�까?` : `Purchase ${skin.label} skin?`)) {
+            setUserPoints((prev: number) => prev - skin.price);
+            setPurchasedSkins([...purchasedSkins, skin.id]);
+            setEquippedSkin(skin.id);
+        }
+    };
+
+    return (
+        <div className="screen bg-slate-50 flex flex-col font-sans">
+            <header className="flex items-center justify-between px-6 py-6 bg-white border-b border-slate-100 z-10 shrink-0">
+                <button onClick={() => setScreet('HOME')} className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-800">
+                    <ChevronLeft size={20} />
+                </button>
+                <h2 className="text-xl font-black italic tracking-tighter uppercase text-slate-900">
+                    {t(lang, "store_title") || "Store"}
+                </h2>
+                <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-100">
+                    <Coins size={14} className="text-amber-500" />
+                    <span className="text-sm font-black text-amber-700">{userPoints.toLocaleString()}</span>
+                </div>
+            </header>
+
+            <div className="flex-1 overflow-y-auto pb-24 px-6 pt-6">
+                <div className="space-y-8">
+                    {/* Skins Section */}
+                    <section className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                <Sparkles size={14} className="text-indigo-500" /> {t(lang, "character_skins") || "Character Skins"}
+                            </h3>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            {skins.map(skin => {
+                                const isOwned = purchasedSkins.includes(skin.id);
+                                const isEquipped = equippedSkin === skin.id;
+
+                                return (
+                                    <button
+                                        key={skin.id}
+                                        onClick={() => handleBuySkit(skin)}
+                                        className={`relative p-6 rounded-[32px] border-2 transition-all flex flex-col items-center gap-3 active:scale-95
+                      ${isEquipped ? 'bg-indigo-600 border-indigo-600 text-white shadow-xl shadow-indigo-200' :
+                                                isOwned ? 'bg-white border-slate-200 text-slate-800' : 'bg-white border-slate-100 text-slate-400'}`}
+                                    >
+                                        <div className="text-5xl mb-1">{skin.emoji}</div>
+                                        <div className="text-center">
+                                            <p className="text-xs font-black uppercase tracking-tight">{skin.label}</p>
+                                            {!isOwned && (
+                                                <div className="flex items-center justify-center gap-1 mt-1 text-amber-500">
+                                                    <Coins size={10} />
+                                                    <span className="text-[10px] font-black">{skin.price}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        {isEquipped && <div className="absolute top-3 right-3 w-3 h-3 bg-white rounded-full border-2 border-indigo-600" />}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </section>
+
+                    {/* Points & Premium Section */}
+                    <section className="space-y-4">
+                        <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                            <CreditCard size={14} className="text-emerald-500" /> {t(lang, "points_and_pro") || "Points & PRO"}
+                        </h3>
+
+                        <div className="bg-slate-900 rounded-[32px] p-6 flex items-center justify-between border-b-4 border-slate-950 shadow-xl relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-indigo-500/20 transition-colors" />
+                            <div className="flex items-center gap-4 relative z-10">
+                                <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-indigo-400 backdrop-blur-md border border-white/10">
+                                    <Crown size={32} />
+                                </div>
+                                <div className="flex flex-col">
+                                    <p className="text-white font-black text-[15px] leading-tight mb-1 tracking-tight">VocaQuest PRO</p>
+                                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Unlimited Everything</p>
+                                </div>
+                            </div>
+                            {isPremium ? (
+                                <div className="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full font-black text-[10px] border border-emerald-500/30">ACTIVE</div>
+                            ) : (
+                                <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-3 rounded-2xl font-black text-xs transition-all active:scale-90 shadow-lg" onClick={() => setIsPremium(true)}>
+                                    UPGRADE
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="bg-white border-2 border-indigo-100 p-6 rounded-[32px] flex items-center justify-between cursor-pointer hover:border-indigo-300 transition-all active:scale-95 shadow-sm">
+                            <div className="flex items-center gap-4">
+                                <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-500">
+                                    <Tv size={32} />
+                                </div>
+                                <div>
+                                    <h4 className="font-black text-slate-800">Watch Ad</h4>
+                                    <p className="text-xs font-bold text-slate-400">Get +500P for free</p>
+                                </div>
+                            </div>
+                            <div className="text-xl font-black text-yellow-600 italic">+500P</div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    );
+};

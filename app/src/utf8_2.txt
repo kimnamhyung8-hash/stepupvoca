@@ -1,0 +1,100 @@
+﻿                                            ? 'border-emerald-400 ring-2 ring-emerald-400/50 scale-110'
+                                            : 'border-white/10 grayscale hover:grayscale-0 hover:border-white/30'
+                                            }`}
+                                        title={f.label}
+                                    >
+                                        <img src={`https://flagcdn.com/w80/${f.code.toLowerCase()}.png`} className="w-full h-full object-cover" alt={f.label} />
+                                    </button>
+                                );
+                            })}
+                            {/* 택 */}
+                            {selectedFlag && (
+                                <span className="text-[9px] font-black text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                                    {selectedFlag.label}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="flex items-start gap-2 relative mt-1">
+                            {/* 9. Mic button locked when opponent speaking */}
+                            <button
+                                onClick={startRecording}
+                                disabled={isProcessing || isMicLocked}
+                                title={isMicLocked ? (lang === 'ko' ? '상대방이 말하는 중...' : 'Partner speaking...') : (isRecording ? (lang === 'ko' ? '녹음 중' : 'Stop recording') : (lang === 'ko' ? '말하기' : 'Speak'))}
+                                className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-all border-2 ${isMicLocked ? 'bg-slate-800 border-slate-700 text-slate-600 cursor-not-allowed' :
+                                    isRecording ? 'bg-emerald-500 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)] scale-110' :
+                                        'bg-[#1E1E2C] border-transparent text-emerald-400 active:scale-95'
+                                    }`}
+                            >
+                                {isMicLocked ? <MicOff size={22} /> : isRecording ? (
+                                    <div className="flex gap-0.5 items-center">
+                                        <div className="w-1 h-3 bg-white animate-pulse" />
+                                        <div className="w-1 h-5 bg-white animate-pulse [animation-delay:0.2s]" />
+                                        <div className="w-1 h-3 bg-white animate-pulse [animation-delay:0.4s]" />
+                                    </div>
+                                ) : <Mic size={22} />}
+                            </button>
+                            <ChatInputArea 
+                                ref={chatInputRef}
+                                onSend={handleSendMessage}
+                                isProcessing={isProcessing}
+                                lang={lang}
+                                placeholder={tUI(lang, 'chat_placeholder')}
+                            />
+                        </div>
+                    </div>
+
+                    </div>
+            )}
+            
+
+            {/* RECORDINGS VIEWER */}
+            {showRecordings && (
+                <div className="fixed inset-0 z-[99999] bg-[#08080F] flex flex-col">
+                    <header className="px-5 pt-[calc(16px+var(--safe-area-top))] pb-4 flex items-center gap-4 border-b border-white/10">
+                        <button onClick={() => { setPlayingRecordingData(null); setShowRecordings(false); }}
+ className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-slate-400 active:scale-90">
+                            <X size={20} />
+                        </button>
+                        <h2 className="text-lg font-black text-white">{tUI(lang, 'rec_viewer_title')}</h2>
+                        <span className="ml-auto text-[10px] font-bold text-slate-500">{savedRecordings.length}{tUI(lang, 'rec_count')}</span>
+                    </header>
+
+                    {playingRecordingData ? (
+                        <div className="flex-1 flex flex-col overflow-hidden">
+                            <div className="mx-5 mt-4 bg-emerald-900/30 border border-emerald-500/30 rounded-2xl px-4 py-3 flex items-center gap-3">
+                                <div className="text-lg"></div>
+                                <div>
+                                    <p className="text-xs font-black text-emerald-300">{tUI(lang, 'rec_file_saved')}</p>
+                                    <p className="text-[10px] text-emerald-600 mt-0.5 font-mono break-all">{playingRecordingData.fileName}</p>
+                                </div>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto p-5">
+                                <div className="flex items-center gap-3 mb-5">
+                                    <button onClick={() => setPlayingRecordingData(null)}
+ className="text-slate-400 text-xs font-black underline">{tUI(lang, 'rec_back_to_list')}</button>
+                                    <span className="flex-1" />
+                                    <button
+                                        onClick={async () => {
+                                            if (!confirm(tUI(lang, 'rec_delete_notice'))) return;
+                                            setSavedRecordings(prev => {
+                                                const next = prev.filter((r: any) => r.id !== playingRecordingData.id);
+                                                localStorage.setItem('vq_recordings', JSON.stringify(next));
+                                                return next;
+                                            });
+                                            setPlayingRecordingData(null);
+                                        }}
+                                        className="w-8 h-8 rounded-xl bg-rose-900/40 text-rose-400 flex items-center justify-center active:scale-90"
+                                    >
+                                        <X size={14} />
+                                    </button>
+                                </div>
+                                <div className="bg-white/5 rounded-2xl p-4 mb-5 border border-white/10">
+                                    <p className="text-xs font-black text-indigo-400 mb-1"> {playingRecordingData.scenario}</p>
+                                    <p className="text-[10px] text-slate-400 font-bold">Role: {playingRecordingData.myRole || '-'} · Rival: {playingRecordingData.rival}</p>
+                                    <p className="text-[10px] text-slate-500 mt-1">Time: {Math.floor((playingRecordingData.duration || 0) / 60)}m {(playingRecordingData.duration || 0) % 60}s · {playingRecordingData.date}</p>
+                                </div>
+                                <h3 className="text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">Chat History</h3>
+                                <div className="space-y-2">
+                                    {(playingRecordingData.transcript || '').split('\n').filter(Boolean).map((line: string, i: number) => (

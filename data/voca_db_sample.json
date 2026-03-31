@@ -1,0 +1,174 @@
+[
+    {
+        "level": 1,
+        "description": "초급 (유치~초등 저학년 파닉스 및 기초 단어)",
+        "words": [
+            {
+                "id": "w_1_1",
+                "word": "apple",
+                "meaning": "사과",
+                "example_en": "I ate a red apple yesterday.",
+                "example_ko": "나는 어제 빨간 사과를 먹었다.",
+                "options": [
+                    "사과",
+                    "바나나",
+                    "포도",
+                    "오렌지"
+                ],
+                "answer_index": 0
+            },
+            {
+                "id": "w_1_2",
+                "word": "book",
+                "meaning": "책",
+                "example_en": "She is reading a book.",
+                "example_ko": "그녀는 책을 읽고 있다.",
+                "options": [
+                    "공책",
+                    "연필",
+                    "책",
+                    "가방"
+                ],
+                "answer_index": 2
+            },
+            {
+                "id": "w_1_3",
+                "word": "cat",
+                "meaning": "고양이",
+                "example_en": "The cat is sleeping on the sofa.",
+                "example_ko": "고양이가 소파 위에서 자고 있다.",
+                "options": [
+                    "강아지",
+                    "고양이",
+                    "토끼",
+                    "쥐"
+                ],
+                "answer_index": 1
+            },
+            {
+                "id": "w_1_4",
+                "word": "dog",
+                "meaning": "개",
+                "example_en": "My dog likes to play fetch.",
+                "example_ko": "내 개는 공 물어오기 놀이를 좋아한다.",
+                "options": [
+                    "개",
+                    "고양이",
+                    "새",
+                    "물고기"
+                ],
+                "answer_index": 0
+            },
+            {
+                "id": "w_1_5",
+                "word": "water",
+                "meaning": "물",
+                "example_en": "Can I have some water, please?",
+                "example_ko": "물 좀 주시겠어요?",
+                "options": [
+                    "우유",
+                    "주스",
+                    "물",
+                    "차"
+                ],
+                "answer_index": 2
+            }
+        ]
+    },
+    {
+        "level": 50,
+        "description": "중상급 (수능 고난도, 토익/토플 필수 어휘)",
+        "words": [
+            {
+                "id": "w_50_1",
+                "word": "ubiquitous",
+                "meaning": "어디에나 있는, 편재하는",
+                "example_en": "Smartphones have become ubiquitous in modern society.",
+                "example_ko": "스마트폰은 현대 사회에서 어디에나 존재하게 되었다.",
+                "options": [
+                    "희귀한",
+                    "일시적인",
+                    "어디에나 있는",
+                    "가치 없는"
+                ],
+                "answer_index": 2
+            },
+            {
+                "id": "w_50_2",
+                "word": "mitigate",
+                "meaning": "완화하다, 경감시키다",
+                "example_en": "We need to mitigate the effects of climate change.",
+                "example_ko": "우리는 기후 변화의 영향을 완화해야 합니다.",
+                "options": [
+                    "완화하다",
+                    "악화시키다",
+                    "무시하다",
+                    "촉진하다"
+                ],
+                "answer_index": 0
+            },
+            {
+                "id": "w_50_3",
+                "word": "ambiguous",
+                "meaning": "애매모호한, 여러 가지로 해석할 수 있는",
+                "example_en": "His instructions were too ambiguous to follow.",
+                "example_ko": "그의 지시는 따르기에 너무 애매모호했다.",
+                "options": [
+                    "명확한",
+                    "애매모호한",
+                    "단호한",
+                    "일관된"
+                ],
+                "answer_index": 1
+            }
+        ]
+    },
+    {
+        "level": 99,
+        "description": "최상급 (원어민 최고급 어휘, 철학/문학/전문 용어)",
+        "words": [
+            {
+                "id": "w_99_1",
+                "word": "ephemeral",
+                "meaning": "수명이 짧은, 단명하는, 덧없는",
+                "example_en": "Fame in the world of pop music is largely ephemeral.",
+                "example_ko": "대중음악계에서 명성은 대체로 덧없다.",
+                "options": [
+                    "영원한",
+                    "덧없는",
+                    "불멸의",
+                    "지속적인"
+                ],
+                "answer_index": 1
+            },
+            {
+                "id": "w_99_2",
+                "word": "obfuscate",
+                "meaning": "애매하게 하다, 혼란스럽게 만들다",
+                "example_en": "The politician tried to obfuscate the issue with complex jargon.",
+                "example_ko": "그 정치인은 복잡한 전문 용어로 문제를 모호하게 만들려 했다.",
+                "options": [
+                    "명료하게 하다",
+                    "단순화하다",
+                    "애매하게 하다",
+                    "설명하다"
+                ],
+                "answer_index": 2
+            },
+            {
+                "id": "w_99_3",
+                "word": "sesquipedalian",
+                "meaning": "긴 단어를 쓰는, 장황한",
+                "example_en": "The professor's sesquipedalian lecture left the students confused.",
+                "example_ko": "교수님의 장황한 강의는 학생들을 혼란스럽게 만들었다.",
+                "options": [
+                    "간결한",
+                    "명확한",
+                    "장황한",
+                    "위트 있는"
+                ],
+                "answer_index": 2
+            }
+        ]
+    }
+]

@@ -1,0 +1,160 @@
+
+import React from 'react';
+import {
+    Flame,
+    Coins,
+    Sparkles,
+    Brain,
+    Gamepad2,
+    Settings as SettingsIcon,
+    ChevronRight,
+    User,
+    Crown,
+    LayoutGrid,
+    Zap,
+    BookOpen,
+    PieChart,
+    Sword,
+    MessageSquare
+} from 'lucide-react';
+import { t } from '../i18n';
+
+interface HomeScreenProps {
+    settings: any;
+    setScreen: (s: string) => void;
+    currentLevel: number;
+    userPoints: number;
+    setUserPoints: (p: any) => void;
+    equippedSkin: string;
+    streak: number;
+    streakMax: number;
+    todayDone: boolean;
+    userInfo: any;
+    isPremium: boolean;
+    handleShowPaywall: () => void;
+}
+
+export const HomeScreen: React.FC<HomeScreenProps> = ({
+    settings,
+    setScreen,
+    currentLevel,
+    userPoints,
+    setUserPoints,
+    equippedSkin,
+    streak,
+    streakMax,
+    todayDone,
+    userInfo,
+    isPremium,
+    handleShowPaywall
+}) => {
+    const lang = settings.lang || 'ko';
+    const skins: Record<string, string> = {
+        default: "🐣",
+        ninja: "🥷",
+        wizard: "🧙‍♂️",
+        king: "👑",
+        dragon: "🐲",
+        alien: "👽",
+        robot: "🤖"
+    };
+
+    return (
+        <div className="screen bg-[#F8FAFC] flex flex-col font-sans select-none">
+            <header className="flex flex-col sticky top-0 bg-white/95 backdrop-blur-xl z-30 border-b border-slate-100/60 pt-[env(safe-area-inset-top,24px)]">
+                <div className="flex items-center justify-between px-5 py-3.5">
+                    <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg rotate-3 overflow-hidden">
+                            <Brain size={20} className="text-white" />
+                        </div>
+                        <h1 className="text-[21px] font-black tracking-tight text-slate-900 italic">VocaQuest</h1>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-100 shadow-sm">
+                            <Coins size={14} className="text-amber-500" />
+                            <span className="text-sm font-black text-amber-700">{userPoints.toLocaleString()}</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div className="flex-1 overflow-y-auto pb-32 px-5 pt-6 space-y-8">
+                {/* User Card */}
+                <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/10 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-indigo-500/20 transition-colors" />
+                    <div className="flex items-center gap-6 relative z-10">
+                        <div className="w-20 h-20 bg-white rounded-[30px] flex items-center justify-center text-5xl shadow-inner-lg border-2 border-white/20">
+                            {skins[equippedSkin] || "🐣"}
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-2xl font-black italic tracking-tight">{userInfo?.nickname || "Voca Warrior"}</h3>
+                            <div className="flex items-center gap-2 mt-1">
+                                <span className="bg-yellow-400 text-slate-900 text-[10px] font-black px-3 py-0.5 rounded-full uppercase tracking-tighter">Level {currentLevel}</span>
+                                <div className="flex items-center gap-1 text-slate-400 text-[11px] font-bold">
+                                    <Flame size={12} className={todayDone ? "text-orange-500" : ""} /> {streak} Day Streak
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Main Actions Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                    <button
+                        onClick={() => setScreen('QUIZ')}
+                        className="col-span-2 bg-indigo-600 p-8 rounded-[40px] text-white flex items-center justify-center gap-6 shadow-xl shadow-indigo-100 active:scale-95 transition-all text-left group overflow-hidden relative"
+                    >
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
+                        <div className="bg-white/20 p-4 rounded-3xl backdrop-blur-md group-hover:rotate-12 transition-transform">
+                            <Zap size={32} />
+                        </div>
+                        <div>
+                            <h4 className="text-2xl font-black italic">{t(lang, "start_quiz") || "Quick Quiz"}</h4>
+                            <p className="text-indigo-200 text-xs font-bold uppercase tracking-widest">Master 20 words now</p>
+                        </div>
+                    </button>
+
+                    <button
+                        onClick={() => setScreen('MASTERY')}
+                        className="bg-white p-6 rounded-[32px] border-2 border-slate-50 shadow-sm flex flex-col items-center gap-3 active:scale-95 transition-all"
+                    >
+                        <div className="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center">
+                            <LayoutGrid size={24} />
+                        </div>
+                        <span className="font-black text-xs text-slate-700 uppercase tracking-tight">{t(lang, "mastery_title") || "Mastery"}</span>
+                    </button>
+
+                    <button
+                        onClick={() => setScreen('STUDY')}
+                        className="bg-white p-6 rounded-[32px] border-2 border-slate-50 shadow-sm flex flex-col items-center gap-3 active:scale-95 transition-all"
+                    >
+                        <div className="w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center">
+                            <BookOpen size={24} />
+                        </div>
+                        <span className="font-black text-xs text-slate-700 uppercase tracking-tight">{t(lang, "study_mode") || "Study"}</span>
+                    </button>
+
+                    <button
+                        onClick={() => setScreen('AI_REPORT')}
+                        className="bg-white p-6 rounded-[32px] border-2 border-slate-50 shadow-sm flex flex-col items-center gap-3 active:scale-95 transition-all"
+                    >
+                        <div className="w-12 h-12 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center">
+                            <Sparkles size={24} />
+                        </div>
+                        <span className="font-black text-xs text-slate-700 uppercase tracking-tight">AI Report</span>
+                    </button>
+
+                    <button
+                        onClick={() => setScreen('BATTLE')}
+                        className="bg-white p-6 rounded-[32px] border-2 border-slate-50 shadow-sm flex flex-col items-center gap-3 active:scale-95 transition-all"
+                    >
+                        <div className="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center">
+                            <Sword size={24} />
+                        </div>
+                        <span className="font-black text-xs text-slate-700 uppercase tracking-tight">Voca Battle</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};

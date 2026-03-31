@@ -1,0 +1,16 @@
+import vocaDBRaw from './vocaDB.json';
+
+let vocaDBJson: any[] = [];
+try {
+    if (Array.isArray(vocaDBRaw)) {
+        vocaDBJson = vocaDBRaw;
+    } else if (vocaDBRaw && typeof vocaDBRaw === 'object' && Array.isArray((vocaDBRaw as any).default)) {
+        vocaDBJson = (vocaDBRaw as any).default;
+    } else if (vocaDBRaw && typeof vocaDBRaw === 'object') {
+        vocaDBJson = Object.values(vocaDBRaw).filter(v => typeof v === 'object' && v !== null);
+    }
+} catch (e) {
+    console.error("vocaDB load error", e);
+}
+
+export { vocaDBJson };
