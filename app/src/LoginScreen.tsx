@@ -20,19 +20,23 @@ export function LoginScreen({ settings, setScreen }: any) {
                     console.log("Native Firebase Login result received:", result);
 
                     if (!result || !result.credential || !result.credential.idToken) {
-                        throw new Error("Google에서 인증 정보를 가져오지 못했습니다. (ID Token 누락)");
+                        alert("구글 인증 정보(Token)가 누락되었습니다. 에러 리포트: " + JSON.stringify(result).substring(0, 100));
+                        setIsLoading(false);
+                        return;
                     }
 
-                    const credential = GoogleAuthProvider.credential(result.credential.idToken, result.credential.accessToken);
+                    // accessToken이 undefined일 경우 웹 SDK가 뻗는 증상을 방지하기 위해 idToken만 명시적 전달
+                    const credential = GoogleAuthProvider.credential(result.credential.idToken);
                     await signInWithCredential(auth, credential);
                     setScreen('HOME');
                 } catch (err: any) {
+                    setIsLoading(false);
                     console.error("FirebaseAuthentication plugin error:", err);
-                    const errMsg = (err.message || '').toLowerCase();
+                    const errMsg = String(err.message || '').toLowerCase();
                     if (errMsg.includes('canceled') || errMsg.includes('cancelled') || String(err.code) === '12501') {
                         return;
                     }
-                    alert(`구글 로그인 오류: ${err.message || '알 수 없는 오류'}\n상세: ${JSON.stringify(err)}`);
+                    alert(`구글 로그인 오류: ${err.message || '알 수 없는 오류'}`);
                 }
             } else {
                 console.log("Web Login starting...");
