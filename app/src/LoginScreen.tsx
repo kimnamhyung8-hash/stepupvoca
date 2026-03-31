@@ -3,7 +3,7 @@ import { ChevronLeft, Sparkles, ShieldCheck, Globe, Zap } from 'lucide-react';
 import { t } from './i18n';
 import { auth, googleProvider } from './firebase';
 import { signInWithPopup, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
 export function LoginScreen({ settings, setScreen }: any) {
     const [isLoading, setIsLoading] = useState(false);
@@ -14,35 +14,24 @@ export function LoginScreen({ settings, setScreen }: any) {
         setIsLoading(true);
         try {
             if (isNative) {
-                console.log("Native Login starting...");
+                console.log("Native Firebase Login starting...");
                 try {
-                    // Force initialize with config for better reliability
-                    if (typeof (GoogleAuth as any).initialize === 'function') {
-                        await (GoogleAuth as any).initialize({
-                            serverClientId: '806999527929-reao0rmomija5d2m738ligum2r2gvu46.apps.googleusercontent.com',
-                            scopes: ['profile', 'email'],
-                            grantOfflineAccess: true,
-                        });
-                    }
+                    const result = await FirebaseAuthentication.signInWithGoogle();
+                    console.log("Native Firebase Login result received:", result);
 
-                    const result = await GoogleAuth.signIn();
-                    console.log("Native Login result received:", result);
-
-                    if (!result || !result.authentication || !result.authentication.idToken) {
+                    if (!result || !result.credential || !result.credential.idToken) {
                         throw new Error("Google에서 인증 정보를 가져오지 못했습니다. (ID Token 누락)");
                     }
 
-                    const credential = GoogleAuthProvider.credential(result.authentication.idToken);
+                    const credential = GoogleAuthProvider.credential(result.credential.idToken, result.credential.accessToken);
                     await signInWithCredential(auth, credential);
                     setScreen('HOME');
                 } catch (err: any) {
-                    console.error("GoogleAuth plugin error:", err);
-                    // 사용자가 취소를 누른 경우(에러 코드 12501 등) 알림 없이 조용히 종료
+                    console.error("FirebaseAuthentication plugin error:", err);
                     const errMsg = (err.message || '').toLowerCase();
                     if (errMsg.includes('canceled') || errMsg.includes('cancelled') || String(err.code) === '12501') {
                         return;
                     }
-                    // Detailed alert for debugging
                     alert(`구글 로그인 오류: ${err.message || '알 수 없는 오류'}\n상세: ${JSON.stringify(err)}`);
                 }
             } else {
