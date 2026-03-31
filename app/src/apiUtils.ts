@@ -35,18 +35,21 @@ export const AI_DAILY_LIMIT = 20;
  * AI 요청 시 사용할 최종 API 키를 결정합니다.
  */
 export const getActiveApiKey = (userSavedKey: string | null, isPremium: boolean, dailyCount: number) => {
-    // 1. 개인 키가 있으면 우선 사용 (무제한)
-    if (userSavedKey) return decryptApiKey(userSavedKey);
-    
     // Server key placeholder check
     const isServerKeyValid = SERVER_API_KEY && (SERVER_API_KEY as string).trim() !== "";
 
-    // 2. 프리미엄 유저면 서버 키 사용 (무제한)
+    // 1. (긴급 패치) 내부에 캐싱된 예전 키가 만료된 상태이므로, 서버 키를 최우선 순위로 강제 사용합니다!
+    if (isServerKeyValid) return SERVER_API_KEY;
+
+    // 2. 개인 키가 있으면 우선 사용 (서버 키가 없을 때만)
+    if (userSavedKey) return decryptApiKey(userSavedKey);
+    
+    // 3. 프리미엄 유저면 서버 키 사용 (무제한)
     if (isPremium && isServerKeyValid) return SERVER_API_KEY;
     
-    // 3. 일반 유저면 한도 확인 후 서버 키 제공
+    // 4. 일반 유저면 한도 확인 후 서버 키 제공
     if (dailyCount < AI_DAILY_LIMIT && isServerKeyValid) return SERVER_API_KEY;
     
-    // 4. 한도 초과 또는 서버 키 없음
+    // 5. 한도 초과 또는 서버 키 없음
     return null; 
 };
