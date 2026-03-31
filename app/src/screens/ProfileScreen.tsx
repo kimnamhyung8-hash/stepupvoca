@@ -96,15 +96,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             // 3. Native Google plugin Sign Out
             if (isNative) {
                 try {
-                    const { GoogleAuth } = await import('@codetrix-studio/capacitor-google-auth');
-                    if (typeof (GoogleAuth as any).initialize === 'function') {
-                        await (GoogleAuth as any).initialize({
-                            serverClientId: '806999527929-reao0rmomija5d2m738ligum2r2gvu46.apps.googleusercontent.com',
-                            scopes: ['profile', 'email'],
-                            grantOfflineAccess: true,
-                        });
-                    }
-                    await GoogleAuth.signOut();
+                    const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication');
+                    await FirebaseAuthentication.signOut();
                 } catch (e) {
                     console.warn('Native Google sign out failed', e);
                 }
