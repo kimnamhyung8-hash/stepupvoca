@@ -348,70 +348,68 @@ function AddPhraseModal({ settings, onAdd, onClose, t, getCatLabel, incrementAiU
 
     const startRecording = async () => {
         try {
-            const isWeb = typeof (window as any).Capacitor === 'undefined' || (window as any).Capacitor.getPlatform() === 'web';
+            if (isRecording) {
+                if (webRecognitionRef.current) {
+                    try { webRecognitionRef.current.stop(); } catch(e) {}
+                    webRecognitionRef.current = null;
+                }
+                try { await SpeechRecognition.stop(); } catch(e) {}
+                setIsRecording(false);
+                return;
+            }
+
             const WebSR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
-            if (isWeb && WebSR) {
-                if (isRecording) {
-                    if (webRecognitionRef.current) {
-                        try { webRecognitionRef.current.stop(); } catch(e) {}
-                        webRecognitionRef.current = null;
-                    }
-                    setIsRecording(false);
-                    return;
-                }
-
+            if (WebSR) {
                 setIsRecording(true);
                 const recognition = new WebSR();
                 webRecognitionRef.current = recognition;
 
                 const locale = VOICE_LANGS.find(v => v.code === voiceLang)?.locale || 'ko-KR';
                 recognition.lang = locale;
-                recognition.interimResults = false;
+                recognition.interimResults = true; // live typing effect
                 recognition.maxAlternatives = 1;
 
+                let finalTranscript = '';
                 recognition.onresult = (e: any) => {
-                    const txt = e.results[0][0].transcript;
+                    let interimTranscript = '';
+                    for (let i = e.resultIndex; i < e.results.length; ++i) {
+                        if (e.results[i].isFinal) {
+                            finalTranscript += e.results[i][0].transcript;
+                        } else {
+                            interimTranscript += e.results[i][0].transcript;
+                        }
+                    }
+                    const txt = finalTranscript + interimTranscript;
                     if (txt) { setInputText(txt); setTranslated(null); }
                 };
-                recognition.onerror = (e: any) => {
-                    console.error('Web SR Error:', e);
+
+                recognition.onerror = () => {
                     setIsRecording(false);
                     webRecognitionRef.current = null;
                 };
+
                 recognition.onend = () => {
                     setIsRecording(false);
                     webRecognitionRef.current = null;
                 };
+
                 recognition.start();
                 return;
             }
 
-            // Native (Capacitor) path
+            // Fallback to Native if WebSR missing
             const { available } = await SpeechRecognition.available();
-            if (!available) {
-                if (WebSR) {
-                    setIsRecording(true);
-                    const rec = new WebSR();
-                    rec.lang = VOICE_LANGS.find(v => v.code === voiceLang)?.locale || 'ko-KR';
-                    rec.onresult = (e: any) => {
-                        const txt = e.results[0][0].transcript;
-                        if (txt) { setInputText(txt); setTranslated(null); }
-                };
-                    rec.onend = () => setIsRecording(false);
-                    rec.start();
-                }
-                return;
+            if (available) {
+                await SpeechRecognition.requestPermissions();
+                setIsRecording(true);
+                const res: any = await SpeechRecognition.start({
+                    language: VOICE_LANGS.find(v => v.code === voiceLang)?.locale || 'ko-KR',
+                    partialResults: false, popup: true
+                });
+                setIsRecording(false);
+                if (res.matches?.length > 0) { setInputText(res.matches[0]); setTranslated(null); }
             }
-
-            await SpeechRecognition.requestPermissions();
-            setIsRecording(true);
-            const res: any = await SpeechRecognition.start({
-                language: VOICE_LANGS.find(v => v.code === voiceLang)?.locale || 'ko-KR',
-                partialResults: false, popup: true
-            });
-            setIsRecording(false);
-            if (res.matches?.length > 0) { setInputText(res.matches[0]); setTranslated(null); }
         } catch (e) { setIsRecording(false); }
     };
 

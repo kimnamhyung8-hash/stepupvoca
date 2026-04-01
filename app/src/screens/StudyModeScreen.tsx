@@ -48,7 +48,7 @@ export const StudyModeScreen = ({ settings, setScreen, activeStudyLevel, words }
 
             const recognition = new WebSpeechRecognition();
             recognition.lang = 'en-US';
-            recognition.interimResults = false;
+            recognition.interimResults = true; // Use interim for rapid immediate matching on iOS
             recognition.maxAlternatives = 1;
 
             recognition.onstart = () => {
@@ -56,19 +56,42 @@ export const StudyModeScreen = ({ settings, setScreen, activeStudyLevel, words }
                 setFeedbackMsg({ type: 'info', text: t(settings.lang, "listening") });
             };
 
-            recognition.onresult = (event: any) => {
-                const said = event.results[0][0].transcript.toLowerCase().replace(/[^a-z]/g, '');
-                const target = word.toLowerCase().replace(/[^a-z]/g, '');
-                const ok = said === target || said.includes(target) || target.includes(said);
+            let matched = false;
 
-                setFeedbackMsg({
-                    type: ok ? 'success' : 'error',
-                    text: ok ? `${t(settings.lang, "perfect")} (${event.results[0][0].transcript})` : `${t(settings.lang, "try_again")} (${event.results[0][0].transcript})`
-                });
-                playSound(ok ? 'correct' : 'wrong');
+            recognition.onresult = (event: any) => {
+                if (matched) return;
+                const target = word.toLowerCase().replace(/[^a-z]/g, '');
+                
+                // Sweep results repeatedly as user talks to instantly catch the correct word
+                for (let i = 0; i < event.results.length; i++) {
+                    const said = event.results[i][0].transcript.toLowerCase().replace(/[^a-z]/g, '');
+                    const ok = said === target || said.includes(target) || target.includes(said);
+                    
+                    if (ok) {
+                        matched = true;
+                        setFeedbackMsg({
+                            type: 'success',
+                            text: `${t(settings.lang, "perfect")} (${event.results[i][0].transcript})`
+                        });
+                        playSound('correct');
+                        recognition.stop(); // Force immediate cutoff so it feels incredibly fast
+                        setIsRecording(false);
+                        return;
+                    }
+                }
+                
+                const lastIdx = event.results.length - 1;
+                if (event.results[lastIdx].isFinal && !matched) {
+                    setFeedbackMsg({
+                        type: 'error',
+                        text: `${t(settings.lang, "try_again")} (${event.results[lastIdx][0].transcript})`
+                    });
+                    playSound('wrong');
+                }
             };
 
             recognition.onerror = () => {
+                if (matched) return;
                 setFeedbackMsg({ type: 'error', text: t(settings.lang, "try_again") });
                 playSound('wrong');
             };
@@ -194,7 +217,7 @@ export const StudyModeScreen = ({ settings, setScreen, activeStudyLevel, words }
         const correctIdx = currentCorrectIdx;
         return (
             <div className="screen bg-[#F8FAFC] flex flex-col animate-fade-in">
-                <header className="flex items-center justify-between p-6 border-b border-slate-100 bg-white sticky top-0 z-30 shrink-0 shadow-sm">
+                <header className="flex items-center justify-between px-6 pb-4 border-b border-slate-100 bg-white sticky top-0 z-30 shrink-0 shadow-sm" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                     <button onClick={() => setPhase('study')}
  className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
                     <div className="flex flex-col items-center">
@@ -248,7 +271,7 @@ export const StudyModeScreen = ({ settings, setScreen, activeStudyLevel, words }
 
     return (
         <div className="screen animate-fade-in bg-[#F8FAFC] flex flex-col h-full">
-            <header className="flex items-center justify-between p-6 pb-4 border-b border-slate-100 bg-white shadow-sm z-20 shrink-0">
+            <header className="flex items-center justify-between px-6 pb-4 border-b border-slate-100 bg-white shadow-sm z-20 shrink-0" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <button onClick={async () => { await showAdIfFree(); setScreen('STUDY_LEVEL'); }}
  className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
                 <div className="flex flex-col items-center">

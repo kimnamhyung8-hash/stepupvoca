@@ -168,7 +168,7 @@ export const MasteryListScreen = ({
                 <div className="absolute top-0 right-0 w-full h-[80%] bg-gradient-to-br from-yellow-100/10 via-transparent to-transparent rotate-12 blur-[120px] pointer-events-none" />
             </div>
 
-            <header className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-indigo-700 to-indigo-600 text-white z-20 shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border-b border-indigo-500/30">
+            <header className="flex items-center justify-between px-6 pt-12 pb-4 bg-gradient-to-r from-indigo-700 to-indigo-600 text-white z-20 shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border-b border-indigo-500/30">
                 <div className="flex items-center gap-3">
                     <button onClick={async () => { await showAdIfFree(); setScreen('HOME'); }}
                         className="bg-black/20 hover:bg-black/30 text-white rounded-full p-2 active:scale-90 transition-all border border-white/10 shadow-lg">

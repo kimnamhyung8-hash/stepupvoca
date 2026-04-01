@@ -138,73 +138,69 @@ Return ONLY in PURE JSON format (no markdown):
     };
 
 
+    let recognitionInstance: any = null;
+
     const startVoice = async () => {
         try {
-            const isWeb = typeof (window as any).Capacitor === 'undefined' || (window as any).Capacitor.getPlatform() === 'web';
+            if (isRecording) {
+                if (recognitionInstance) {
+                    try { recognitionInstance.stop(); } catch(e) {}
+                }
+                try { await SpeechRecognition.stop(); } catch(e) {}
+                setIsRecording(false);
+                return;
+            }
+
             const WebSR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
-            if (isWeb && WebSR) {
+            if (WebSR) {
                 setIsRecording(true);
                 const recognition = new WebSR();
+                recognitionInstance = recognition;
+                
                 recognition.lang = currentVoiceLang.locale;
-                recognition.interimResults = false;
+                recognition.interimResults = true;
                 recognition.maxAlternatives = 1;
 
+                let currentText = '';
                 recognition.onresult = (e: any) => {
-                    const txt = e.results[0][0].transcript;
-                    if (txt) { setQuery(txt); handleTranslate(txt); }
+                    let interimTranscript = '';
+                    let tempFinal = '';
+                    for (let i = e.resultIndex; i < e.results.length; ++i) {
+                        if (e.results[i].isFinal) tempFinal += e.results[i][0].transcript;
+                        else interimTranscript += e.results[i][0].transcript;
+                    }
+                    currentText = tempFinal + interimTranscript;
+                    if (currentText) { setQuery(currentText); }
                 };
-                recognition.onerror = (e: any) => {
-                    console.error('Web SR Error:', e);
+
+                recognition.onend = () => {
                     setIsRecording(false);
-                    if (e.error === 'not-allowed') alert('Microphone permission denied.');
+                    if (currentText.trim()) {
+                        handleTranslate(currentText.trim());
+                    }
                 };
-                recognition.onend = () => setIsRecording(false);
+
+                recognition.onerror = () => setIsRecording(false);
+
                 recognition.start();
                 return;
             }
 
-            // Native (Capacitor) path
+            // Native (Capacitor) path fallback
             const { available } = await SpeechRecognition.available();
-            if (!available) {
-                if (WebSR) { // Try web fallback if plugin not available
-                    setIsRecording(true);
-                    const rec = new WebSR();
-                    rec.lang = currentVoiceLang.locale;
-                    rec.onresult = (e: any) => {
-                        const txt = e.results[0][0].transcript;
-                        if (txt) { setQuery(txt); handleTranslate(txt); }
-                    };
-                    rec.onend = () => setIsRecording(false);
-                    rec.start();
-                } else {
-                    alert('Voice recognition not supported.');
-                }
-                return;
+            if (available) {
+                await SpeechRecognition.requestPermissions();
+                setIsRecording(true);
+                const res: any = await SpeechRecognition.start({
+                    language: currentVoiceLang.locale,
+                    partialResults: false,
+                    popup: true,
+                });
+                setIsRecording(false);
+                if (res.matches?.length > 0) { setQuery(res.matches[0]); handleTranslate(res.matches[0]); }
             }
-
-            await SpeechRecognition.requestPermissions();
-            setIsRecording(true);
-
-            let finalText = '';
-            try { await (SpeechRecognition as any).removeAllListeners(); } catch (_) { /* ignore */ }
-
-            const listener = await SpeechRecognition.addListener('partialResults', (data: any) => {
-                if (data.matches?.length > 0) finalText = data.matches[0];
-            });
-
-            const res: any = await SpeechRecognition.start({
-                language: currentVoiceLang.locale,
-                partialResults: false,
-                popup: true,
-            });
-
-            setIsRecording(false);
-            const textToSearch = (res?.matches?.length > 0) ? res.matches[0] : finalText;
-            if (textToSearch) { setQuery(textToSearch); handleTranslate(textToSearch); }
-            listener.remove();
         } catch (e) {
-            console.error(e);
             setIsRecording(false);
         }
     };

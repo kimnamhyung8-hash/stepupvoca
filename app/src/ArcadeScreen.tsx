@@ -172,10 +172,10 @@ export function ArcadeScreen({ settings, setScreen, userPoints, setUserPoints, o
             <style>{ARCADE_STYLES}</style>
 
             {/* Top Bar Navigation */}
-            <header className="flex items-center justify-between p-5 pb-3 absolute top-0 w-full z-50">
+            <header className="flex items-center justify-between px-5 pt-12 pb-3 absolute w-full z-50 pointer-events-none">
                 <button onClick={() => setScreen('HOME')}
- className="bg-black/40 backdrop-blur-md text-white/80 rounded-full p-2.5 active:scale-90 transition-transform border border-white/10"><X size={20} /></button>
-                <div className="flex items-center gap-1.5 bg-yellow-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-yellow-500/30 shadow-lg">
+ className="bg-black/40 backdrop-blur-md text-white/80 rounded-full p-2.5 active:scale-90 transition-transform border border-white/10 pointer-events-auto"><X size={20} /></button>
+                <div className="flex items-center gap-1.5 bg-yellow-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-yellow-500/30 shadow-lg pointer-events-auto">
                     <Coins size={16} className="text-yellow-400" />
                     <span className="text-sm font-black text-yellow-400 drop-shadow-md">{userPoints?.toLocaleString() || 0}</span>
                 </div>
@@ -582,7 +582,7 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
             </div>
 
             {/* Top HUD Area */}
-            <div className="absolute w-full px-6 flex justify-between items-start z-40 transform translateZ(50px)" style={{ top: 'calc(1.5rem + var(--safe-area-top))' }}>
+            <div className="absolute top-28 w-full px-6 flex justify-between items-start z-40 transform translateZ(50px)">
                 <div className="flex flex-col gap-2">
                     <div className="flex gap-1.5 bg-black/60 backdrop-blur-xl p-3 rounded-[20px] border border-rose-500/30 shadow-[0_0_20px_rgba(225,29,72,0.3)]">
                         {[...Array(5)].map((_, i) => (
@@ -905,7 +905,7 @@ function Game2Bridge({ settings, onEnd, setGameState, vocaDB, playSound }: any) 
             <div className="absolute inset-0 water-texture -z-20"></div>
             <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/80 to-transparent -z-10"></div>
 
-            <div className="absolute top-16 w-full px-6 flex justify-between items-start z-40">
+            <div className="absolute top-28 w-full px-6 flex justify-between items-start z-40">
                 <div className="flex flex-col gap-2">
                     <div className="flex gap-1.5 bg-black/60 backdrop-blur-xl p-3 rounded-[20px] border border-rose-500/30 shadow-[0_0_20px_rgba(225,29,72,0.3)]">
                         {[...Array(5)].map((_, i) => (
