@@ -877,7 +877,12 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                 // 권한 요청 및 체크
                 const permissions = await SpeechRecognition.checkPermissions();
                 if (permissions.speechRecognition !== 'granted') {
-                    await SpeechRecognition.requestPermissions();
+                    const requestResult = await SpeechRecognition.requestPermissions();
+                    if (requestResult.speechRecognition !== 'granted') {
+                        setIsListening(false);
+                        alert('마이크 사용 권한이 거부되었습니다. 앱 설정에서 [음성 인식] 및 [마이크] 권한을 허용해 주세요.');
+                        return;
+                    }
                 }
 
                 if (isListening) {
@@ -918,10 +923,11 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                         partialResults: true,
                         popup: false
                     });
-                } catch (startErr) {
+                } catch (startErr: any) {
                     console.error("SR Start Error:", startErr);
                     setIsListening(false);
                     try { await SpeechRecognition.stop(); } catch(e){}
+                    alert("마이크 실행에 실패했습니다.\\n아이폰 [설정 > 일반 > 키보드 > 받아쓰기 활성화]가 켜져 있는지 확인해주세요.");
                 }
             } else if (!WebSR) {
                 alert(t('sr_not_supported'));
@@ -932,9 +938,9 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
             setIsListening(false);
             const plat = typeof (window as any).Capacitor !== 'undefined' ? (window as any).Capacitor.getPlatform() : 'web';
             if (e && e.message && e.message.includes("implemented") && plat === 'ios') {
-                alert("현재 iOS 기기에서는 앱 업데이트 대기 이슈로 인해 마이크를 사용할 수 없습니다. 텍스트로 입력해 주세요! 📝");
+                alert("현재 버전에서는 마이크 플러그인이 로드되지 않았습니다. 앱을 업데이트해 주세요.");
             } else {
-                alert(`마이크 연결 중 문제가 발생했습니다. 키보드를 사용해 주세요.`);
+                alert("마이크 실행 오류입니다.\\n아이폰 [설정 > 일반 > 키보드 > 받아쓰기 활성화] 기능이 켜져 있는지 확인해 주세요.");
             }
         }
     };

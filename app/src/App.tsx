@@ -771,7 +771,7 @@ function MainApp() {
           position: 'relative', 
           overflowY: 'auto',
           paddingBottom: ['HOME', 'STATS', 'PROFILE', 'STORE', 'SETTINGS', 'CONVERSATION_LIST', 'BIBLE', 'EVAL', 'STUDY_LEVEL'].includes(screen) ? 'var(--nav-height)' : '0px', 
-          marginBottom: showAds ? 'var(--ad-height)' : '0px'
+          marginBottom: showAds ? 'calc(var(--ad-height) + var(--safe-area-bottom))' : '0px'
         }}
       >
         {renderContent()}
