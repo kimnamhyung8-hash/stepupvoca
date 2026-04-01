@@ -40,3 +40,37 @@ for (const fix of fixes) {
 if (!anyFixed) {
     console.log('[postinstall] All patches already applied or skipped.');
 }
+
+// [Fix] Add SPM compatibility for @capacitor-community/speech-recognition (Capacitor 8)
+const speechPluginDir = path.join(__dirname, 'node_modules/@capacitor-community/speech-recognition');
+const packageSwiftPath = path.join(speechPluginDir, 'Package.swift');
+
+if (fs.existsSync(speechPluginDir) && !fs.existsSync(packageSwiftPath)) {
+    const packageSwiftContent = `// swift-tools-version: 5.9
+import PackageDescription
+
+let package = Package(
+    name: "CapacitorCommunitySpeechRecognition",
+    platforms: [.iOS(.v14)],
+    products: [
+        .library(
+            name: "CapacitorCommunitySpeechRecognition",
+            targets: ["SpeechRecognitionPlugin"])
+    ],
+    dependencies: [
+        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0")
+    ],
+    targets: [
+        .target(
+            name: "SpeechRecognitionPlugin",
+            dependencies: [
+                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                .product(name: "Cordova", package: "capacitor-swift-pm")
+            ],
+            path: "ios/Plugin")
+    ]
+)
+`;
+    fs.writeFileSync(packageSwiftPath, packageSwiftContent, 'utf8');
+    console.log('[postinstall] 📦 Generated Package.swift for @capacitor-community/speech-recognition (SPM bypass)');
+}
