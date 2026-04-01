@@ -190,17 +190,36 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
             const WebSpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
             if (!WebSpeechRecognition) { setFeedbackMsg({ type: 'error', text: t(settings.lang, "browser_no_speech") }); return; }
             const recognition = new WebSpeechRecognition();
-            recognition.lang = 'en-US'; recognition.interimResults = false; recognition.maxAlternatives = 1;
+            recognition.lang = 'en-US'; recognition.interimResults = true; recognition.maxAlternatives = 1;
             recognition.onstart = () => { setIsRecording(true); setFeedbackMsg({ type: 'info', text: t(settings.lang, "listening") }); };
+            
+            let matched = false;
+            
             recognition.onresult = (event: any) => {
-                const said = event.results[0][0].transcript.toLowerCase().replace(/[^a-z]/g, '');
+                if (matched) return;
                 const target = (deck[index].word).toLowerCase().replace(/[^a-z]/g, '');
-                const ok = said === target || said.includes(target) || target.includes(said);
-                setFeedbackMsg({ type: ok ? 'success' : 'error', text: ok ? `${t(settings.lang, "perfect")} (${event.results[0][0].transcript})` : `${t(settings.lang, "try_again")} (${event.results[0][0].transcript})` });
-                playSound(ok ? 'correct' : 'wrong');
-                if (ok) { setTimeout(() => { if (!flipped) setFlipped(true); }, 800); }
+                
+                for (let i = 0; i < event.results.length; i++) {
+                    const said = event.results[i][0].transcript.toLowerCase().replace(/[^a-z]/g, '');
+                    const ok = said === target || said.includes(target) || target.includes(said);
+                    if (ok) {
+                        matched = true;
+                        setFeedbackMsg({ type: 'success', text: `${t(settings.lang, "perfect")} (${event.results[i][0].transcript})` });
+                        playSound('correct');
+                        recognition.stop();
+                        setIsRecording(false);
+                        setTimeout(() => { if (!flipped) setFlipped(true); }, 800);
+                        return;
+                    }
+                }
+                
+                const lastIdx = event.results.length - 1;
+                if (event.results[lastIdx].isFinal && !matched) {
+                    setFeedbackMsg({ type: 'error', text: `${t(settings.lang, "try_again")} (${event.results[lastIdx][0].transcript})` });
+                    playSound('wrong');
+                }
             };
-            recognition.onerror = () => { setFeedbackMsg({ type: 'error', text: t(settings.lang, "try_again") }); playSound('wrong'); };
+            recognition.onerror = () => { if (matched) return; setFeedbackMsg({ type: 'error', text: t(settings.lang, "try_again") }); playSound('wrong'); };
             recognition.onend = () => setIsRecording(false);
             recognition.start();
         } catch (err) { setIsRecording(false); setFeedbackMsg({ type: 'error', text: t(settings.lang, "error_occurred") }); }
@@ -258,7 +277,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
 
     if (incorrectNotes.length === 0) return (
         <div className="screen animate-fade-in bg-white flex flex-col overflow-hidden">
-            <header className="flex items-center justify-between p-6 pb-4 border-b border-slate-100 bg-white/80 backdrop-blur-xl z-20 shrink-0">
+            <header className="flex items-center justify-between px-6 pb-4 border-b border-slate-100 bg-white/80 backdrop-blur-xl z-20 shrink-0" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <button onClick={() => setScreen('HOME')}
  className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
                 <h2 className="text-lg font-black text-slate-800 flex items-center gap-2 tracking-tight"><BookOpen size={20} className="text-primary" /> {t(settings.lang, "review_voca")}</h2>
@@ -292,7 +311,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
 
     return (
         <div className="screen animate-fade-in bg-white flex flex-col">
-            <header className="px-6 pt-6 pb-2 border-slate-100 bg-white shadow-sm z-20 shrink-0">
+            <header className="px-6 pb-2 border-slate-100 bg-white shadow-sm z-20 shrink-0" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <div className="flex items-center justify-between mb-4">
                     <button onClick={() => setScreen('HOME')}
  className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
