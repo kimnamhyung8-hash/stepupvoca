@@ -3,8 +3,8 @@ import { AdMob, InterstitialAdPluginEvents } from '@capacitor-community/admob';
 import { isAdMobAvailable, isAdFreeActive } from '../admob';
 
 const AD_IDS = {
-    android: 'ca-app-pub-3940256099942544/1033173712',
-    ios: 'ca-app-pub-3940256099942544/4411468910',
+    android: 'ca-app-pub-6224627094460293/5848334101',
+    ios: 'ca-app-pub-6224627094460293/7697704419',
 };
 
 const FREQUENCY_LIMIT_MS = 5 * 60 * 1000; // Increased to 5 minutes

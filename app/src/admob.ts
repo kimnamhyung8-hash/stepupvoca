@@ -1,20 +1,20 @@
 import { AD_TEST_MODE } from './constants/appConstants';
 import { pauseMainBGM } from './bgm';
 
-// AdMob Unit IDs - Replace with your real IDs before production
+// AdMob Unit IDs - K-Account
 const AD_IDS = {
     // Real IDs (Google provided)
     banner: {
         android: 'ca-app-pub-6224627094460293/5694958301',
-        ios: 'ca-app-pub-3940256099942544/2934735716',
+        ios: 'ca-app-pub-6224627094460293/1859783323',
     },
     interstitial: {
         android: 'ca-app-pub-6224627094460293/5848334101',
-        ios: 'ca-app-pub-3940256099942544/4411468910',
+        ios: 'ca-app-pub-6224627094460293/7697704419',
     },
     rewarded_interstitial: {
         android: 'ca-app-pub-6224627094460293/1390214344',
-        ios: 'ca-app-pub-3940256099942544/6978759866',
+        ios: 'ca-app-pub-6224627094460293/9324609298',
     },
     // Official Test IDs
     test: {

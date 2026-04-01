@@ -9,9 +9,9 @@ const config: CapacitorConfig = {
   },
   plugins: {
     AdMob: {
-      // Test App IDs - Replace with real IDs for production
+      // K-Account Real App IDs
       androidAppId: 'ca-app-pub-6224627094460293~1345014713',
-      iosAppId: 'ca-app-pub-3940256099942544~1458002511',
+      iosAppId: 'ca-app-pub-6224627094460293~8590112124',
     },
     FirebaseAuthentication: {
       skipNativeAuth: true,
