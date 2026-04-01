@@ -1037,7 +1037,7 @@ export function LevelTestContainer({ settings, setScreen }: { settings: any; set
     return (
         <div className="screen flex flex-col bg-slate-50 overflow-hidden">
             {/* 헤더 */}
-            <header className="shrink-0 flex items-center justify-between px-5 py-4 bg-white border-b border-slate-100 shadow-sm">
+            <header className="shrink-0 flex items-center justify-between px-5 pb-4 bg-white border-b border-slate-100 shadow-sm" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <button onClick={() => setScreen('HOME')}
  className="w-9 h-9 flex items-center justify-center bg-slate-100 rounded-xl active:scale-90 transition text-slate-500">
                     <X size={18} />
