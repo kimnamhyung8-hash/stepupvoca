@@ -851,7 +851,7 @@ export function BattleScreen(props: any) {
             {/* LOBBY */}
             {gameState === 'LOBBY' && (
                 <>
-                    <header className="px-6 pb-4 flex items-center justify-between bg-indigo-600 text-white shrink-0 shadow-lg" style={{ paddingTop: 'calc(1rem + var(--safe-area-top))' }}>
+                    <header className="px-6 pb-4 flex items-center justify-between bg-indigo-600 text-white shrink-0 shadow-lg" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                         <button 
                             onClick={() => {
                                 // [Fix] Clear any active matching if exiting lobby
@@ -1040,7 +1040,7 @@ export function BattleScreen(props: any) {
             {/* MATCHING */}
             {gameState === 'MATCHING' && (
                 <div className="flex-1 bg-white flex flex-col items-center justify-center p-8 text-center relative">
-                    <button onClick={handleCancelMatching} className="absolute right-6 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400" style={{ top: 'calc(1.25rem + var(--safe-area-top))' }}><X size={20} /></button>
+                    <button onClick={handleCancelMatching} className="absolute right-6 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400" style={{ top: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}><X size={20} /></button>
                     <div className="relative w-48 h-48 flex items-center justify-center mb-12">
                         <div className="absolute inset-0 border-8 border-slate-50 rounded-full" />
                         <div className="absolute inset-0 border-8 border-indigo-600 rounded-full border-t-transparent animate-spin" />
@@ -1128,7 +1128,7 @@ export function BattleScreen(props: any) {
             {/* BATTLE */}
             {gameState === 'BATTLE' && (
                 <div className="flex-1 bg-white flex flex-col overflow-hidden pt-12 select-none">
-                    <div className="px-6 py-5 flex justify-between items-center bg-white border-b border-slate-100" style={{ paddingTop: 'calc(1.25rem + var(--safe-area-top))' }}>
+                    <div className="px-6 py-5 flex justify-between items-center bg-white border-b border-slate-100" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                         <div className="w-[42%]"><p className="text-[10px] font-black text-indigo-600 mb-1">{userInfo?.nickname||'YOU'}</p><div className="h-3 bg-slate-100 rounded-full overflow-hidden"><div className="h-full bg-indigo-500 transition-all duration-500" style={{ width: `${playerHP}%` }} /></div></div>
                         <div className="bg-slate-900 text-white rounded-full px-4 py-1.5 text-[11px] font-black italic shadow-lg">{solvedCount + 1} / 15</div>
                         <div className="w-[42%] text-right"><p className="text-[10px] font-black text-red-600 mb-1">{rival?.name||'Rival'}</p><div className="h-3 bg-slate-100 rounded-full overflow-hidden"><div className="h-full bg-red-500 transition-all duration-500" style={{ width: `${rivalHP}%` }} /></div></div>

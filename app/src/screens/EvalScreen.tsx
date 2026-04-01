@@ -125,7 +125,7 @@ export const EvalScreen = ({
     return (
         <>
         <div className="screen bg-[#FAFAFE] flex flex-col overflow-hidden">
-            <header className="flex items-center justify-between p-6 pb-4 border-b border-indigo-50 bg-white/80 backdrop-blur-xl z-20 shrink-0">
+            <header className="flex items-center justify-between px-6 pb-4 border-b border-indigo-50 bg-white/80 backdrop-blur-xl z-20 shrink-0 shadow-sm" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <button onClick={async () => { await showAdIfFree(); setScreen('MASTERY'); }}
                  className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
                 <h2 className="text-lg font-black text-slate-800 tracking-tight">{t(settings.lang, "session_results")}</h2>
@@ -351,7 +351,7 @@ export const EvalScreen = ({
             >
                 <button
                     onClick={(e) => { e.stopPropagation(); setFullscreenVideo(false); }}
-                    style={{ position: 'absolute', top: 'calc(20px + env(safe-area-inset-top, 24px))', right: '24px', zIndex: 10000, width: 48, height: 48, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer' }}
+                    style={{ position: 'absolute', top: 'calc(max(env(safe-area-inset-top), 20px) + 16px)', right: '24px', zIndex: 10000, width: 48, height: 48, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer' }}
                 >
                     <X size={24} strokeWidth={3} />
                 </button>

@@ -172,10 +172,10 @@ export function ArcadeScreen({ settings, setScreen, userPoints, setUserPoints, o
             <style>{ARCADE_STYLES}</style>
 
             {/* Top Bar Navigation */}
-            <header className="flex items-center justify-between p-5 pb-3 absolute top-0 w-full z-50">
+            <header className="flex items-center justify-between px-5 pb-3 absolute w-full z-50 pointer-events-none" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <button onClick={() => setScreen('HOME')}
- className="bg-black/40 backdrop-blur-md text-white/80 rounded-full p-2.5 active:scale-90 transition-transform border border-white/10"><X size={20} /></button>
-                <div className="flex items-center gap-1.5 bg-yellow-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-yellow-500/30 shadow-lg">
+ className="bg-black/40 backdrop-blur-md text-white/80 rounded-full p-2.5 active:scale-90 transition-transform border border-white/10 pointer-events-auto"><X size={20} /></button>
+                <div className="flex items-center gap-1.5 bg-yellow-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-yellow-500/30 shadow-lg pointer-events-auto">
                     <Coins size={16} className="text-yellow-400" />
                     <span className="text-sm font-black text-yellow-400 drop-shadow-md">{userPoints?.toLocaleString() || 0}</span>
                 </div>
