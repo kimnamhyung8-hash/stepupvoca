@@ -74,3 +74,28 @@ let package = Package(
     fs.writeFileSync(packageSwiftPath, packageSwiftContent, 'utf8');
     console.log('[postinstall] 📦 Generated Package.swift for @capacitor-community/speech-recognition (SPM bypass)');
 }
+
+// [Fix] Inject CAPBridgedPlugin into SpeechRecognition Plugin.swift so it registers properly without Plugin.m
+const pluginSwiftPath = path.join(speechPluginDir, 'ios/Plugin/Plugin.swift');
+if (fs.existsSync(pluginSwiftPath)) {
+    let swiftContent = fs.readFileSync(pluginSwiftPath, 'utf8');
+    if (!swiftContent.includes('CAPBridgedPlugin')) {
+        swiftContent = swiftContent.replace('public class SpeechRecognition: CAPPlugin {',
+`public class SpeechRecognition: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "SpeechRecognitionPlugin"
+    public let jsName = "SpeechRecognition"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "available", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "start", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "stop", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isListening", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getSupportedLanguages", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "checkPermissions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "requestPermissions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "removeAllListeners", returnType: CAPPluginReturnPromise)
+    ]`);
+        fs.writeFileSync(pluginSwiftPath, swiftContent, 'utf8');
+        console.log('[postinstall] 🛠 Injected CAPBridgedPlugin into SpeechRecognition Plugin.swift');
+    }
+}
+
