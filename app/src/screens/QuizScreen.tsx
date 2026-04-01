@@ -402,7 +402,8 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
             <div className="screen bg-black flex flex-col items-center justify-center p-8 text-white font-sans animate-fade-in">
                 <button 
                     onClick={() => setScreen('MASTERY')}
-                    className="absolute top-6 left-6 bg-white/10 text-white/50 rounded-full p-2.5 active:scale-90 transition backdrop-blur-md border border-white/10 z-50"
+                    className="absolute left-6 bg-white/10 text-white/50 rounded-full p-2.5 active:scale-90 transition backdrop-blur-md border border-white/10 z-50"
+                    style={{ top: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}
                 >
                     <X size={20} />
                 </button>
@@ -447,7 +448,8 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
             <div className="screen bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center p-8 z-50 font-sans">
                 <button 
                     onClick={() => setScreen('MASTERY')}
-                    className="absolute top-6 left-6 bg-white/10 text-white/50 rounded-full p-2.5 active:scale-90 transition backdrop-blur-md border border-white/10 z-[60]"
+                    className="absolute left-6 bg-white/10 text-white/50 rounded-full p-2.5 active:scale-90 transition backdrop-blur-md border border-white/10 z-[60]"
+                    style={{ top: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}
                 >
                     <X size={20} />
                 </button>
@@ -490,7 +492,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
 
     return (
         <div className="screen bg-[#0F172A] flex flex-col min-h-screen font-sans text-white overflow-hidden relative">
-            <header className="flex items-center justify-between p-6 pb-2 z-30 shrink-0">
+            <header className="flex items-center justify-between px-6 pb-2 z-30 shrink-0" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <div className="flex items-center gap-2">
                     <button onClick={() => setScreen('MASTERY')}
                      className="bg-white/10 text-white/50 rounded-full p-2.5 active:scale-90 transition backdrop-blur-md border border-white/10"><X size={20} /></button>

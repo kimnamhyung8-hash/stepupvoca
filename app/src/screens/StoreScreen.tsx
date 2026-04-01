@@ -204,7 +204,7 @@ export const StoreScreen: React.FC<StoreScreenProps> = ({
 
     return (
         <div className="screen bg-white flex flex-col font-sans select-none overflow-hidden pb-10">
-            <header className="flex items-center justify-between px-6 py-6 bg-[#0F172A] z-20 shrink-0">
+            <header className="flex items-center justify-between px-6 pt-12 pb-6 bg-[#0F172A] z-20 shrink-0">
                 <button onClick={() => setScreen('HOME')} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white active:scale-90 transition-all">
                     <X size={20} />
                 </button>

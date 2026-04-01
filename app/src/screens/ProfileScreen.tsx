@@ -128,7 +128,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
     return (
         <div className="screen animate-fade-in bg-slate-50 flex flex-col font-sans">
-            <header className="flex items-center justify-between px-4 py-4 bg-slate-900 text-white z-20 shrink-0">
+            <header className="flex items-center justify-between px-4 pt-12 pb-6 bg-slate-900 text-white z-20 shrink-0">
                 <button onClick={() => setScreen('HOME')} className="bg-white/10 hover:bg-white/20 text-white rounded-full p-2.5 active:scale-90 transition-all backdrop-blur-md">
                     <ChevronLeft size={20} />
                 </button>
