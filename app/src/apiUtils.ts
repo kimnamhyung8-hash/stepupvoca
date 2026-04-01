@@ -38,16 +38,16 @@ export const getActiveApiKey = (userSavedKey: string | null, isPremium: boolean,
     // Server key placeholder check
     const isServerKeyValid = SERVER_API_KEY && (SERVER_API_KEY as string).trim() !== "";
 
-    // 1. (긴급 패치) 내부에 캐싱된 예전 키가 만료된 상태이므로, 서버 키를 최우선 순위로 강제 사용합니다!
-    if (isServerKeyValid) return SERVER_API_KEY;
+    // 1. 개인 키가 있으면 최우선으로 사용 (유저 우선 원칙 복구)
+    if (userSavedKey) {
+        const key = decryptApiKey(userSavedKey);
+        if (key && key.trim() !== "") return key;
+    }
 
-    // 2. 개인 키가 있으면 우선 사용 (서버 키가 없을 때만)
-    if (userSavedKey) return decryptApiKey(userSavedKey);
-    
-    // 3. 프리미엄 유저면 서버 키 사용 (무제한)
+    // 2. 프리미엄 유저면 서버 키 사용
     if (isPremium && isServerKeyValid) return SERVER_API_KEY;
     
-    // 4. 일반 유저면 한도 확인 후 서버 키 제공
+    // 3. 일반 유저면 한도 확인 후 서버 키 제공
     if (dailyCount < AI_DAILY_LIMIT && isServerKeyValid) return SERVER_API_KEY;
     
     // 5. 한도 초과 또는 서버 키 없음

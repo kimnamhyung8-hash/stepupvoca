@@ -863,7 +863,12 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                         };
                         rec.start();
                     } else {
-                        alert("현재 iOS 기기에서는 플러그인 업데이트 대기로 인해 마이크 기능을 사용할 수 없습니다. 대화를 텍스트로 입력해 주세요! 📝");
+                        const plat = typeof (window as any).Capacitor !== 'undefined' ? (window as any).Capacitor.getPlatform() : 'web';
+                        if (plat === 'ios') {
+                            alert("현재 iOS 기기에서는 플러그인 업데이트 대기로 인해 마이크 기능을 잠시 사용할 수 없습니다. 텍스트로 입력해 주세요! 📝");
+                        } else {
+                            alert("기기에서 마이크 기능을 지원하지 않습니다. 텍스트로 입력해 주세요.");
+                        }
                         setIsListening(false);
                     }
                     return;
@@ -925,8 +930,9 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
         } catch (e: any) {
             console.warn("Microphone Top-level Error intercepted:", e);
             setIsListening(false);
-            if (e && e.message && e.message.includes("implemented")) {
-                alert("현재 iOS 기기에서는 앱 업데이트 대기 이슈로 인해 마이크를 사용할 수 없습니다. 대화를 텍스트(키보드)로 입력해 주세요! 📝");
+            const plat = typeof (window as any).Capacitor !== 'undefined' ? (window as any).Capacitor.getPlatform() : 'web';
+            if (e && e.message && e.message.includes("implemented") && plat === 'ios') {
+                alert("현재 iOS 기기에서는 앱 업데이트 대기 이슈로 인해 마이크를 사용할 수 없습니다. 텍스트로 입력해 주세요! 📝");
             } else {
                 alert(`마이크 연결 중 문제가 발생했습니다. 키보드를 사용해 주세요.`);
             }
