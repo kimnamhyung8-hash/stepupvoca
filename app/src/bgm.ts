@@ -125,7 +125,7 @@ export const initBGM = () => {
         window.removeEventListener('touchstart', handleFirstInteraction);
         window.removeEventListener('keydown', handleFirstInteraction);
 
-        // Only play if we are supposed to be playing
+        // Only play if we are supposed to be playing (fallback if autoplay failed)
         if (isBgmPlaying) {
             console.log('[BGM] Resuming BGM after first interaction');
             playMainBGM(lastMode);
@@ -152,6 +152,16 @@ export const initBGM = () => {
             }
         }
     });
+
+    // 만약 Capacitor 네이티브 환경(iOS/Android)이라면 강제로 초기화하여 자동 재생 시도
+    const isNative = typeof window !== 'undefined' && (window as any).Capacitor && (window as any).Capacitor.getPlatform() !== 'web';
+    if (isNative) {
+        if (!bgmAudio) {
+            bgmAudio = new Audio(mainBgmUrl);
+            bgmAudio.loop = true;
+            bgmAudio.volume = currentVolume;
+        }
+    }
 };
 
 let lastMode: BGMMode = 'HAPPY';
@@ -160,7 +170,12 @@ let lastMode: BGMMode = 'HAPPY';
 export const playMainBGM = (style: BGMMode = 'HAPPY') => {
     isBgmPlaying = true;
     lastMode = style;
-    if (!userInteracted) return;
+
+    if (!bgmAudio) {
+        bgmAudio = new Audio(mainBgmUrl);
+        bgmAudio.loop = true;
+        bgmAudio.volume = currentVolume;
+    }
 
     // Stop existing
     currentSequencer?.stop();
@@ -170,7 +185,10 @@ export const playMainBGM = (style: BGMMode = 'HAPPY') => {
     if (style === 'HAPPY' || style === 'MAIN_BRIGHT' || style === 'MP3_MAIN') {
         if (bgmAudio) {
             bgmAudio.volume = currentVolume;
-            bgmAudio.play().catch(e => console.error("BGM Play Error:", e));
+            bgmAudio.play().catch(e => {
+                console.error("BGM Play Error:", e);
+                // 브라우저 정책으로 실패한 경우 상호작용 후 재생하도록 유도됨 (isBgmPlaying=true 이므로 fallback이 작동)
+            });
         }
     } else {
         // Use Sequencer for others
