@@ -291,8 +291,8 @@ export const AiReportScreen = ({
                 body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
             });
 
-            if (!response.ok && response.status === 429) {
-                console.warn(`[AI Report] 429 Quota Exceeded on ${HIGH_PERFORMANCE_MODEL}. Falling back to ${LIGHTWEIGHT_MODEL}...`);
+            if (!response.ok) {
+                console.warn(`[AI Report] API Error (${response.status}) on ${HIGH_PERFORMANCE_MODEL}. Falling back to ${LIGHTWEIGHT_MODEL}...`);
                 response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -426,8 +426,8 @@ export const AiReportScreen = ({
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
 
-            if (!response.ok && response.status === 429) {
-                console.warn(`[AI Report] 429 Quota Exceeded on ${HIGH_PERFORMANCE_MODEL}. Falling back to ${LIGHTWEIGHT_MODEL}...`);
+            if (!response.ok) {
+                console.warn(`[AI Report] API Error (${response.status}) on ${HIGH_PERFORMANCE_MODEL}. Falling back to ${LIGHTWEIGHT_MODEL}...`);
                 response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
