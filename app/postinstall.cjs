@@ -96,6 +96,12 @@ if (fs.existsSync(pluginSwiftPath)) {
     ]`);
         fs.writeFileSync(pluginSwiftPath, swiftContent, 'utf8');
         console.log('[postinstall] 🛠 Injected CAPBridgedPlugin into SpeechRecognition Plugin.swift');
+        
+        // Remove mixed-language ObjC files because Capacitor 8 SPM completely rejects mixed language targets
+        const pluginM = path.join(speechPluginDir, 'ios/Plugin/Plugin.m');
+        const pluginH = path.join(speechPluginDir, 'ios/Plugin/Plugin.h');
+        if (fs.existsSync(pluginM)) fs.unlinkSync(pluginM);
+        if (fs.existsSync(pluginH)) fs.unlinkSync(pluginH);
+        console.log('[postinstall] 🗑 Removed legacy Plugin.m and Plugin.h for strict SPM compatibility');
     }
 }
-
