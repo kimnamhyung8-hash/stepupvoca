@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { initializeAuth, indexedDBLocalPersistence, GoogleAuthProvider } from "firebase/auth";
+import { initializeAuth, indexedDBLocalPersistence, browserLocalPersistence, browserPopupRedirectResolver, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -15,7 +15,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = initializeAuth(app, {
-  persistence: indexedDBLocalPersistence
+  persistence: [indexedDBLocalPersistence, browserLocalPersistence],
+  popupRedirectResolver: browserPopupRedirectResolver
 });
 export const googleProvider = new GoogleAuthProvider();
 export const db = getFirestore(app);

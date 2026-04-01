@@ -840,7 +840,7 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
 
                 if (!isNativeSupport) {
                     // Native 지원 안될 경우 WebSR 시도 (하이브리드 지원용 또는 알림 창)
-                    if (WebSR) {
+                    if (WebSR && !(window as any).Capacitor?.isNativePlatform?.()) {
                         if (isListening) {
                             if (webRecognitionRef.current) {
                                 try { webRecognitionRef.current.stop(); } catch (e) { }

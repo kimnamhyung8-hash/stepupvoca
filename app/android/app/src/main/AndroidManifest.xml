@@ -34,8 +34,6 @@
             android:value="ca-app-pub-6224627094460293~1345014713"
         />
 
-        <!-- Google Auth Client ID -->
-        <meta-data android:name="com.codetrixstudio.capacitor.GoogleAuth.serverClientId" android:value="806999527929-reao0rmomija5d2m738ligum2r2gvu46.apps.googleusercontent.com" />
 
         <!-- VocaQuest Widget -->
         <receiver android:name=".VocaQuestWidget" android:exported="true">

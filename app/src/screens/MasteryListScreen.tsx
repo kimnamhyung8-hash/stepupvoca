@@ -12,7 +12,6 @@ interface MasteryListScreenProps {
     unlockedLevels: number[];
     currentLevel: number;
     setActiveStudyLevel: (lvl: number) => void;
-    isPremium: boolean;
 }
 
 export const MasteryListScreen = ({
@@ -21,8 +20,7 @@ export const MasteryListScreen = ({
     userPoints,
     unlockedLevels,
     currentLevel,
-    setActiveStudyLevel,
-    isPremium
+    setActiveStudyLevel
 }: MasteryListScreenProps) => {
     const levels = vocaDBJson.map((levelData: any) => {
         const lvl = levelData.level;
@@ -168,46 +166,47 @@ export const MasteryListScreen = ({
                 <div className="absolute top-0 right-0 w-full h-[80%] bg-gradient-to-br from-yellow-100/10 via-transparent to-transparent rotate-12 blur-[120px] pointer-events-none" />
             </div>
 
-            <header className="flex items-center justify-between px-6 pt-12 pb-4 bg-gradient-to-r from-indigo-700 to-indigo-600 text-white z-20 shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border-b border-indigo-500/30">
-                <div className="flex items-center gap-3">
-                    <button onClick={async () => { await showAdIfFree(); setScreen('HOME'); }}
-                        className="bg-black/20 hover:bg-black/30 text-white rounded-full p-2 active:scale-90 transition-all border border-white/10 shadow-lg">
+            <header 
+                className="flex items-center justify-between px-4 pt-[max(env(safe-area-inset-top,20px),20px)] pb-3 bg-gradient-to-r from-indigo-700 to-indigo-600 text-white z-20 shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.15)] border-b border-indigo-500/30 w-full"
+            >
+                {/* Left: Back Button */}
+                <div className="flex-1 flex justify-start">
+                    <button 
+                        onClick={async () => { await showAdIfFree(); setScreen('HOME'); }}
+                        className="w-10 h-10 bg-black/15 hover:bg-black/25 text-white rounded-full flex items-center justify-center active:scale-90 transition-all shadow-sm"
+                    >
                         <X size={20} />
                     </button>
-                    <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                            <h2 className="text-xl font-[1000] tracking-tighter italic uppercase leading-none drop-shadow-md">
-                                STAGE {viewingStage}
-                            </h2>
-                            <div className="flex items-center gap-1 bg-green-500/20 border border-green-400/30 px-2 py-0.5 rounded text-[9px] font-black tracking-widest text-green-300">
-                                <span>FOREST</span>
-                            </div>
-                            {isPremium && (
-                                <div className="flex items-center gap-1 bg-indigo-500/30 border border-indigo-400/40 px-2 py-0.5 rounded text-[9px] font-black tracking-widest text-indigo-300 animate-pulse">
-                                    <span>PREMIUM</span>
-                                </div>
-                            )}
-                        </div>
-                        <p className="text-[10px] font-bold text-indigo-100 uppercase tracking-[0.2em] mt-1 opacity-80">
-                            LEVELS {(viewingStage - 1) * 10 + 1}-{Math.min(viewingStage * 10, levels.length)}
-                        </p>
-                    </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-2 bg-black/40 px-3.5 py-2 rounded-2xl border border-white/10 shadow-[inset_0_2px_10px_rgba(0,0,0,0.2)]">
-                        <Coins size={16} className="text-yellow-400 filter drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]" />
-                        <span className="text-sm font-black text-white tabular-nums">{userPoints.toLocaleString()}</span>
+                {/* Center: Stage Title */}
+                <div className="flex flex-col items-center flex-none px-2">
+                    <span className="text-[10px] font-black text-indigo-200 uppercase tracking-[0.2em] mb-0.5 opacity-90">
+                        LEVELS {(viewingStage - 1) * 10 + 1}-{Math.min(viewingStage * 10, levels.length)}
+                    </span>
+                    <h2 className="text-[20px] font-[800] tracking-tight uppercase leading-none drop-shadow-sm whitespace-nowrap text-white">
+                        Stage {viewingStage}
+                    </h2>
+                </div>
+
+                {/* Right: Points & Navigation */}
+                <div className="flex-1 flex items-center justify-end gap-2 shrink-0">
+                    <div className="flex items-center gap-1.5 bg-black/25 px-2.5 py-1.5 rounded-xl border border-white/5 shadow-inner">
+                        <Coins size={14} className="text-yellow-400 drop-shadow-sm" />
+                        <span className="text-xs font-bold text-white tabular-nums tracking-tight">
+                            {userPoints > 100000 ? (userPoints / 1000).toFixed(1) + 'k' : userPoints.toLocaleString()}
+                        </span>
                     </div>
-                    <div className="flex items-center gap-1 bg-white/10 rounded-2xl p-1 border border-white/10 shadow-lg">
+
+                    <div className="flex items-center bg-black/20 rounded-full p-1 shadow-inner shrink-0 border border-white/5">
                         <button 
                             disabled={viewingStage <= 1}
                             onClick={() => setViewingStage(v => v - 1)}
-                            className="p-2 disabled:opacity-20 hover:bg-white/10 rounded-xl transition-all active:scale-90"
+                            className="w-7 h-7 rounded-full flex items-center justify-center disabled:opacity-30 hover:bg-white/10 transition-all active:scale-95"
                         >
-                            <ChevronLeft size={22} />
+                            <ChevronLeft size={18} />
                         </button>
-                        <div className="w-[1px] h-6 bg-white/10" />
+                        <div className="w-px h-4 bg-white/20 mx-0.5" />
                         <button 
                             disabled={viewingStage >= totalStages}
                             onClick={() => {
@@ -215,12 +214,12 @@ export const MasteryListScreen = ({
                                     setViewingStage(v => v + 1);
                                 }
                             }}
-                            className="p-2 disabled:opacity-20 hover:bg-white/10 rounded-xl transition-all active:scale-90 relative"
+                            className="w-7 h-7 rounded-full flex items-center justify-center disabled:opacity-30 hover:bg-white/10 transition-all active:scale-95 relative"
                         >
-                            <ChevronRight size={22} />
+                            <ChevronRight size={18} />
                             {viewingStage >= Math.ceil(maxUnlockedLevel / 10) && (
-                                <div className="absolute top-1 right-1 bg-slate-900 border border-slate-700 p-0.5 rounded-full shadow-md">
-                                    <Lock size={10} className="text-white" />
+                                <div className="absolute -top-1 -right-0.5 bg-[#E11D48] border-[1.5px] border-indigo-600 rounded-full w-3.5 h-3.5 flex items-center justify-center shadow-md">
+                                    <Lock size={8} className="text-white" strokeWidth={3} />
                                 </div>
                             )}
                         </button>

@@ -659,7 +659,7 @@ function MainApp() {
       case 'STATS': return <StatsScreen settings={settings} setScreen={setScreen} userInfo={userInfo} />;
       case 'SETTINGS': return <SettingsScreen setScreen={setScreen} settings={settings} setSettings={setSettings} streak={streak} streakMax={streakMax} userInfo={userInfo} />;
       case 'PROFILE': return <ProfileScreen settings={settings} setScreen={setScreen} userPoints={userPoints} currentLevel={currentLevel} equippedSkin={equippedSkin} userInfo={userInfo} firebaseUser={firebaseUser} isPremium={isPremium} setLegalDocInfo={setLegalDocInfo} setFeedbackInfo={setFeedbackInfo} />;
-      case 'MASTERY': return <MasteryListScreen settings={settings} setScreen={setScreen} userPoints={userPoints} unlockedLevels={unlockedLevels} currentLevel={currentLevel} setActiveStudyLevel={setActiveStudyLevel} isPremium={isPremium} />;
+      case 'MASTERY': return <MasteryListScreen settings={settings} setScreen={setScreen} userPoints={userPoints} unlockedLevels={unlockedLevels} currentLevel={currentLevel} setActiveStudyLevel={setActiveStudyLevel} />;
       case 'STUDY': return <StudyModeScreen settings={settings} setScreen={setScreen} activeStudyLevel={activeStudyLevel} words={mergedVocaDB.find(v => v.level === activeStudyLevel)?.words || []} />;
       case 'ARCADE':
       case 'MINIGAME': return <ArcadeScreen settings={settings} setScreen={setScreen} userPoints={userPoints} setUserPoints={setUserPoints} onActivityDone={handleActivityDone} vocaDB={mergedVocaDB} playSound={playSound} />;

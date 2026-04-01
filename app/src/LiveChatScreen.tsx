@@ -901,7 +901,7 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
                     rate: 0.95,
                     pitch: 1.0,
                     volume: 1.0,
-                    category: 'ambient'
+                    category: 'playback'
                 });
             } else {
                 window.speechSynthesis.cancel();
@@ -1177,7 +1177,7 @@ Format strictly as JSON:
             };
 
             // Use Web Speech API if on Web
-            if (WebSR) {
+            if (WebSR && !(window as any).Capacitor?.isNativePlatform?.()) {
                 if (isSessionRecording) {
                     recordingAudioTracks?.forEach(t => t.enabled = false);
                 }

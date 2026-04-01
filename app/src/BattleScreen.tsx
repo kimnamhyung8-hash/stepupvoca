@@ -660,6 +660,19 @@ export function BattleScreen(props: any) {
                 }
             }
             
+            // [Fix] 동기화 강화: DB 상의 진짜 승리자로 화면 결과 강제 교정
+            if (room.status === 'FINISHED' || room.status === 'RECHALLENGING') {
+                if ((gameState === 'RESULT' || gameState === 'BATTLE') && room.winnerId && myUid) {
+                    const trueResult = room.winnerId === myUid ? 'WIN' : 'LOSE';
+                    setBattleResult(prev => {
+                        if (prev !== trueResult) {
+                            console.log(`[Sync] Correcting local result from ${prev} to ${trueResult} based on actual DB winner.`);
+                        }
+                        return trueResult;
+                    });
+                }
+            }
+
             // [Rematch Logic] Handle state reset whenever a new game starts or is accepted
             const isNewGameStarting = (room.status === 'ACCEPTED' || room.status === 'ONGOING');
             const isFinishedState = (gameState === 'RESULT' || gameState === 'READY_ROOM');

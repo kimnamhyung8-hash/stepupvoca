@@ -377,7 +377,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
                 rate: 0.9,
                 pitch: 1.0,
                 volume: 1.0,
-                category: 'ambient'
+                category: 'playback'
             });
         } catch (e) {
             console.warn("TTS Error:", e);

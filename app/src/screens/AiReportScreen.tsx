@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { t } from '../i18n';
 import { playNaturalTTS, stopTTS } from '../utils/ttsUtils';
-import { getActiveApiKey, HIGH_PERFORMANCE_MODEL } from '../apiUtils';
+import { getActiveApiKey, HIGH_PERFORMANCE_MODEL, LIGHTWEIGHT_MODEL } from '../apiUtils';
 import { showAdIfFree } from '../admob';
 import { getActivityLog } from '../streak';
 import { getCefrFromLevel } from '../utils/wordUtils';
@@ -285,11 +285,20 @@ export const AiReportScreen = ({
         }
 
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
+            let response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
             });
+
+            if (!response.ok && response.status === 429) {
+                console.warn(`[AI Report] 429 Quota Exceeded on ${HIGH_PERFORMANCE_MODEL}. Falling back to ${LIGHTWEIGHT_MODEL}...`);
+                response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                });
+            }
 
             if (!response.ok) {
                 throw new Error(await response.text());
@@ -411,11 +420,20 @@ export const AiReportScreen = ({
         5. 오직 "한국어"로만 응답하며, 이모지를 활용해 가독성을 높이세요.
       `;
 
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
+            let response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
+
+            if (!response.ok && response.status === 429) {
+                console.warn(`[AI Report] 429 Quota Exceeded on ${HIGH_PERFORMANCE_MODEL}. Falling back to ${LIGHTWEIGHT_MODEL}...`);
+                response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+            }
 
             if (!response.ok) throw new Error("Explanation gen failed");
             const data = await response.json();

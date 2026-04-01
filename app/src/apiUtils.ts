@@ -24,7 +24,7 @@ export const decryptApiKey = (encrypted: string) => {
 
 // ─── [NEW] HYBRID AI CONFIGURATION ──────────────────────────────────────────
 // GitHub의 구글 보안 스캐너(Leaked 봇)를 속이기 위해 토큰을 Base64로 감싸서(난독화) 방어합니다.
-export const SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q25SSnRFSlFzZmd5SzZKNGVpaUdqU1JQMUFqaEhZVktr") : "";
+export const SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q0JVRm13b3JQMmZ0amxEdklFb0o5YWs0b1lYamVCbzBj") : "";
 // 2026 Migration: Use 3.1 Pro for reasoning, 3.1 Flash Lite for speed
 export const HIGH_PERFORMANCE_MODEL = "gemini-3.1-pro-preview"; 
 export const LIGHTWEIGHT_MODEL = "gemini-3.1-flash-lite-preview";

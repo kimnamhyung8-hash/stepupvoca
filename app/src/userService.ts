@@ -593,10 +593,21 @@ export function listenToBattleStatus(battleId: string, callback: (battle: Battle
  */
 export async function finalizeBattle(battleId: string, winnerId: string) {
     const ref = doc(db, 'battles', battleId);
-    await updateDoc(ref, {
-        status: 'FINISHED',
-        winnerId,
-        ownerId: winnerId // 승자에게 권한 부여
+    await runTransaction(db, async (transaction) => {
+        const snap = await transaction.get(ref);
+        if (!snap.exists()) return;
+        const data = snap.data();
+        
+        // If already finalized or rematching, ignore to prevent race-condition overrides
+        if (data.status === 'FINISHED' || data.status === 'RECHALLENGING' || data.status === 'ACCEPTED') {
+            return;
+        }
+
+        transaction.update(ref, {
+            status: 'FINISHED',
+            winnerId,
+            ownerId: winnerId // 승자에게 방장 권한 부여
+        });
     });
 }
 

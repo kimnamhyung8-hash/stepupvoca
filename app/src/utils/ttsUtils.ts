@@ -23,7 +23,7 @@ const FEMALE_VOICE_CONFIG = {
     rate: 0.95, // 약간 천천히 읽어줌
     pitch: 1.2, // 피치를 높여 더 젊고 밝은 톤 구현
     volume: 1.0,
-    category: 'ambient' as const,
+    category: 'playback' as const,
 };
 
 /**
