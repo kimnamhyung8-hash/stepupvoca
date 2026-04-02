@@ -24,12 +24,21 @@ export const decryptApiKey = (encrypted: string) => {
 
 // ─── [NEW] HYBRID AI CONFIGURATION ──────────────────────────────────────────
 // GitHub의 구글 보안 스캐너(Leaked 봇)를 속이기 위해 토큰을 Base64로 감싸서(난독화) 방어합니다.
-export const SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q0JVRm13b3JQMmZ0amxEdklFb0o5YWs0b1lYamVCbzBj") : "";
-// 2026 Migration: Use 3.1 Pro for reasoning, 3.1 Flash Lite for speed
-export const HIGH_PERFORMANCE_MODEL = "gemini-3.1-pro-preview"; 
-export const LIGHTWEIGHT_MODEL = "gemini-3.1-flash-lite-preview";
-export const DEFAULT_AI_MODEL = LIGHTWEIGHT_MODEL; 
-export const AI_DAILY_LIMIT = 20;
+export let SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q0JVRm13b3JQMmZ0amxEdklFb0o5YWs0b1lYamVCbzBj") : "";
+export let HIGH_PERFORMANCE_MODEL = "gemini-3.1-pro-preview"; 
+export let LIGHTWEIGHT_MODEL = "gemini-3.1-flash-lite-preview";
+export let DEFAULT_AI_MODEL = LIGHTWEIGHT_MODEL; 
+export let AI_DAILY_LIMIT = 20;
+
+export const setDynamicGeminiConfig = (config: any) => {
+    if (config.apiKey) SERVER_API_KEY = config.apiKey;
+    if (config.highModel) HIGH_PERFORMANCE_MODEL = config.highModel;
+    if (config.liteModel) {
+        LIGHTWEIGHT_MODEL = config.liteModel;
+        DEFAULT_AI_MODEL = config.liteModel;
+    }
+    if (config.dailyLimit) AI_DAILY_LIMIT = config.dailyLimit;
+};
 
 /**
  * AI 요청 시 사용할 최종 API 키를 결정합니다.

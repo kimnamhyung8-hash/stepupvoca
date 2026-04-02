@@ -1,8 +1,0 @@
-[gemini-3.1-pro-lite] Status: 404 | {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-3.1-pro-lite is not found for API vers
-[gemini-3.1-pro-lite-preview] Status: 404 | {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-3.1-pro-lite-preview is not found for 

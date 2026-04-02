@@ -16,7 +16,7 @@ import { ArcadeScreen } from './ArcadeScreen';
 import { LoginScreen } from './LoginScreen';
 import { MemoizedLiveChatScreen as LiveChatScreen } from './LiveChatScreen';
 import { auth, db } from './firebase';
-import { collection, onSnapshot, query } from 'firebase/firestore';
+import { collection, onSnapshot, query, doc, getDoc } from 'firebase/firestore';
 import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { upsertUser, setUserOffline, getUserByUid, listenToUserByUid, setChatLobbyPresence } from './userService';
 import { listenToMyChatRequests, listenToChatRoomStatus, cancelChatRequest } from './chatService';
@@ -43,7 +43,7 @@ import { ReviewPrompt } from './ReviewPrompt';
 import { OfflineBanner } from './OfflineBanner';
 import { AiQuotaModal } from './components/AiQuotaModal';
 import { ApiKeyModal } from './components/ApiKeyModal';
-import { AI_DAILY_LIMIT } from './apiUtils';
+import { AI_DAILY_LIMIT, setDynamicGeminiConfig } from './apiUtils';
 
 // Screens
 import { HomeScreen } from './screens/HomeScreen';
@@ -253,6 +253,22 @@ function MainApp() {
       setCustomWords(custom);
     }, (err) => console.error("Firestore custom words error:", err));
     return () => unsubscribe();
+  }, []);
+
+  // [NEW] Dynamic Gemini Config
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const snap = await getDoc(doc(db, 'system', 'geminiConfig'));
+        if (snap.exists()) {
+          setDynamicGeminiConfig(snap.data());
+          console.log('[System] Remote Gemini Config Loaded');
+        }
+      } catch (err) {
+        console.warn('[System] Failed to load remote Gemini Config. Using local fail-safe.', err);
+      }
+    };
+    fetchConfig();
   }, []);
 
   const mergedVocaDB = useMemo(() => {
