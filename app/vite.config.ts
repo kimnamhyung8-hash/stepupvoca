@@ -13,7 +13,7 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       workbox: {
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
-        navigateFallbackDenylist: [/^\/ads\.txt/, /^\/app-ads\.txt/, /^\/robots\.txt/, /^\/sitemap\.xml/],
+        navigateFallbackDenylist: [/^\/ads\.txt/, /^\/app-ads\.txt/, /^\/robots\.txt/, /^\/sitemap\.xml/, /^\/__\//],
       },
       manifest: {
         name: 'Stepup Voca - VocaQuest',
