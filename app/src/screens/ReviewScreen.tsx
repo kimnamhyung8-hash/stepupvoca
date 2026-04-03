@@ -43,7 +43,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
 
     const generateWeaknessReport = async () => {
         if (incorrectNotes.length === 0) return;
-        
+
         const userSavedKey = localStorage.getItem('vq_gemini_key');
         const activeKey = getActiveApiKey(userSavedKey, isPremium, aiUsage);
 
@@ -75,10 +75,10 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
             const data = await res.json();
             const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
             const jsonStr = raw.match(/\{[\s\S]*\}/)?.[0] || '{}';
-            
+
             // Only increment if call actually succeeded
             if (res.ok) incrementAiUsage();
-            
+
             setWeaknessReport(JSON.parse(jsonStr));
         } catch (e: any) {
             console.error(e);
@@ -177,55 +177,55 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
     // 전체 해제 시 화면 꺼짐 허용 방어
     useEffect(() => {
         return () => {
-            KeepAwake.allowSleep().catch(()=>{});
+            KeepAwake.allowSleep().catch(() => { });
         };
     }, []);
 
     // 🎧 무한 반복 루프 재생 로직
     useEffect(() => {
         if (!isAutoPlaying) {
-            KeepAwake.allowSleep().catch(()=>{});
+            KeepAwake.allowSleep().catch(() => { });
             return;
         }
 
         // 화면 켜짐 유지
-        KeepAwake.keepAwake().catch(()=>{});
+        KeepAwake.keepAwake().catch(() => { });
 
         let isActive = true;
 
         const runAutoPlay = async () => {
-             if (phase === 'done' || !deck[index]) {
-                 setIsAutoPlaying(false);
-                 return;
-             }
-             
-             const currentCard = deck[index];
-             setFlipped(false);
-             
-             // Step 1: Speak English
-             await playTTS(currentCard.word);
-             if (!isActive) return;
-             
-             // Step 2: Pose for thinking / pronunciation
-             await new Promise(r => setTimeout(r, 1200));
-             if (!isActive) return;
-             
-             // Step 3: Flip and speak meaning (Korean)
-             setFlipped(true);
-             const currentMeaning = getVocaMeaning(currentCard, settings.lang);
-             await playNaturalTTS(currentMeaning, settings.lang);
-             if (!isActive) return;
-             
-             // Step 4: Pause before next card
-             await new Promise(r => setTimeout(r, 2000));
-             if (!isActive) return;
-             
-             // Step 5: Execute Next Card
-             if (index >= deck.length - 1) {
-                 setIndex(0); // 끝까지 도달하면 처음부터 무한 반복
-             } else {
-                 next();
-             }
+            if (phase === 'done' || !deck[index]) {
+                setIsAutoPlaying(false);
+                return;
+            }
+
+            const currentCard = deck[index];
+            setFlipped(false);
+
+            // Step 1: Speak English
+            await playTTS(currentCard.word);
+            if (!isActive) return;
+
+            // Step 2: Pose for thinking / pronunciation
+            await new Promise(r => setTimeout(r, 1200));
+            if (!isActive) return;
+
+            // Step 3: Flip and speak meaning (Korean)
+            setFlipped(true);
+            const currentMeaning = getVocaMeaning(currentCard, settings.lang);
+            await playNaturalTTS(currentMeaning, settings.lang);
+            if (!isActive) return;
+
+            // Step 4: Pause before next card
+            await new Promise(r => setTimeout(r, 2000));
+            if (!isActive) return;
+
+            // Step 5: Execute Next Card
+            if (index >= deck.length - 1) {
+                setIndex(0); // 끝까지 도달하면 처음부터 무한 반복
+            } else {
+                next();
+            }
         };
 
         runAutoPlay();
@@ -259,13 +259,13 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
             const recognition = new WebSpeechRecognition();
             recognition.lang = 'en-US'; recognition.interimResults = true; recognition.maxAlternatives = 1;
             recognition.onstart = () => { setIsRecording(true); setFeedbackMsg({ type: 'info', text: t(settings.lang, "listening") }); };
-            
+
             let matched = false;
-            
+
             recognition.onresult = (event: any) => {
                 if (matched) return;
                 const target = (deck[index].word).toLowerCase().replace(/[^a-z]/g, '');
-                
+
                 for (let i = 0; i < event.results.length; i++) {
                     const said = event.results[i][0].transcript.toLowerCase().replace(/[^a-z]/g, '');
                     const ok = said === target || said.includes(target) || target.includes(said);
@@ -279,7 +279,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                         return;
                     }
                 }
-                
+
                 const lastIdx = event.results.length - 1;
                 if (event.results[lastIdx].isFinal && !matched) {
                     setFeedbackMsg({ type: 'error', text: `${t(settings.lang, "try_again")} (${event.results[lastIdx][0].transcript})` });
@@ -346,7 +346,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
         <div className="screen animate-fade-in bg-white flex flex-col overflow-hidden">
             <header className="flex items-center justify-between px-6 pb-4 border-b border-slate-100 bg-white/80 backdrop-blur-xl z-20 shrink-0" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <button onClick={() => setScreen('HOME')}
- className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
+                    className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
                 <h2 className="text-lg font-black text-slate-800 flex items-center gap-2 tracking-tight"><BookOpen size={20} className="text-primary" /> {t(settings.lang, "review_voca")}</h2>
                 <div className="w-10"></div>
             </header>
@@ -366,9 +366,9 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                 <p className="text-slate-400 font-bold text-sm mb-10">{t(settings.lang, "total")} <span className="text-primary">{deck.length}</span> {t(settings.lang, "words_completed")}</p>
                 <div className="w-full max-w-xs space-y-3">
                     <button onClick={() => { setPhase('study'); setIndex(0); setFlipped(false); setKnownIds(new Set()); }}
- className="w-full three-d-btn bg-primary text-white py-5 rounded-[24px] font-black text-lg shadow-[0_6px_0_#3730A3] active:translate-y-1 active:shadow-none transition-all">{t(settings.lang, "review_again")}</button>
+                        className="w-full three-d-btn bg-primary text-white py-5 rounded-[24px] font-black text-lg shadow-[0_6px_0_#3730A3] active:translate-y-1 active:shadow-none transition-all">{t(settings.lang, "review_again")}</button>
                     <button onClick={() => setScreen('HOME')}
- className="w-full py-5 rounded-[24px] border-2 border-slate-100 text-slate-500 font-black text-lg hover:bg-slate-50 active:scale-95 transition-all">{t(settings.lang, "back_to_home")}</button>
+                        className="w-full py-5 rounded-[24px] border-2 border-slate-100 text-slate-500 font-black text-lg hover:bg-slate-50 active:scale-95 transition-all">{t(settings.lang, "back_to_home")}</button>
                 </div>
             </div>
         </div>
@@ -381,7 +381,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
             <header className="px-6 pb-2 border-slate-100 bg-white shadow-sm z-20 shrink-0" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <div className="flex items-center justify-between mb-4">
                     <button onClick={() => setScreen('HOME')}
- className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
+                        className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
                     <div className="flex flex-col items-center">
                         <h2 className="text-sm font-black text-primary flex items-center gap-1.5 uppercase tracking-widest leading-none mb-1"><BookOpen size={16} /> {t(settings.lang, "review_voca")}</h2>
                         <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">{index + 1} / {deck.length}</span>
@@ -401,7 +401,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                             <Sparkles size={18} />
                         </button>
                         <button onClick={handleDeleteWord}
- className="bg-red-50 text-red-400 rounded-full p-2.5 active:scale-90 transition shadow-sm border border-red-100"><Trash2 size={18} /></button>
+                            className="bg-red-50 text-red-400 rounded-full p-2.5 active:scale-90 transition shadow-sm border border-red-100"><Trash2 size={18} /></button>
                     </div>
                 </div>
 
@@ -420,7 +420,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                     </div>
                                 </div>
                                 <button onClick={() => setWeaknessReport(null)}
- className="p-3 bg-slate-50 text-slate-400 rounded-2xl hover:bg-slate-100 transition"><X size={20} /></button>
+                                    className="p-3 bg-slate-50 text-slate-400 rounded-2xl hover:bg-slate-100 transition"><X size={20} /></button>
                             </div>
 
                             <div className="space-y-8 pb-12">
@@ -436,7 +436,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                     <div className="grid gap-3">
                                         {(weaknessReport.roadmap || []).map((step: string, i: number) => (
                                             <div key={i}
- className="flex items-start gap-4 p-5 bg-white border-2 border-slate-50 rounded-[28px] shadow-sm">
+                                                className="flex items-start gap-4 p-5 bg-white border-2 border-slate-50 rounded-[28px] shadow-sm">
                                                 <div className="w-8 h-8 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center font-black text-sm shrink-0">{i + 1}</div>
                                                 <p className="text-[13px] font-bold text-slate-700 leading-tight pt-1">{step}</p>
                                             </div>
@@ -449,13 +449,13 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                     <div className="space-y-3">
                                         {(weaknessReport.challengeWords || []).map((cw: any, i: number) => (
                                             <div key={i}
- className="flex items-center justify-between p-5 bg-indigo-50/30 rounded-[32px] border border-indigo-100/50">
+                                                className="flex items-center justify-between p-5 bg-indigo-50/30 rounded-[32px] border border-indigo-100/50">
                                                 <div>
                                                     <h4 className="text-lg font-black text-slate-800 italic">{cw.word}</h4>
                                                     <p className="text-[11px] text-slate-500 font-bold">{cw.reason}</p>
                                                 </div>
                                                 <button onClick={() => playTTS(cw.word)}
- className="p-3 bg-white text-indigo-500 rounded-xl shadow-sm border border-indigo-50"><Volume2 size={16} /></button>
+                                                    className="p-3 bg-white text-indigo-500 rounded-xl shadow-sm border border-indigo-50"><Volume2 size={16} /></button>
                                             </div>
                                         ))}
                                     </div>
@@ -519,7 +519,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                             <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em] mb-4">{t(settings.lang, "step_learn")}</p>
                             <h1 className="text-4xl font-black text-slate-800 tracking-tighter italic mb-4 break-all">{card.word}</h1>
                             <button onClick={(e) => { e.stopPropagation(); playTTS(card.word); }}
- className="p-3 bg-indigo-50 text-indigo-500 hover:bg-indigo-100 rounded-2xl active:scale-90 transition mb-6 cursor-pointer relative z-10"><Volume2 size={32} /></button>
+                                className="p-3 bg-indigo-50 text-indigo-500 hover:bg-indigo-100 rounded-2xl active:scale-90 transition mb-6 cursor-pointer relative z-10"><Volume2 size={32} /></button>
 
                             <div className="w-full h-px bg-slate-50 mb-6"></div>
 
@@ -537,7 +537,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                             const isRevealed = revealedUsages.has(idx);
 
                                             return (
-                                                <div 
+                                                <div
                                                     key={idx}
                                                     onClick={() => {
                                                         if (tr) {
@@ -581,12 +581,12 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
 
                         <div className="flex gap-4">
                             <button onClick={() => setIndex(i => Math.max(0, i - 1))}
- disabled={index === 0}
- className="flex-1 py-5 rounded-[28px] bg-slate-100 text-slate-400 font-black active:scale-95 disabled:opacity-30 transition">
+                                disabled={index === 0}
+                                className="flex-1 py-5 rounded-[28px] bg-slate-100 text-slate-400 font-black active:scale-95 disabled:opacity-30 transition">
                                 {t(settings.lang, "prev")}
                             </button>
                             <button onClick={next}
- className="flex-[2] py-5 rounded-[28px] bg-indigo-500 text-white font-black shadow-xl shadow-indigo-500/25 active:scale-95 transition">
+                                className="flex-[2] py-5 rounded-[28px] bg-indigo-500 text-white font-black shadow-xl shadow-indigo-500/25 active:scale-95 transition">
                                 {index === deck.length - 1 ? t(settings.lang, "close") : t(settings.lang, "next")}
                             </button>
                         </div>
@@ -616,15 +616,15 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                                 className={`w-full bg-white border-2 py-4 px-6 rounded-2xl font-bold text-center outline-none transition-all ${isCheckSuccess === false ? 'border-red-400 bg-red-50 shake' : isCheckSuccess === true ? 'border-green-400 bg-green-50' : 'border-slate-100 focus:border-primary/30'}`}
                                             />
                                             <button onClick={checkMeaningVoice}
- className={`absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-xl transition ${isRecording ? 'text-red-500 animate-pulse bg-red-50' : 'text-slate-300'}`}>
+                                                className={`absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-xl transition ${isRecording ? 'text-red-500 animate-pulse bg-red-50' : 'text-slate-300'}`}>
                                                 <Mic size={20} />
                                             </button>
                                         </div>
                                         <div className="flex gap-2">
                                             <button onClick={() => handleCheckMeaning()}
- className="flex-1 bg-primary text-white py-3 rounded-2xl font-black text-xs shadow-lg active:scale-95 transition">{t(settings.lang, "confirm")}</button>
+                                                className="flex-1 bg-primary text-white py-3 rounded-2xl font-black text-xs shadow-lg active:scale-95 transition">{t(settings.lang, "confirm")}</button>
                                             <button onClick={() => setFlipped(true)}
- className="bg-slate-200 text-slate-500 py-3 px-6 rounded-2xl font-black text-xs active:scale-95 transition">{t(settings.lang, "reveal")}</button>
+                                                className="bg-slate-200 text-slate-500 py-3 px-6 rounded-2xl font-black text-xs active:scale-95 transition">{t(settings.lang, "reveal")}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -632,18 +632,18 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                 <div className="animate-fade-in w-full text-center">
                                     <h2 className="text-xl font-black text-slate-300 mb-2 italic">{card.word}</h2>
                                     <p className="text-4xl font-black text-primary mb-8 underline decoration-primary/10 decoration-8 underline-offset-8">{meaning}</p>
-                                    
+
                                     <div className="flex items-center justify-center gap-3 w-full">
                                         <button onClick={(e) => { e.stopPropagation(); playTTS(card.word); }}
- className="flex-1 flex justify-center items-center gap-2 px-4 py-4 rounded-3xl font-black text-sm transition-all border-2 bg-slate-50 text-slate-600 border-slate-100 active:bg-slate-100">
+                                            className="flex-1 flex justify-center items-center gap-2 px-4 py-4 rounded-3xl font-black text-sm transition-all border-2 bg-slate-50 text-slate-600 border-slate-100 active:bg-slate-100">
                                             <Volume2 size={20} /> {settings.lang === 'ko' ? '발음 듣기' : t(settings.lang, "voice_check")?.replace('확인', '듣기') || 'Listen'}
                                         </button>
                                         <button onClick={(e) => { e.stopPropagation(); checkPronunciation(); }}
- className={`flex-[1.2] flex justify-center items-center gap-2 px-4 py-4 rounded-3xl font-black text-sm transition-all border-2 ${isRecording ? 'bg-red-50 text-red-500 border-red-100 animate-pulse' : 'bg-indigo-50 text-indigo-600 border-indigo-100 active:bg-indigo-100'}`}>
+                                            className={`flex-[1.2] flex justify-center items-center gap-2 px-4 py-4 rounded-3xl font-black text-sm transition-all border-2 ${isRecording ? 'bg-red-50 text-red-500 border-red-100 animate-pulse' : 'bg-indigo-50 text-indigo-600 border-indigo-100 active:bg-indigo-100'}`}>
                                             <Mic size={20} /> {isRecording ? t(settings.lang, "listening") : t(settings.lang, "voice_check")}
                                         </button>
                                     </div>
-                                    
+
                                     {feedbackMsg && <div className="mt-4 font-black text-xs text-primary">{feedbackMsg.text}</div>}
                                 </div>
                             )}
@@ -652,12 +652,12 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                         {flipped ? (
                             <div className="flex gap-4 animate-slide-up">
                                 <button onClick={next}
- className="flex-1 py-4 rounded-[24px] bg-white border-2 border-red-100 text-red-500 font-black flex flex-col items-center gap-1">
+                                    className="flex-1 py-4 rounded-[24px] bg-white border-2 border-red-100 text-red-500 font-black flex flex-col items-center gap-1">
                                     <RefreshCcw size={20} />
                                     <span className="text-[9px] uppercase tracking-widest">{t(settings.lang, "one_more")}</span>
                                 </button>
                                 <button onClick={handleKnow}
- className="flex-1 py-4 rounded-[24px] bg-slate-800 text-white font-black flex flex-col items-center gap-1 shadow-xl">
+                                    className="flex-1 py-4 rounded-[24px] bg-slate-800 text-white font-black flex flex-col items-center gap-1 shadow-xl">
                                     <CheckCircle2 size={20} />
                                     <span className="text-[9px] uppercase tracking-widest">{t(settings.lang, "got_it")}</span>
                                 </button>
@@ -665,18 +665,18 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                         ) : (
                             <div className="flex gap-4 text-center">
                                 <button onClick={() => setIndex(i => Math.max(0, i - 1))}
- disabled={index === 0}
- className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl font-black disabled:opacity-30"><ChevronLeft size={20} /></button>
+                                    disabled={index === 0}
+                                    className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl font-black disabled:opacity-30"><ChevronLeft size={20} /></button>
                                 <button onClick={() => { setFlipped(true); playTTS(card.w); }}
- className="flex-[3] py-4 bg-primary text-white rounded-2xl font-black shadow-lg">{t(settings.lang, "reveal")}</button>
+                                    className="flex-[3] py-4 bg-primary text-white rounded-2xl font-black shadow-lg">{t(settings.lang, "reveal")}</button>
                                 <button onClick={() => setIndex(i => Math.min(deck.length - 1, i + 1))}
- disabled={index === deck.length - 1}
- className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl font-black disabled:opacity-30"><ChevronRight size={20} /></button>
+                                    disabled={index === deck.length - 1}
+                                    className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl font-black disabled:opacity-30"><ChevronRight size={20} /></button>
                             </div>
                         )}
                     </div>
                 )}
-                
+
                 <PcAdSlot variant="horizontal" className="w-full max-w-sm mt-4" />
             </div>
         </div>

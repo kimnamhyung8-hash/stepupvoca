@@ -2228,7 +2228,7 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                                                         <div>
                                                             <div className="flex items-center gap-2 mb-1">
                                                                 <span className={`text-[10px] font-black uppercase ${isPending ? 'text-emerald-500' : 'text-slate-500'}`}>
-                                                                    {room.scenarioId === 'custom' && room.scenario 
+                                                                    {room.scenarioId === 'custom' && room.scenario
                                                                         ? `✏️ ${room.scenario}`
                                                                         : ((PRESET_SCENARIOS.find(p => p.id === room.scenarioId)?.label as any)?.[lang] || room.scenario || 'Free Chat')}
                                                                 </span>
@@ -2734,11 +2734,11 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                                                                     {msg.text}
                                                                 </p>
                                                             ) : (
-                                                                <button 
+                                                                <button
                                                                     onClick={(e) => { e.stopPropagation(); setMessages(prev => prev.map(m => (m.id && m.id === msg.id) || (!m.id && m.text === msg.text && m.createdAt === msg.createdAt) ? { ...m, showOriginal: true } : m)); }}
                                                                     className="text-[10px] font-bold text-slate-500 mt-1 flex items-center gap-1 opacity-60 hover:opacity-100 transition-all underline decoration-dotted"
                                                                 >
-                                                                    <MessageSquare size={10} /> {lang==='ko' ? '원문 보기' : 'Show Original'}
+                                                                    <MessageSquare size={10} /> {lang === 'ko' ? '원문 보기' : 'Show Original'}
                                                                 </button>
                                                             )
                                                         )
@@ -2813,7 +2813,7 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                                                     <p className="text-[11px] font-bold text-amber-200/90 leading-snug">{msg.betterContext}</p>
                                                 </div>
                                             ) : (
-                                                <button 
+                                                <button
                                                     onClick={() => setMessages(prev => prev.map(m => (m.id && m.id === msg.id) || (!m.id && m.text === msg.text && m.createdAt === msg.createdAt) ? { ...m, showHint: true } : m))}
                                                     className="mt-1.5 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 hover:bg-amber-500/20 transition-all font-black"
                                                 >

@@ -85,58 +85,58 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
     // 전체 해제 시 화면 꺼짐 허용 방어
     useEffect(() => {
         return () => {
-            KeepAwake.allowSleep().catch(()=>{});
+            KeepAwake.allowSleep().catch(() => { });
         };
     }, []);
 
     // 🎧 무한 반복 루프 재생 로직 (오답노트와 동일 구조)
     useEffect(() => {
         if (!isAutoPlaying) {
-            KeepAwake.allowSleep().catch(()=>{});
+            KeepAwake.allowSleep().catch(() => { });
             return;
         }
 
         // 화면 켜짐 유지
-        KeepAwake.keepAwake().catch(()=>{});
+        KeepAwake.keepAwake().catch(() => { });
 
         let isActive = true;
 
         const runAutoPlay = async () => {
-             // 끝까지 도달했으면 맨 처음으로 되돌려 "무한 반복"
-             if (autoPlayIndex >= filtered.length || !filtered[autoPlayIndex]) {
-                 setAutoPlayIndex(0);
-                 return;
-             }
-             
-             const currentPhrase = filtered[autoPlayIndex];
-             
-             // Step 1: Speak English
-             if (settings?.tts !== false) {
-                 try {
-                     await TextToSpeech.speak({ text: currentPhrase.english, lang: 'en-US', rate: 0.85 });
-                 } catch(_) {}
-             }
-             if (!isActive) return;
-             
-             // Step 2: Pause for thinking
-             await new Promise(r => setTimeout(r, 1200));
-             if (!isActive) return;
-             
-             // Step 3: Speak Native/Original text
-             if (settings?.tts !== false) {
-                 try {
-                     const ttsLang = NATIVE_TTS_LOCALE[settings?.lang || 'ko'] || 'ko-KR';
-                     await TextToSpeech.speak({ text: currentPhrase.nativeTranslation, lang: ttsLang, rate: 0.85 });
-                 } catch(_) {}
-             }
-             if (!isActive) return;
-             
-             // Step 4: Pause before next phrase
-             await new Promise(r => setTimeout(r, 2000));
-             if (!isActive) return;
-             
-             // Step 5: Execute Next
-             setAutoPlayIndex(prev => prev + 1);
+            // 끝까지 도달했으면 맨 처음으로 되돌려 "무한 반복"
+            if (autoPlayIndex >= filtered.length || !filtered[autoPlayIndex]) {
+                setAutoPlayIndex(0);
+                return;
+            }
+
+            const currentPhrase = filtered[autoPlayIndex];
+
+            // Step 1: Speak English
+            if (settings?.tts !== false) {
+                try {
+                    await TextToSpeech.speak({ text: currentPhrase.english, lang: 'en-US', rate: 0.85 });
+                } catch (_) { }
+            }
+            if (!isActive) return;
+
+            // Step 2: Pause for thinking
+            await new Promise(r => setTimeout(r, 1200));
+            if (!isActive) return;
+
+            // Step 3: Speak Native/Original text
+            if (settings?.tts !== false) {
+                try {
+                    const ttsLang = NATIVE_TTS_LOCALE[settings?.lang || 'ko'] || 'ko-KR';
+                    await TextToSpeech.speak({ text: currentPhrase.nativeTranslation, lang: ttsLang, rate: 0.85 });
+                } catch (_) { }
+            }
+            if (!isActive) return;
+
+            // Step 4: Pause before next phrase
+            await new Promise(r => setTimeout(r, 2000));
+            if (!isActive) return;
+
+            // Step 5: Execute Next
+            setAutoPlayIndex(prev => prev + 1);
         };
 
         runAutoPlay();
@@ -217,7 +217,7 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                             />
                             {searchQuery && (
                                 <button onClick={() => setSearchQuery('')}
- className="absolute right-3 top-1/2 -translate-y-1/2">
+                                    className="absolute right-3 top-1/2 -translate-y-1/2">
                                     <X size={16} className="text-slate-400" />
                                 </button>
                             )}
@@ -252,7 +252,7 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                         <>
                             {/* 백그라운드 닫기 이벤트용 오버레이 */}
                             <div className="fixed inset-0 z-30" onClick={() => setIsCatMenuOpen(false)}></div>
-                            
+
                             <div className="absolute top-[calc(100%+8px)] left-5 right-5 bg-white shadow-2xl shadow-slate-300/40 border border-slate-100 rounded-3xl p-4 z-50 animate-fade-in origin-top">
                                 <div className="max-h-[50vh] overflow-y-auto grid grid-cols-3 gap-3 pb-2 pr-1 custom-scrollbar">
                                     {[{ id: 'all', emoji: '📚', labelKey: 'category_all' }, ...PHRASE_CATEGORIES].map(cat => {
@@ -264,11 +264,10 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                                                     setSelectedCat(cat.id);
                                                     setIsCatMenuOpen(false);
                                                 }}
-                                                className={`flex flex-col items-center justify-center py-4 rounded-2xl border transition-all ${
-                                                    isSelected
+                                                className={`flex flex-col items-center justify-center py-4 rounded-2xl border transition-all ${isSelected
                                                         ? 'bg-indigo-50 border-indigo-400 shadow-sm'
                                                         : 'bg-white border-slate-100 hover:bg-slate-50'
-                                                }`}
+                                                    }`}
                                             >
                                                 <span className="text-2xl mb-1.5">{cat.emoji}</span>
                                                 <span className={`text-[11px] font-black tracking-tight text-center whitespace-nowrap ${isSelected ? 'text-indigo-600' : 'text-slate-600'}`}>
@@ -325,9 +324,9 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                         </div>
                         <div className="flex gap-3">
                             <button onClick={() => setDeleteId(null)}
- className="flex-1 bg-slate-100 text-slate-600 font-black py-4 rounded-2xl">{t('cancel')}</button>
+                                className="flex-1 bg-slate-100 text-slate-600 font-black py-4 rounded-2xl">{t('cancel')}</button>
                             <button onClick={() => handleDelete(deleteId)}
- className="flex-1 bg-red-500 text-white font-black py-4 rounded-2xl shadow-lg shadow-red-100">{t('delete')}</button>
+                                className="flex-1 bg-red-500 text-white font-black py-4 rounded-2xl shadow-lg shadow-red-100">{t('delete')}</button>
                         </div>
                     </div>
                 </div>
@@ -467,10 +466,10 @@ function AddPhraseModal({ settings, onAdd, onClose, t, getCatLabel, incrementAiU
         try {
             if (isRecording) {
                 if (webRecognitionRef.current) {
-                    try { webRecognitionRef.current.stop(); } catch(e) {}
+                    try { webRecognitionRef.current.stop(); } catch (e) { }
                     webRecognitionRef.current = null;
                 }
-                try { await SpeechRecognition.stop(); } catch(e) {}
+                try { await SpeechRecognition.stop(); } catch (e) { }
                 setIsRecording(false);
                 return;
             }
@@ -534,12 +533,12 @@ function AddPhraseModal({ settings, onAdd, onClose, t, getCatLabel, incrementAiU
         const text = inputText.trim();
         if (!text) return;
 
-            const userSavedKey = localStorage.getItem('vq_gemini_key');
-            const activeKey = getActiveApiKey(userSavedKey, isPremium, aiUsage);
-            if (!activeKey) {
-                if (setShowApiModal) setShowApiModal(true);
-                return;
-            }
+        const userSavedKey = localStorage.getItem('vq_gemini_key');
+        const activeKey = getActiveApiKey(userSavedKey, isPremium, aiUsage);
+        if (!activeKey) {
+            if (setShowApiModal) setShowApiModal(true);
+            return;
+        }
 
         // 사용 성공 시점에 카운트 증가
         if (incrementAiUsage && !incrementAiUsage()) return;
@@ -568,10 +567,10 @@ Required Response JSON Format (Return ONLY valid JSON):
 
             const res = await fetch(
                 `https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`,
- {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-            });
+                {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
 
             if (!res.ok) {
                 const errorData = await res.json().catch(() => ({}));
@@ -629,7 +628,7 @@ Required Response JSON Format (Return ONLY valid JSON):
                 <div className="flex items-center justify-between mb-6 px-1">
                     <h2 className="text-xl font-black text-slate-900">{t('add_phrase_title')}</h2>
                     <button onClick={onClose}
- className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400"><X size={20} /></button>
+                        className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400"><X size={20} /></button>
                 </div>
 
                 <div className="space-y-6">
@@ -656,18 +655,18 @@ Required Response JSON Format (Return ONLY valid JSON):
                     <div className="relative">
                         <textarea
                             value={inputText}
- onChange={(e) => { setInputText(e.target.value); setTranslated(null); }}
+                            onChange={(e) => { setInputText(e.target.value); setTranslated(null); }}
                             className="w-full bg-slate-50 border-2 border-transparent rounded-[32px] p-6 pr-14 text-base font-bold min-h-[140px] outline-none focus:border-indigo-400 focus:bg-white transition shadow-inner"
                             placeholder={t('phrase_input_placeholder')}
                         />
                         <button onClick={startRecording}
- className={`absolute right-4 bottom-4 w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${isRecording ? 'bg-red-500 animate-pulse text-white shadow-lg' : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'}`}>
+                            className={`absolute right-4 bottom-4 w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${isRecording ? 'bg-red-500 animate-pulse text-white shadow-lg' : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'}`}>
                             {isRecording ? <MicOff size={20} /> : <Mic size={22} />}
                         </button>
                     </div>
 
                     <button onClick={() => setShowCatPicker(!showCatPicker)}
- className="w-full flex items-center justify-between bg-slate-50 rounded-2xl px-5 py-4 font-black text-[14px] text-slate-700">
+                        className="w-full flex items-center justify-between bg-slate-50 rounded-2xl px-5 py-4 font-black text-[14px] text-slate-700">
                         <span>{PHRASE_CATEGORIES.find(c => c.id === selectedCat)?.emoji} {getCatLabel(PHRASE_CATEGORIES.find(c => c.id === selectedCat))}</span>
                         <ChevronDown size={20} className={`transition-transform ${showCatPicker ? 'rotate-180' : ''}`} />
                     </button>
@@ -675,8 +674,8 @@ Required Response JSON Format (Return ONLY valid JSON):
                         <div className="grid grid-cols-3 gap-2 animate-fade-in">
                             {PHRASE_CATEGORIES.map(c => (
                                 <button key={c.id}
- onClick={() => { setSelectedCat(c.id); setShowCatPicker(false); }}
- className={`flex flex-col items-center p-3.5 rounded-[20px] border-2 font-black text-[11px] transition-all ${selectedCat === c.id ? 'bg-indigo-50 border-indigo-400 text-indigo-800' : 'bg-white border-slate-50 text-slate-500'}`}>
+                                    onClick={() => { setSelectedCat(c.id); setShowCatPicker(false); }}
+                                    className={`flex flex-col items-center p-3.5 rounded-[20px] border-2 font-black text-[11px] transition-all ${selectedCat === c.id ? 'bg-indigo-50 border-indigo-400 text-indigo-800' : 'bg-white border-slate-50 text-slate-500'}`}>
                                     <span className="text-2xl mb-1.5">{c.emoji}</span>{getCatLabel(c)}
                                 </button>
                             ))}
@@ -685,8 +684,8 @@ Required Response JSON Format (Return ONLY valid JSON):
 
                     {!translated ? (
                         <button onClick={handleTranslate}
- disabled={!inputText.trim() || isTranslating}
- className="w-full bg-indigo-600 text-white font-black py-5 rounded-[24px] shadow-xl shadow-indigo-200 active:scale-[0.98] transition flex items-center justify-center gap-2.5">
+                            disabled={!inputText.trim() || isTranslating}
+                            className="w-full bg-indigo-600 text-white font-black py-5 rounded-[24px] shadow-xl shadow-indigo-200 active:scale-[0.98] transition flex items-center justify-center gap-2.5">
                             {isTranslating ? <RefreshCw className="animate-spin" size={22} /> : <><Sparkles size={22} /> {t('ai_translate_create')}</>}
                         </button>
                     ) : (
@@ -717,7 +716,7 @@ Required Response JSON Format (Return ONLY valid JSON):
                                 </div>
                                 <div className="h-px bg-indigo-100/30" />
                                 <div>
-                                        <p className="text-[11px] uppercase font-black text-indigo-400 mb-2 flex items-center gap-1.5">
+                                    <p className="text-[11px] uppercase font-black text-indigo-400 mb-2 flex items-center gap-1.5">
                                         <div className="w-1 h-1 bg-indigo-400 rounded-full" /> {t('meaning_title_label')}
                                     </p>
                                     <p className="text-[19px] font-black text-indigo-900 leading-tight mb-2">{translated.english}</p>
@@ -729,9 +728,9 @@ Required Response JSON Format (Return ONLY valid JSON):
                             </div>
                             <div className="flex gap-3">
                                 <button onClick={() => setTranslated(null)}
- className="flex-1 bg-slate-100 text-slate-500 font-black py-4.5 rounded-[22px] active:scale-95 transition">{t('reenter')}</button>
+                                    className="flex-1 bg-slate-100 text-slate-500 font-black py-4.5 rounded-[22px] active:scale-95 transition">{t('reenter')}</button>
                                 <button onClick={handleSave}
- className="flex-[2] bg-indigo-600 text-white font-black py-4.5 rounded-[22px] shadow-lg shadow-indigo-100 active:scale-95 transition">{t('save_btn_labeled')}</button>
+                                    className="flex-[2] bg-indigo-600 text-white font-black py-4.5 rounded-[22px] shadow-lg shadow-indigo-100 active:scale-95 transition">{t('save_btn_labeled')}</button>
                             </div>
                         </div>
                     )}

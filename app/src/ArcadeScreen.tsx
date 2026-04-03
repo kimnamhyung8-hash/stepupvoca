@@ -50,7 +50,7 @@ const getStageWords = (stage: number, db: any) => {
         }
 
         const unique = pickUniqueWords(words, 30);
-        
+
         // Mark as seen
         if (unique.length > 0) {
             markWordsAsSeen(unique.map((w: any) => w.word));
@@ -174,7 +174,7 @@ export function ArcadeScreen({ settings, setScreen, userPoints, setUserPoints, o
             {/* Top Bar Navigation */}
             <header className="flex items-center justify-between px-5 pt-12 pb-3 absolute w-full z-50 pointer-events-none">
                 <button onClick={() => setScreen('HOME')}
- className="bg-black/40 backdrop-blur-md text-white/80 rounded-full p-2.5 active:scale-90 transition-transform border border-white/10 pointer-events-auto"><X size={20} /></button>
+                    className="bg-black/40 backdrop-blur-md text-white/80 rounded-full p-2.5 active:scale-90 transition-transform border border-white/10 pointer-events-auto"><X size={20} /></button>
                 <div className="flex items-center gap-1.5 bg-yellow-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-yellow-500/30 shadow-lg pointer-events-auto">
                     <Coins size={16} className="text-yellow-400" />
                     <span className="text-sm font-black text-yellow-400 drop-shadow-md">{userPoints?.toLocaleString() || 0}</span>
@@ -256,7 +256,7 @@ export function ArcadeScreen({ settings, setScreen, userPoints, setUserPoints, o
                                 <div className="space-y-3">
                                     {wrongNotes.map((wn, idx) => (
                                         <div key={idx}
- className="bg-black/40 p-3 rounded-2xl border border-white/10 flex flex-col hover:bg-white/5 transition-colors">
+                                            className="bg-black/40 p-3 rounded-2xl border border-white/10 flex flex-col hover:bg-white/5 transition-colors">
                                             <span className="font-black text-cyan-200 text-lg">{wn.word}</span>
                                             <span className="text-slate-300 text-sm font-bold mt-1">{wn.meaning}</span>
                                         </div>
@@ -267,11 +267,11 @@ export function ArcadeScreen({ settings, setScreen, userPoints, setUserPoints, o
 
                         <div className="flex flex-col gap-3 transform translateZ(50px)">
                             <button onClick={handleRewardPoints}
- className="w-full py-5 bg-gradient-to-r from-yellow-400 to-amber-500 text-black rounded-[28px] font-black text-xl shadow-[0_10px_0_#b45309,0_20px_30px_rgba(217,119,6,0.5)] active:translate-y-2 active:shadow-[0_0px_0_#b45309] transition-all flex items-center justify-center gap-2 border-t-2 border-yellow-200">
+                                className="w-full py-5 bg-gradient-to-r from-yellow-400 to-amber-500 text-black rounded-[28px] font-black text-xl shadow-[0_10px_0_#b45309,0_20px_30px_rgba(217,119,6,0.5)] active:translate-y-2 active:shadow-[0_0px_0_#b45309] transition-all flex items-center justify-center gap-2 border-t-2 border-yellow-200">
                                 <Coins size={24} /> {t(lang, 'claim_exit') || "획득하고 나가기"}
                             </button>
                             <button onClick={() => { setGameState('MENU'); }}
- className="w-full mt-2 py-4 bg-white/5 text-slate-300 rounded-[28px] font-bold active:translate-y-2 transition-all border border-white/10 hover:bg-white/10 hover:text-white backdrop-blur-md">
+                                className="w-full mt-2 py-4 bg-white/5 text-slate-300 rounded-[28px] font-bold active:translate-y-2 transition-all border border-white/10 hover:bg-white/10 hover:text-white backdrop-blur-md">
                                 {t(lang, 'back_to_menu') || "메뉴로 돌아가기"}
                             </button>
                         </div>
@@ -487,9 +487,9 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
                 </div>
                 <div className="flex gap-4">
                     <button onClick={() => setGameState('MENU')}
- className="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-full font-bold hover:bg-white/20 transition-colors uppercase tracking-widest text-xs flex items-center gap-2"><ChevronLeft size={16} /> {t(lang, 'back')}</button>
+                        className="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-full font-bold hover:bg-white/20 transition-colors uppercase tracking-widest text-xs flex items-center gap-2"><ChevronLeft size={16} /> {t(lang, 'back')}</button>
                     <button onClick={() => onEnd(totalScore, wrongAnswers)}
- className="bg-red-600/20 text-red-400 border border-red-500/30 px-8 py-3 rounded-full font-bold hover:bg-red-600/40 transition-colors uppercase tracking-widest text-xs">{t(lang, 'back_to_main')}</button>
+                        className="bg-red-600/20 text-red-400 border border-red-500/30 px-8 py-3 rounded-full font-bold hover:bg-red-600/40 transition-colors uppercase tracking-widest text-xs">{t(lang, 'back_to_main')}</button>
                 </div>
             </div>
         );
@@ -509,7 +509,7 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
                     <div className="flex justify-center gap-2 mb-4">
                         {[...Array(5)].map((_, i) => (
                             <Heart key={i}
- size={24} className={i < hp ? 'text-rose-500 fill-rose-500' : 'text-slate-800'} />
+                                size={24} className={i < hp ? 'text-rose-500 fill-rose-500' : 'text-slate-800'} />
                         ))}
                     </div>
                     {isGiftTurn && (
@@ -541,7 +541,7 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
                 </button>
 
                 <button onClick={() => onEnd(totalScore, wrongAnswers)}
- className="text-slate-400 underline font-medium">오늘은 여기까지 (결과 저장)</button>
+                    className="text-slate-400 underline font-medium">오늘은 여기까지 (결과 저장)</button>
             </div>
         );
     }
@@ -559,12 +559,12 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
                 </p>
 
                 <button onClick={() => startStage(restartStage, true)}
- className="bg-gradient-to-r from-red-600 to-rose-700 px-10 py-5 rounded-full font-black text-2xl mb-6 shadow-[0_0_30px_rgba(220,38,38,0.8)] hover:scale-105 transition-transform flex items-center gap-3">
+                    className="bg-gradient-to-r from-red-600 to-rose-700 px-10 py-5 rounded-full font-black text-2xl mb-6 shadow-[0_0_30px_rgba(220,38,38,0.8)] hover:scale-105 transition-transform flex items-center gap-3">
                     <Swords size={28} /> 다시 도전하기
                 </button>
 
                 <button onClick={() => onEnd(totalScore, wrongAnswers)}
- className="text-slate-400 underline font-medium">포기하고 후퇴 (결과 보기)</button>
+                    className="text-slate-400 underline font-medium">포기하고 후퇴 (결과 보기)</button>
             </div>
         );
     }
@@ -587,7 +587,7 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
                     <div className="flex gap-1.5 bg-black/60 backdrop-blur-xl p-3 rounded-[20px] border border-rose-500/30 shadow-[0_0_20px_rgba(225,29,72,0.3)]">
                         {[...Array(5)].map((_, i) => (
                             <Heart key={i}
- size={20} className={i < hp ? 'text-rose-500 fill-rose-500' : 'text-slate-800'} />
+                                size={20} className={i < hp ? 'text-rose-500 fill-rose-500' : 'text-slate-800'} />
                         ))}
                     </div>
                     {combo > 1 && (
@@ -834,9 +834,9 @@ function Game2Bridge({ settings, onEnd, setGameState, vocaDB, playSound }: any) 
                 </div>
                 <div className="flex gap-4">
                     <button onClick={() => setGameState('MENU')}
- className="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-full font-bold hover:bg-white/20 transition-colors uppercase tracking-widest text-xs flex items-center gap-2"><ChevronLeft size={16} /> {t(lang, 'back')}</button>
+                        className="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-full font-bold hover:bg-white/20 transition-colors uppercase tracking-widest text-xs flex items-center gap-2"><ChevronLeft size={16} /> {t(lang, 'back')}</button>
                     <button onClick={() => onEnd(totalScore, wrongAnswers)}
- className="bg-red-600/20 text-red-400 border border-red-500/30 px-8 py-3 rounded-full font-bold hover:bg-red-600/40 transition-colors uppercase tracking-widest text-xs">{t(lang, 'back_to_main')}</button>
+                        className="bg-red-600/20 text-red-400 border border-red-500/30 px-8 py-3 rounded-full font-bold hover:bg-red-600/40 transition-colors uppercase tracking-widest text-xs">{t(lang, 'back_to_main')}</button>
                 </div>
             </div>
         );
@@ -910,7 +910,7 @@ function Game2Bridge({ settings, onEnd, setGameState, vocaDB, playSound }: any) 
                     <div className="flex gap-1.5 bg-black/60 backdrop-blur-xl p-3 rounded-[20px] border border-rose-500/30 shadow-[0_0_20px_rgba(225,29,72,0.3)]">
                         {[...Array(5)].map((_, i) => (
                             <Heart key={i}
- size={20} className={i < hp ? 'text-rose-500 fill-rose-500' : 'text-slate-800'} />
+                                size={20} className={i < hp ? 'text-rose-500 fill-rose-500' : 'text-slate-800'} />
                         ))}
                     </div>
                 </div>
