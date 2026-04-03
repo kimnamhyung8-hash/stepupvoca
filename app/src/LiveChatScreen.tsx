@@ -222,6 +222,7 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
     const [isWaitingPartner, setIsWaitingPartner] = useState(false);
     // Mic lock: when I'm recording, opponent can't use mic (tracked in Firestore via room)
     const [isMicLocked, setIsMicLocked] = useState(false); // opponent is speaking
+    const [isAiSpeaking, setIsAiSpeaking] = useState(false); // Tracks if AI TTS is currently active
 
     // Media (Camera)
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -529,6 +530,7 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
 
     // Start Matching / Challenge
     const startChatMatching = async (specificRival: VQUser) => {
+        setIsAiMode(false);
         if (!firebaseUser) return;
         setRivalInfo({
             uid: specificRival.uid,
@@ -589,6 +591,7 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
     };
 
     const submitCreateRoom = async () => {
+        setIsAiMode(false);
         if (!firebaseUser) return;
         const preset = PRESET_SCENARIOS.find(p => p.id === createScenarioType);
 
@@ -703,6 +706,7 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
 
     const handleJoinPublicRoom = async (room: LiveChatRoom) => {
         if (!firebaseUser) return;
+        setIsAiMode(false);
         try {
             await joinPublicRoom(room.id, { uid: firebaseUser.uid, nickname: rawUserInfo.nickname, skin: equippedSkin } as any);
             setRivalInfo({ name: room.callerName, skin: room.callerSkin || 'default', region: '' });
@@ -764,6 +768,7 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
         setActiveRoom(null);
         setIsWaitingPartner(false);
         setIsMatching(false);
+        setIsAiMode(false); // <--- Add this! Clear AI mode when returning to lobby
         if (matchingInterval.current) clearInterval(matchingInterval.current);
     };
 
@@ -893,6 +898,7 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
     const speakText = useCallback(async (text: string, langCode: string = 'en-US') => {
         if (!text) return;
         try {
+            setIsAiSpeaking(true);
             if (isNativePlatform()) {
                 try { await TextToSpeech.stop().catch(() => { }); } catch (_) { }
                 await TextToSpeech.speak({
@@ -903,18 +909,25 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
                     volume: 1.0,
                     category: 'playback'
                 });
+                setIsAiSpeaking(false);
             } else {
                 window.speechSynthesis.cancel();
                 const utter = new SpeechSynthesisUtterance(text);
                 utter.lang = langCode;
                 utter.rate = 0.95;
                 utter.pitch = 1.0;
+                utter.onend = () => setIsAiSpeaking(false);
+                utter.onerror = () => setIsAiSpeaking(false);
                 window.speechSynthesis.speak(utter);
             }
-        } catch (e) { console.error('TTS failed:', e); }
+        } catch (e) {
+            console.error('TTS failed:', e);
+            setIsAiSpeaking(false);
+        }
     }, []);
 
     const stopSpeaking = useCallback(async () => {
+        setIsAiSpeaking(false);
         try {
             if (isNativePlatform()) {
                 await TextToSpeech.stop().catch(() => { });
@@ -2215,7 +2228,9 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                                                         <div>
                                                             <div className="flex items-center gap-2 mb-1">
                                                                 <span className={`text-[10px] font-black uppercase ${isPending ? 'text-emerald-500' : 'text-slate-500'}`}>
-                                                                    {(PRESET_SCENARIOS.find(p => p.id === room.scenarioId)?.label as any)?.[lang] || room.scenario || 'Free Chat'}
+                                                                    {room.scenarioId === 'custom' && room.scenario 
+                                                                        ? `✏️ ${room.scenario}`
+                                                                        : ((PRESET_SCENARIOS.find(p => p.id === room.scenarioId)?.label as any)?.[lang] || room.scenario || 'Free Chat')}
                                                                 </span>
                                                                 {!isPending && (
                                                                     <span className="text-[8px] font-black text-rose-400 border border-rose-500/20 bg-rose-500/10 px-1 py-0.5 rounded">
@@ -2480,7 +2495,9 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                                 </div>
                                 {activeRoom?.scenario && (
                                     <p className="text-[9px] font-bold text-slate-500 mt-1 truncate max-w-full px-2 uppercase tracking-tighter">
-                                        {(PRESET_SCENARIOS.find(p => p.id === activeRoom?.scenarioId)?.label as any)?.[lang] || activeRoom?.scenario}
+                                        {activeRoom?.scenarioId === 'custom' && activeRoom?.scenario
+                                            ? `✏️ ${activeRoom.scenario}`
+                                            : ((PRESET_SCENARIOS.find(p => p.id === activeRoom?.scenarioId)?.label as any)?.[lang] || activeRoom?.scenario)}
                                     </p>
                                 )}
                             </div>
@@ -2570,14 +2587,38 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                                     className={`w-full h-full object-cover ${remoteStream ? 'block' : 'hidden'}`}
                                 />
                                 {!remoteStream && (
-                                    <div className="flex flex-col items-center gap-2">
-                                        <div className={`text-3xl ${isWaitingPartner ? 'animate-pulse scale-110' : ''}`}>
-                                            {isWaitingPartner ? '🔍' : (SKIN_EMOJI[rivalInfo?.skin as keyof typeof SKIN_EMOJI] || rivalInfo?.skin || (isAiMode ? '🤖' : '👤'))}
-                                        </div>
-                                        {isWaitingPartner && (
-                                            <p className="text-[8px] font-black text-emerald-500 animate-pulse">WAITING...</p>
+                                    <>
+                                        {isAiMode && !isWaitingPartner && (
+                                            <>
+                                                <img src="/ai_female_avatar.png" alt="AI Agent" className={`absolute inset-0 w-full h-full object-cover transition-all duration-300 ${isAiSpeaking ? 'scale-105 opacity-90' : 'scale-100 opacity-100'}`} />
+                                                {isAiSpeaking && (
+                                                    <div className="absolute inset-0 bg-emerald-500/10 mix-blend-overlay z-0" />
+                                                )}
+                                                {isAiSpeaking && (
+                                                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-end gap-1.5 h-10 z-10 drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">
+                                                        <div className="w-1.5 bg-emerald-400 rounded-full animate-[equalizer_0.6s_ease-in-out_infinite_alternate] shadow-[0_0_8px_rgba(52,211,153,1)]" style={{ animationDelay: '0.1s' }} />
+                                                        <div className="w-2 bg-emerald-400 rounded-full animate-[equalizer_0.4s_ease-in-out_infinite_alternate] shadow-[0_0_8px_rgba(52,211,153,1)]" style={{ animationDelay: '0.3s' }} />
+                                                        <div className="w-2.5 bg-emerald-300 rounded-full animate-[equalizer_0.7s_ease-in-out_infinite_alternate] shadow-[0_0_12px_rgba(52,211,153,1)]" style={{ animationDelay: '0.0s' }} />
+                                                        <div className="w-2 bg-emerald-400 rounded-full animate-[equalizer_0.5s_ease-in-out_infinite_alternate] shadow-[0_0_8px_rgba(52,211,153,1)]" style={{ animationDelay: '0.2s' }} />
+                                                        <div className="w-1.5 bg-emerald-400 rounded-full animate-[equalizer_0.8s_ease-in-out_infinite_alternate] shadow-[0_0_8px_rgba(52,211,153,1)]" style={{ animationDelay: '0.4s' }} />
+                                                    </div>
+                                                )}
+                                                {isAiSpeaking && (
+                                                    <div className="absolute inset-0 border-[3px] border-emerald-400/70 rounded-2xl animate-pulse shadow-[inset_0_0_20px_rgba(52,211,153,0.4)] pointer-events-none z-10" />
+                                                )}
+                                            </>
                                         )}
-                                    </div>
+                                        <div className="flex flex-col items-center gap-2 z-10">
+                                            <div className={`text-3xl ${isWaitingPartner ? 'animate-pulse scale-110' : ''}`}>
+                                                {isWaitingPartner ? '🔍' : (
+                                                    isAiMode ? '' : (SKIN_EMOJI[rivalInfo?.skin as keyof typeof SKIN_EMOJI] || rivalInfo?.skin || '👤')
+                                                )}
+                                            </div>
+                                            {isWaitingPartner && (
+                                                <p className="text-[8px] font-black text-emerald-500 animate-pulse">WAITING...</p>
+                                            )}
+                                        </div>
+                                    </>
                                 )}
 
                                 <div className="absolute bottom-1 left-1 bg-black/60 px-1.5 rounded-md text-[8px] text-emerald-400 font-bold">{tUI(lang, 'translated')}</div>
@@ -2713,7 +2754,7 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
 
                                             {/* 4. Native Translation (Click to See) */}
                                             <div className="mt-2 pt-2 border-t border-white/10">
-                                                {msg.localNative && (msg.showNative || !isMine) ? (
+                                                {msg.localNative && msg.showNative ? (
                                                     <div className="text-[13px] font-black text-white bg-black/20 p-2 rounded-xl border border-white/5 animate-fade-in">
                                                         {msg.localNative}
                                                     </div>
@@ -2784,62 +2825,7 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
 
                                         {/* Suggestion & Bible Save */}
                                         <div className={`mt-1.5 flex flex-col ${isMine ? 'items-end' : 'items-start'} gap-1.5 w-full`}>
-                                            {!isMine && msg.suggestion && (
-                                                <div className="max-w-[90%] bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-3 py-2 text-left transition-all">
-                                                    <button
-                                                        onClick={() => chatInputRef.current?.setText(msg.suggestion || '')}
-                                                        className="w-full text-left active:scale-95 transition-all group"
-                                                    >
-                                                        <p className="text-[9px] font-black text-emerald-500 mb-0.5 uppercase tracking-tighter flex items-center gap-1">
-                                                            <Zap size={10} fill="currentColor" /> AI Suggestion
-                                                        </p>
-                                                        <p className="text-[11px] font-bold text-white/70 line-clamp-2">{msg.suggestion}</p>
-                                                    </button>
 
-                                                    {/* AI Suggestion Translation */}
-                                                    <div className="mt-1 pt-1 border-t border-emerald-500/10">
-                                                        {msg.suggestionNative && msg.showSuggestionNative ? (
-                                                            <p className="text-[10px] font-black text-emerald-400/80 animate-fade-in">{msg.suggestionNative}</p>
-                                                        ) : (
-                                                            <button
-                                                                onClick={async (e) => {
-                                                                    e.stopPropagation();
-                                                                    if (msg.suggestionNative) {
-                                                                        setMessages(prev => prev.map(m => (m.id && m.id === msg.id) || (!m.id && m.text === msg.text && m.createdAt === msg.createdAt) ? { ...m, showSuggestionNative: true } : m));
-                                                                        return;
-                                                                    }
-                                                                    const userSavedKey = localStorage.getItem('vq_gemini_key');
-                                                                    const activeKey = getActiveApiKey(userSavedKey, isPremium, aiUsage);
-                                                                    if (!activeKey) {
-                                                                        setShowApiModal(true);
-                                                                        return;
-                                                                    }
-                                                                    if (incrementAiUsage) incrementAiUsage();
-
-                                                                    if (!msg.suggestion) return;
-                                                                    const langMap: any = { ko: 'Korean', en: 'English', ja: 'Japanese', zh: 'Mandarin Chinese', vi: 'Vietnamese', tw: 'Traditional Chinese' };
-                                                                    const myLang = langMap[lang] || 'Korean';
-                                                                    try {
-                                                                        const promptT = `Translate to ${myLang}: "${msg.suggestion}"\nReturn ONLY the translated text.`;
-                                                                        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
-                                                                            method: 'POST', headers: { 'Content-Type': 'application/json' },
-                                                                            body: JSON.stringify({ contents: [{ parts: [{ text: promptT }] }] })
-                                                                        });
-                                                                        const data = await res.json();
-                                                                        const translated = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
-                                                                        if (translated) {
-                                                                            setMessages(prev => prev.map(m => (m.id && m.id === msg.id) || (!m.id && m.text === msg.text && m.createdAt === msg.createdAt) ? { ...m, suggestionNative: translated, showSuggestionNative: true } : m));
-                                                                        }
-                                                                    } catch (err) { console.error('Suggestion translation failed', err); }
-                                                                }}
-                                                                className="text-[9px] font-black text-emerald-500/60 hover:text-emerald-400 flex items-center gap-0.5"
-                                                            >
-                                                                <Globe size={10} /> {tUI(lang, 'view_translation')}
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            )}
 
                                             <button
                                                 onClick={() => saveToBible(msg)}

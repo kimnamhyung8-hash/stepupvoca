@@ -3,12 +3,14 @@ import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import {
     BookOpen, X, Sparkles, Trash2, Volume2, Trophy,
     CheckCircle2, Vibrate, Mic, RefreshCcw,
-    ChevronLeft, ChevronRight
+    ChevronLeft, ChevronRight, PlayCircle, PauseCircle
 } from 'lucide-react';
 import { t, getVocaMeaning } from '../i18n';
 import { playSound } from '../utils/soundUtils';
+import { playNaturalTTS } from '../utils/ttsUtils';
 import { vocaDBJson } from '../data/vocaData';
 import { PcAdSlot } from '../components/PcComponents';
+import { KeepAwake } from '@capacitor-community/keep-awake';
 
 import { getActiveApiKey, LIGHTWEIGHT_MODEL } from '../apiUtils';
 interface ReviewScreenProps {
@@ -37,6 +39,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
     const [weaknessReport, setWeaknessReport] = useState<any>(null);
     const [isAnalyzingWeakness, setIsAnalyzingWeakness] = useState(false);
     const [revealedUsages, setRevealedUsages] = useState<Set<number>>(new Set());
+    const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
     const generateWeaknessReport = async () => {
         if (incorrectNotes.length === 0) return;
@@ -144,13 +147,16 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
         else {
             if (reviewMode === 'TEST') {
                 const remaining = deck.filter(w => !knownIds.has(w.id || w.word));
-                if (remaining.length === 0) setPhase('done');
-                else {
+                if (remaining.length === 0) {
+                    setPhase('done');
+                    setIsAutoPlaying(false);
+                } else {
                     setDeck([...remaining].sort(() => Math.random() - 0.5));
                     setIndex(0);
                 }
             } else {
                 setPhase('done');
+                setIsAutoPlaying(false);
             }
         }
     };
@@ -167,6 +173,67 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
     useEffect(() => {
         setRevealedUsages(new Set());
     }, [index]);
+
+    // 전체 해제 시 화면 꺼짐 허용 방어
+    useEffect(() => {
+        return () => {
+            KeepAwake.allowSleep().catch(()=>{});
+        };
+    }, []);
+
+    // 🎧 무한 반복 루프 재생 로직
+    useEffect(() => {
+        if (!isAutoPlaying) {
+            KeepAwake.allowSleep().catch(()=>{});
+            return;
+        }
+
+        // 화면 켜짐 유지
+        KeepAwake.keepAwake().catch(()=>{});
+
+        let isActive = true;
+
+        const runAutoPlay = async () => {
+             if (phase === 'done' || !deck[index]) {
+                 setIsAutoPlaying(false);
+                 return;
+             }
+             
+             const currentCard = deck[index];
+             setFlipped(false);
+             
+             // Step 1: Speak English
+             await playTTS(currentCard.word);
+             if (!isActive) return;
+             
+             // Step 2: Pose for thinking / pronunciation
+             await new Promise(r => setTimeout(r, 1200));
+             if (!isActive) return;
+             
+             // Step 3: Flip and speak meaning (Korean)
+             setFlipped(true);
+             const currentMeaning = getVocaMeaning(currentCard, settings.lang);
+             await playNaturalTTS(currentMeaning, settings.lang);
+             if (!isActive) return;
+             
+             // Step 4: Pause before next card
+             await new Promise(r => setTimeout(r, 2000));
+             if (!isActive) return;
+             
+             // Step 5: Execute Next Card
+             if (index >= deck.length - 1) {
+                 setIndex(0); // 끝까지 도달하면 처음부터 무한 반복
+             } else {
+                 next();
+             }
+        };
+
+        runAutoPlay();
+
+        return () => {
+            isActive = false;
+        };
+    }, [isAutoPlaying, index, deck, phase]);
 
     const playTTS = async (text: string) => {
         try {
@@ -320,6 +387,12 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                         <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">{index + 1} / {deck.length}</span>
                     </div>
                     <div className="flex gap-2">
+                        <button
+                            onClick={() => setIsAutoPlaying(p => !p)}
+                            className={`rounded-full p-2.5 active:scale-90 transition shadow-sm border ${isAutoPlaying ? 'bg-indigo-500 text-white border-indigo-500 animate-pulse' : 'bg-slate-50 text-slate-500 border-slate-100 hover:bg-slate-100'}`}
+                        >
+                            {isAutoPlaying ? <PauseCircle size={18} /> : <PlayCircle size={18} />}
+                        </button>
                         <button
                             onClick={generateWeaknessReport}
                             disabled={isAnalyzingWeakness}

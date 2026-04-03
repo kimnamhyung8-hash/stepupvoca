@@ -558,7 +558,7 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
                     <span className="text-yellow-400 font-bold">{restartStage === 1 && stage <= 5 ? (t(lang, 'from_start')) : t(lang, 'backtrack_msg').replace('{n}', restartStage.toString())}</span> {t(lang, 'retry_msg')}
                 </p>
 
-                <button onClick={() => startStage(restartStage)}
+                <button onClick={() => startStage(restartStage, true)}
  className="bg-gradient-to-r from-red-600 to-rose-700 px-10 py-5 rounded-full font-black text-2xl mb-6 shadow-[0_0_30px_rgba(220,38,38,0.8)] hover:scale-105 transition-transform flex items-center gap-3">
                     <Swords size={28} /> 다시 도전하기
                 </button>
@@ -607,16 +607,16 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
             </div>
 
             {/* 3D Battle Arena / Characters */}
-            <div className="flex-1 relative w-full h-full flex flex-col items-center justify-center z-20 pt-16">
-                <div className="absolute top-[18%] z-40">
-                    <div className="bg-gradient-to-r from-indigo-900/90 via-black/90 to-indigo-900/90 backdrop-blur-2xl px-8 py-5 rounded-[40px] border-t-2 border-b-2 border-indigo-500/50 shadow-[0_0_50px_rgba(99,102,241,0.5),inset_0_0_20px_rgba(255,255,255,0.2)] max-w-[90vw] overflow-hidden">
-                        <span className={`font-black text-white drop-shadow-[0_0_10px_rgba(100,100,255,0.8)] tracking-widest break-all ${currentWord?.word?.length > 12 ? 'text-2xl' : currentWord?.word?.length > 8 ? 'text-3xl' : 'text-5xl'}`}>{currentWord?.word || ''}</span>
+            <div className="flex-1 relative w-full h-full flex flex-col items-center justify-center z-20 pt-12 sm:pt-16">
+                <div className="absolute top-[190px] sm:top-[220px] z-40">
+                    <div className="bg-gradient-to-r from-indigo-900/90 via-black/90 to-indigo-900/90 backdrop-blur-2xl px-6 py-3 sm:px-8 sm:py-5 rounded-[40px] border-t-2 border-b-2 border-indigo-500/50 shadow-[0_0_50px_rgba(99,102,241,0.5),inset_0_0_20px_rgba(255,255,255,0.2)] max-w-[90vw] overflow-hidden">
+                        <span className={`font-black text-white drop-shadow-[0_0_10px_rgba(100,100,255,0.8)] tracking-widest break-all ${currentWord?.word?.length > 12 ? 'text-lg sm:text-2xl' : currentWord?.word?.length > 8 ? 'text-xl sm:text-3xl' : 'text-3xl sm:text-5xl'}`}>{currentWord?.word || ''}</span>
                     </div>
                 </div>
 
-                <div className="relative mt-20 perspective-1000 z-30">
+                <div className="relative mt-12 sm:mt-20 perspective-1000 z-30">
                     <div
-                        className={`text-[160px] drop-shadow-[0_30px_50px_rgba(0,0,0,0.9)] filter transition-transform transform-style-3d
+                        className={`text-[110px] sm:text-[160px] drop-shadow-[0_30px_50px_rgba(0,0,0,0.9)] filter transition-transform transform-style-3d
                             ${monsterState === 'spawn' ? 'animate-[pop-in_0.6s_ease-out_forwards]' :
                                 monsterState === 'idle' ? 'animate-[monster-idle_3s_ease-in-out_infinite]' :
                                     monsterState === 'attack' ? 'animate-[attack-lunge_0.5s_ease-in_forwards]' :
@@ -644,16 +644,16 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
             </div>
 
             {/* Spell Action Palette */}
-            <div className="relative w-full px-6 pt-8 z-40 bg-gradient-to-t from-black via-black/90 to-transparent" style={{ paddingBottom: 'calc(3rem + var(--safe-area-bottom))' }}>
-                <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+            <div className="relative w-full px-6 pt-4 sm:pt-8 z-40 bg-gradient-to-t from-black via-black/90 to-transparent" style={{ paddingBottom: 'calc(3rem + var(--safe-area-bottom))' }}>
+                <div className="grid grid-cols-2 gap-2 sm:gap-4 max-w-md mx-auto">
                     {options.map((opt, idx) => (
                         <button
                             key={idx}
                             onClick={() => handlePlayerAttack(opt)}
                             disabled={monsterState !== 'idle' && monsterState !== 'spawn'}
-                            className="group relative bg-indigo-900/80 hover:bg-indigo-600/90 backdrop-blur-xl border border-indigo-400/40 text-indigo-50 font-black text-xl md:text-2xl py-7 rounded-[32px] shadow-[0_8px_0_rgba(49,46,129,0.9),0_20px_40px_rgba(0,0,0,0.8)] active:translate-y-2 active:shadow-[0_0px_0_rgba(49,46,129,0.9)] transition-all flex items-center justify-center break-keep transform hover:scale-[1.02]"
+                            className="group relative bg-indigo-900/80 hover:bg-indigo-600/90 backdrop-blur-xl border border-indigo-400/40 text-indigo-50 font-black text-sm sm:text-xl md:text-2xl py-5 sm:py-7 rounded-[24px] sm:rounded-[32px] shadow-[0_6px_0_rgba(49,46,129,0.9),0_15px_30px_rgba(0,0,0,0.8)] sm:shadow-[0_8px_0_rgba(49,46,129,0.9),0_20px_40px_rgba(0,0,0,0.8)] active:translate-y-2 active:shadow-none transition-all flex items-center justify-center break-keep transform hover:scale-[1.02]"
                         >
-                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent rounded-[32px] pointer-events-none group-hover:bg-white/10 transition-colors"></div>
+                            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent rounded-[24px] sm:rounded-[32px] pointer-events-none group-hover:bg-white/10 transition-colors"></div>
                             <div className="absolute top-1 left-1/2 -translate-x-1/2 w-[60%] h-1 bg-white/20 rounded-full blur-[2px]"></div>
                             <span className="drop-shadow-[0_2px_3px_rgba(0,0,0,0.8)] px-2">{opt}</span>
                         </button>

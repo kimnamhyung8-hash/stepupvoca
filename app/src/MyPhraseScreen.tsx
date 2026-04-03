@@ -1,14 +1,15 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { getActiveApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
 import { t as globalT } from './i18n';
 import {
     ChevronLeft, Plus, Trash2, Volume2, Sparkles, BookOpen,
     X, RefreshCw, Search,
-    Mic, MicOff, ChevronDown
+    Mic, MicOff, ChevronDown, PlayCircle, PauseCircle
 } from 'lucide-react';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
+import { KeepAwake } from '@capacitor-community/keep-awake';
 
 
 // ── 카테고리 데이터 설정 ───────────────────────────────────────────────────────
@@ -77,6 +78,74 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
         return matchCat && matchQ;
     });
 
+    const [isCatMenuOpen, setIsCatMenuOpen] = useState(false);
+    const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+    const [autoPlayIndex, setAutoPlayIndex] = useState(0);
+
+    // 전체 해제 시 화면 꺼짐 허용 방어
+    useEffect(() => {
+        return () => {
+            KeepAwake.allowSleep().catch(()=>{});
+        };
+    }, []);
+
+    // 🎧 무한 반복 루프 재생 로직 (오답노트와 동일 구조)
+    useEffect(() => {
+        if (!isAutoPlaying) {
+            KeepAwake.allowSleep().catch(()=>{});
+            return;
+        }
+
+        // 화면 켜짐 유지
+        KeepAwake.keepAwake().catch(()=>{});
+
+        let isActive = true;
+
+        const runAutoPlay = async () => {
+             // 끝까지 도달했으면 맨 처음으로 되돌려 "무한 반복"
+             if (autoPlayIndex >= filtered.length || !filtered[autoPlayIndex]) {
+                 setAutoPlayIndex(0);
+                 return;
+             }
+             
+             const currentPhrase = filtered[autoPlayIndex];
+             
+             // Step 1: Speak English
+             if (settings?.tts !== false) {
+                 try {
+                     await TextToSpeech.speak({ text: currentPhrase.english, lang: 'en-US', rate: 0.85 });
+                 } catch(_) {}
+             }
+             if (!isActive) return;
+             
+             // Step 2: Pause for thinking
+             await new Promise(r => setTimeout(r, 1200));
+             if (!isActive) return;
+             
+             // Step 3: Speak Native/Original text
+             if (settings?.tts !== false) {
+                 try {
+                     const ttsLang = NATIVE_TTS_LOCALE[settings?.lang || 'ko'] || 'ko-KR';
+                     await TextToSpeech.speak({ text: currentPhrase.nativeTranslation, lang: ttsLang, rate: 0.85 });
+                 } catch(_) {}
+             }
+             if (!isActive) return;
+             
+             // Step 4: Pause before next phrase
+             await new Promise(r => setTimeout(r, 2000));
+             if (!isActive) return;
+             
+             // Step 5: Execute Next
+             setAutoPlayIndex(prev => prev + 1);
+        };
+
+        runAutoPlay();
+
+        return () => {
+            isActive = false;
+        };
+    }, [isAutoPlaying, autoPlayIndex, filtered, settings?.tts]);
+
     const handleDelete = (id: number) => {
         setPhrases((prev: any[]) => prev.filter((p: any) => p.id !== id));
         setDeleteId(null);
@@ -114,12 +183,23 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                         {t('phrase_bible_title')}
                     </h1>
                 </div>
-                <button
-                    onClick={() => setShowAddModal(true)}
-                    className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200 active:scale-90 transition"
-                >
-                    <Plus size={20} className="text-white" />
-                </button>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => {
+                            if (!isAutoPlaying) setAutoPlayIndex(0);
+                            setIsAutoPlaying(p => !p);
+                        }}
+                        className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-md active:scale-90 transition ${isAutoPlaying ? 'bg-indigo-500 text-white shadow-indigo-200 animate-pulse' : 'bg-slate-50 text-slate-500'}`}
+                    >
+                        {isAutoPlaying ? <PauseCircle size={20} /> : <PlayCircle size={20} />}
+                    </button>
+                    <button
+                        onClick={() => setShowAddModal(true)}
+                        className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200 active:scale-90 transition"
+                    >
+                        <Plus size={20} className="text-white" />
+                    </button>
+                </div>
             </header>
 
             <div className="flex-1 overflow-hidden flex flex-col max-w-2xl mx-auto w-full">
@@ -155,23 +235,52 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                     </div>
                 </div>
 
-                {/* 카테고리 탭 */}
-                <div className="px-5 pb-3">
-                    <div className="flex flex-wrap gap-2 pb-1">
-                        {[{ id: 'all', emoji: '📚', labelKey: 'category_all' }, ...PHRASE_CATEGORIES].map(cat => (
-                            <button
-                                key={cat.id}
-                                onClick={() => setSelectedCat(cat.id)}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-all shrink-0 ${selectedCat === cat.id
-                                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200'
-                                    : 'bg-white text-slate-600 border border-slate-200'
-                                    }`}
-                            >
-                                <span>{cat.emoji}</span>
-                                <span>{getCatLabel(cat)}</span>
-                            </button>
-                        ))}
-                    </div>
+                {/* 카테고리 드롭다운 탭 */}
+                <div className="px-5 pb-3 relative z-40">
+                    <button
+                        onClick={() => setIsCatMenuOpen(!isCatMenuOpen)}
+                        className="w-full flex items-center justify-between bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 active:scale-[0.98] transition-all"
+                    >
+                        <div className="flex items-center gap-2 font-black text-slate-800">
+                            <span className="text-lg">{([{ id: 'all', emoji: '📚', labelKey: 'category_all' }, ...PHRASE_CATEGORIES].find(c => c.id === selectedCat) || { emoji: '📚' }).emoji}</span>
+                            <span>{getCatLabel(([{ id: 'all', emoji: '📚', labelKey: 'category_all' }, ...PHRASE_CATEGORIES].find(c => c.id === selectedCat) || { labelKey: 'category_all' }))}</span>
+                        </div>
+                        <ChevronDown size={20} className={`text-slate-400 transition-transform duration-300 ${isCatMenuOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {isCatMenuOpen && (
+                        <>
+                            {/* 백그라운드 닫기 이벤트용 오버레이 */}
+                            <div className="fixed inset-0 z-30" onClick={() => setIsCatMenuOpen(false)}></div>
+                            
+                            <div className="absolute top-[calc(100%+8px)] left-5 right-5 bg-white shadow-2xl shadow-slate-300/40 border border-slate-100 rounded-3xl p-4 z-50 animate-fade-in origin-top">
+                                <div className="max-h-[50vh] overflow-y-auto grid grid-cols-3 gap-3 pb-2 pr-1 custom-scrollbar">
+                                    {[{ id: 'all', emoji: '📚', labelKey: 'category_all' }, ...PHRASE_CATEGORIES].map(cat => {
+                                        const isSelected = selectedCat === cat.id;
+                                        return (
+                                            <button
+                                                key={cat.id}
+                                                onClick={() => {
+                                                    setSelectedCat(cat.id);
+                                                    setIsCatMenuOpen(false);
+                                                }}
+                                                className={`flex flex-col items-center justify-center py-4 rounded-2xl border transition-all ${
+                                                    isSelected
+                                                        ? 'bg-indigo-50 border-indigo-400 shadow-sm'
+                                                        : 'bg-white border-slate-100 hover:bg-slate-50'
+                                                }`}
+                                            >
+                                                <span className="text-2xl mb-1.5">{cat.emoji}</span>
+                                                <span className={`text-[11px] font-black tracking-tight text-center whitespace-nowrap ${isSelected ? 'text-indigo-600' : 'text-slate-600'}`}>
+                                                    {getCatLabel(cat)}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
 
                 {/* 목록 */}
@@ -184,8 +293,8 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                             </p>
                         </div>
                     ) : (
-                        filtered.map((phrase: any) => {
-                            const cat = PHRASE_CATEGORIES.find(c => c.id === phrase.categoryId);
+                        filtered.map((phrase: any, idx: number) => {
+                            const cat = PHRASE_CATEGORIES.find((c: any) => c.id === phrase.categoryId);
                             return (
                                 <PhraseCard
                                     key={phrase.id}
@@ -196,6 +305,7 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                                     settings={settings}
                                     getCatLabel={getCatLabel}
                                     onDelete={() => setDeleteId(phrase.id)}
+                                    isActivePlay={isAutoPlaying && autoPlayIndex === idx}
                                 />
                             );
                         })
@@ -227,9 +337,16 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
 }
 
 // ── 카드 컴포넌트 ─────────────────────────────────────────────────────────────
-function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings }: any) {
+function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActivePlay }: any) {
     const [isSpeakingOriginal, setIsSpeakingOriginal] = useState(false);
     const [isSpeakingEn, setIsSpeakingEn] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (isActivePlay && cardRef.current) {
+            cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [isActivePlay]);
 
     const playOriginalTTS = async () => {
         if (settings?.tts === false) return;
@@ -248,7 +365,7 @@ function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings }: any) {
     };
 
     return (
-        <div className="bg-white rounded-[24px] border border-slate-100 shadow-sm overflow-hidden p-4 space-y-3 animate-fade-in">
+        <div ref={cardRef} className={`bg-white rounded-[24px] border ${isActivePlay ? 'border-primary shadow-lg shadow-indigo-100 scale-[1.02]' : 'border-slate-100 shadow-sm'} overflow-hidden p-4 space-y-3 transition-all animate-fade-in`}>
             <div className="flex items-center justify-between">
                 <span className="text-[10px] font-black text-indigo-500 bg-indigo-50 px-2.5 py-0.5 rounded-full uppercase">
                     {cat ? `${cat.emoji} ${getCatLabel(cat)}` : 'ETC'}
