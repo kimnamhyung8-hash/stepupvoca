@@ -1021,12 +1021,13 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                                                 english: msg.text,
                                                 englishPronunciation: "",
                                                 nativeTranslation: msg.translation || "",
+                                                nativeTranslationLoc: { [lang]: msg.translation || "" },
                                                 originalPronunciation: "",
                                                 inputLangCode: "en",
                                                 categoryId: 'ai_conv',
                                                 createdAt: new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : lang === 'ja' ? 'ja-JP' : lang === 'zh' ? 'zh-CN' : 'en-US')
                                             };
-                                            setMyPhrases((p: any) => [newPhrase, ...p]);
+                                            setMyPhrases((p: any) => Array.isArray(p) ? [newPhrase, ...p] : [newPhrase]);
                                             triggerToast(t('toast_saved_ko'));
                                         }} 
                                             disabled={msg.text === '...'}
@@ -1047,12 +1048,13 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                                                 english: msg.correctedText || msg.text,
                                                 englishPronunciation: "",
                                                 nativeTranslation: msg.correctedTrans || msg.translation || "",
+                                                nativeTranslationLoc: { [inputLang]: msg.correctedTrans || msg.translation || "" },
                                                 originalPronunciation: "",
                                                 inputLangCode: inputLang,
                                                 categoryId: 'ai_conv',
                                                 createdAt: new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : lang === 'ja' ? 'ja-JP' : lang === 'zh' ? 'zh-CN' : 'en-US')
                                             };
-                                            setMyPhrases((p: any) => [newPhrase, ...p]);
+                                            setMyPhrases((p: any) => Array.isArray(p) ? [newPhrase, ...p] : [newPhrase]);
                                             triggerToast(t('toast_saved_ko'));
                                         }} className="text-white active:scale-90 transition"><BookOpen size={16} /></button>
                                     </div>
@@ -1072,12 +1074,13 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                                                         english: msg.correctedText,
                                                         englishPronunciation: "",
                                                         nativeTranslation: msg.correctedTrans || "",
+                                                        nativeTranslationLoc: { [inputLang]: msg.correctedTrans || "" },
                                                         originalPronunciation: "",
                                                         inputLangCode: inputLang,
                                                         categoryId: 'ai_conv',
                                                         createdAt: new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : lang === 'ja' ? 'ja-JP' : lang === 'zh' ? 'zh-CN' : 'en-US')
                                                     };
-                                                    setMyPhrases((p: any) => [newPhrase, ...p]);
+                                                    setMyPhrases((p: any) => Array.isArray(p) ? [newPhrase, ...p] : [newPhrase]);
                                                     triggerToast(t('toast_saved_ko'));
                                                 }}
                                                 className="text-emerald-400 p-1 hover:bg-emerald-500/10 rounded-lg transition-all active:scale-90"

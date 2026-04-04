@@ -10,7 +10,7 @@ import {
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { KeepAwake } from '@capacitor-community/keep-awake';
-
+import { playNaturalTTS } from './utils/ttsUtils';
 
 // ── 카테고리 데이터 설정 ───────────────────────────────────────────────────────
 export const PHRASE_CATEGORIES = [
@@ -60,6 +60,7 @@ export interface SavedPhrase {
 // ── 메인 화면 ─────────────────────────────────────────────────────────────────
 export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage, phrases, setPhrases, isPremium, setShowApiModal, setShowQuotaModal }: any) {
     const lang = settings?.lang || 'ko';
+    const [localLang, setLocalLang] = useState<string>(lang);
     const t = useCallback((key: string) => globalT(lang, key) || key, [lang]);
     const getCatLabel = useCallback((cat: any) => globalT(lang, cat.labelKey) || cat.labelKey, [lang]);
 
@@ -124,10 +125,8 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
 
             // Step 3: Speak Native/Original text
             if (settings?.tts !== false) {
-                try {
-                    const ttsLang = NATIVE_TTS_LOCALE[settings?.lang || 'ko'] || 'ko-KR';
-                    await TextToSpeech.speak({ text: currentPhrase.nativeTranslation, lang: ttsLang, rate: 0.85 });
-                } catch (_) { }
+                const currentMeaning = currentPhrase.nativeTranslationLoc ? (currentPhrase.nativeTranslationLoc[localLang] || currentPhrase.nativeTranslation) : currentPhrase.nativeTranslation;
+                await playNaturalTTS(currentMeaning, localLang);
             }
             if (!isActive) return;
 
@@ -235,6 +234,28 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                     </div>
                 </div>
 
+                {/* Quick Language Switcher */}
+                <div className="px-5 pb-3 pt-1">
+                    <div className="flex justify-center gap-2">
+                        {[
+                            { code: 'ko', img: '/assets/flags/kr.png' },
+                            { code: 'en', img: '/assets/flags/us.png' },
+                            { code: 'ja', img: '/assets/flags/jp.png' },
+                            { code: 'zh', img: '/assets/flags/cn.png' },
+                            { code: 'tw', img: '/assets/flags/tw.png' },
+                            { code: 'vi', img: '/assets/flags/vn.png' }
+                        ].map(langCode => (
+                            <button
+                                key={langCode.code}
+                                onClick={() => setLocalLang(langCode.code)}
+                                className={`p-1.5 rounded-lg transition-all ${localLang === langCode.code ? 'bg-indigo-100/50 scale-[1.15] shadow-md border border-indigo-200' : 'bg-transparent opacity-40 hover:opacity-100 hover:scale-110 border border-transparent grayscale hover:grayscale-0'}`}
+                            >
+                                <img src={langCode.img} alt={langCode.code} className="w-6 h-4 object-cover rounded-[2px]" />
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
                 {/* 카테고리 드롭다운 탭 */}
                 <div className="px-5 pb-3 relative z-40">
                     <button
@@ -300,6 +321,7 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                                     phrase={phrase}
                                     cat={cat}
                                     lang={lang}
+                                    localLang={localLang}
                                     t={t}
                                     settings={settings}
                                     getCatLabel={getCatLabel}
@@ -336,9 +358,10 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
 }
 
 // ── 카드 컴포넌트 ─────────────────────────────────────────────────────────────
-function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActivePlay }: any) {
+function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActivePlay, localLang }: any) {
     const [isSpeakingOriginal, setIsSpeakingOriginal] = useState(false);
     const [isSpeakingEn, setIsSpeakingEn] = useState(false);
+    const [isSpeakingMeaning, setIsSpeakingMeaning] = useState(false);
     const cardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -361,6 +384,14 @@ function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActiveP
         setIsSpeakingEn(true);
         try { await TextToSpeech.speak({ text: phrase.english, lang: 'en-US', rate: 0.85 }); } catch (_) { }
         finally { setIsSpeakingEn(false); }
+    };
+
+    const playMeaningTTS = async () => {
+        if (settings?.tts === false) return;
+        setIsSpeakingMeaning(true);
+        try {
+            await playNaturalTTS(phrase.nativeTranslation, localLang);
+        } catch (_) { } finally { setIsSpeakingMeaning(false); }
     };
 
     return (
@@ -430,9 +461,14 @@ function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActiveP
                                 <div className="w-1 h-1 bg-indigo-400 rounded-full" />
                                 <span className="text-[9px] font-black text-indigo-500 uppercase">해석 (Meaning)</span>
                             </div>
-                            <p className="text-base font-black text-slate-800 leading-normal">
-                                {phrase.nativeTranslation}
-                            </p>
+                            <div className="flex items-center justify-between gap-3">
+                                <p className="text-base font-black text-slate-800 leading-normal">
+                                    {phrase.nativeTranslationLoc ? (phrase.nativeTranslationLoc[localLang] || phrase.nativeTranslation) : phrase.nativeTranslation}
+                                </p>
+                                <button onClick={playMeaningTTS} className={`shrink-0 transition-all ${isSpeakingMeaning ? 'text-indigo-600' : 'text-slate-300 hover:text-slate-500'}`}>
+                                    <Volume2 size={14} />
+                                </button>
+                            </div>
                         </div>
                     ) : null}
                 </div>
@@ -558,6 +594,14 @@ Required Response JSON Format (Return ONLY valid JSON):
   "english": "Natural English translation",
   "englishPronunciation": "English pronunciation written in ${nativeLangLabel} characters",
   "nativeTranslation": "The exact meaning of the input sentence in ${nativeLangLabel} (REQUIRED)",
+  "nativeTranslationLoc": {
+    "ko": "Korean meaning",
+    "en": "English meaning",
+    "ja": "Japanese meaning",
+    "zh": "Simplified Chinese meaning",
+    "tw": "Traditional Chinese meaning",
+    "vi": "Vietnamese meaning"
+  },
   "originalPronunciation": "How to read the input '${text}' in ${nativeLangLabel} characters"
 }`;
 
@@ -609,6 +653,7 @@ Required Response JSON Format (Return ONLY valid JSON):
             english: translated.english,
             englishPronunciation: translated.englishPronunciation,
             nativeTranslation: translated.nativeTranslation,
+            nativeTranslationLoc: translated.nativeTranslationLoc || undefined,
             originalPronunciation: translated.originalPronunciation,
             inputLangCode: translated.detectedLangCode || voiceLang,
             categoryId: selectedCat,

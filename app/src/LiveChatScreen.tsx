@@ -1440,17 +1440,18 @@ Format strictly as JSON:
     const saveToBible = (msg: ChatMessage) => {
         setMyPhrases((prev: any[]) => {
             const newPhrase = {
-                id: Date.now().toString(),
+                id: Date.now(),
                 original: msg.text,
                 english: msg.translatedEn || msg.text,
                 englishPronunciation: "",
                 nativeTranslation: msg.localNative || (t(lang, 'saved_from_live_chat') || 'Live Chat'),
+                nativeTranslationLoc: { [lang]: msg.localNative || (t(lang, 'saved_from_live_chat') || 'Live Chat') },
                 originalPronunciation: "",
                 inputLangCode: msg.originalLang || 'en',
                 categoryId: 'live_chat', // Correct category to live_chat
                 createdAt: new Date().toLocaleDateString(getSpeechLang(lang))
             };
-            return [newPhrase, ...prev];
+            return Array.isArray(prev) ? [newPhrase, ...prev] : [newPhrase];
         });
         triggerToast(tUI(lang, 'saved_bible'));
     };
