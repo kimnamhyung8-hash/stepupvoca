@@ -600,8 +600,8 @@ function MainApp() {
         if (profile.purchasedSkins) setPurchasedSkins(profile.purchasedSkins);
         if (profile.skin) setEquippedSkin(profile.skin);
         if (profile.isPremium !== undefined) setIsPremium(profile.isPremium);
-        if (profile.notes) { try { setIncorrectNotes(JSON.parse(profile.notes)); } catch (e) { } }
-        if (profile.myPhrases) { try { setMyPhrases(JSON.parse(profile.myPhrases)); } catch (e) { } }
+        // if (profile.notes) { try { setIncorrectNotes(JSON.parse(profile.notes)); } catch (e) { } }
+        // if (profile.myPhrases) { try { setMyPhrases(JSON.parse(profile.myPhrases)); } catch (e) { } }
         setIsBanned(profile.status === 'banned');
       }
     });
