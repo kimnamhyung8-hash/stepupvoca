@@ -2111,7 +2111,7 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
     };
 
     return (
-        <div className="w-full flex-1 bg-[#0A0A0E] flex flex-col overflow-hidden font-sans sm:max-h-[720px] sm:rounded-[32px] sm:shadow-2xl">
+        <div className="w-full flex-1 bg-[#0A0A0E] flex flex-col overflow-hidden font-sans sm:rounded-[32px] sm:shadow-2xl">
             {/* LOBBY */}
             {/* LOBBY */}
             {gameState === 'LOBBY' && (

@@ -316,7 +316,7 @@ export function ConversationListScreen({ settings, setScreen, setActiveScenario,
     };
 
     return (
-        <div className="w-full flex-1 animate-fade-in bg-[#0A0A0E] flex flex-col sm:max-h-[720px] sm:rounded-[32px] sm:shadow-2xl">
+        <div className="w-full flex-1 animate-fade-in bg-[#0A0A0E] flex flex-col sm:rounded-[32px] sm:shadow-2xl">
             <style>{globalStyles}</style>
             <header className="flex items-center justify-between px-5 py-2 sticky top-0 bg-[#0A0A0E]/90 backdrop-blur-md z-10 border-b border-white/5" style={{ paddingTop: 'var(--safe-area-top)' }}>
                 <button onClick={() => setScreen('HOME')} className="w-8 h-8 flex items-center justify-center bg-white/5 rounded-full text-slate-400"><X size={16} /></button>
@@ -948,7 +948,7 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
     if (isComplete) return <CompletionScreen messages={messages} totalTurns={turnCount} onRestart={() => window.location.reload()} onHome={() => setScreen('CONVERSATION_LIST')} setScreen={setScreen} sc={sc} settings={settings} setAiReportMode={setAiReportMode} />;
 
     return (
-        <div className="w-full flex-1 bg-[#0A0A0E] flex flex-col overflow-hidden sm:max-h-[720px] sm:rounded-[32px] sm:shadow-2xl">
+        <div className="w-full flex-1 bg-[#0A0A0E] flex flex-col overflow-hidden sm:rounded-[32px] sm:shadow-2xl">
             <style>{globalStyles}</style>
 
             <header className="flex items-center justify-between px-5 py-2 border-b border-white/5 bg-[#0A0A0E]/80 backdrop-blur-md z-20" style={{ paddingTop: 'var(--safe-area-top)' }}>

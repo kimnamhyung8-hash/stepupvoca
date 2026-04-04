@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Capacitor } from '@capacitor/core';
 import { getActiveApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
 import { ChevronDown, BookOpen, Volume2, X, RefreshCw, Sparkles } from 'lucide-react';
@@ -347,8 +348,8 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
             </div>
 
             {/* Modal Overlay for Word Details */}
-            {selectedWord && (
-                <div className="fixed inset-0 z-[9999] flex flex-col justify-end bg-slate-900/40 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedWord(null)}>
+            {selectedWord && createPortal(
+                <div className="fixed inset-0 z-[99999] flex flex-col justify-end bg-slate-900/40 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedWord(null)}>
                     <div
                         className="bg-white max-h-[85vh] rounded-t-[32px] overflow-hidden flex flex-col shadow-2xl animate-slide-up pb-10"
                         onClick={(e) => e.stopPropagation()}
@@ -434,7 +435,7 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
                             ) : null}
                         </div>
                     </div>
-                </div>
+                </div>, document.body
             )}
 
         </div>

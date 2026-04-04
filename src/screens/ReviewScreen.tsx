@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TextToSpeech } from '@capacitor-community/text-to-speech';
+// import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import {
     BookOpen, X, Sparkles, Trash2, Volume2, Trophy,
     CheckCircle2, Vibrate, Mic, RefreshCcw,

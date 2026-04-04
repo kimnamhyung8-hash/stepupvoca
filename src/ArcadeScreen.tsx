@@ -182,7 +182,7 @@ export function ArcadeScreen({ settings, setScreen, userPoints, setUserPoints, o
             </header>
 
             {gameState === 'MENU' && (
-                <div className="flex-1 flex flex-col items-center justify-center p-6 space-y-8 w-full max-w-md mx-auto relative z-10 text-center perspective-1500">
+                <div className="flex-1 flex flex-col items-center justify-center p-6 space-y-8 w-full max-w-xl mx-auto relative z-10 text-center perspective-1500">
                     <div className="absolute inset-0 bg-gradient-to-b from-indigo-950 via-slate-900 to-cyan-950 -z-10"></div>
                     <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[150%] h-[60%] bg-gradient-to-b from-teal-400/30 via-purple-500/20 to-transparent blur-[80px] -z-10"></div>
 
@@ -645,7 +645,7 @@ function Game1MonsterBattle({ settings, onEnd, setGameState, vocaDB, playSound }
 
             {/* Spell Action Palette */}
             <div className="relative w-full px-6 pt-4 sm:pt-8 z-40 bg-gradient-to-t from-black via-black/90 to-transparent" style={{ paddingBottom: 'calc(3rem + var(--safe-area-bottom))' }}>
-                <div className="grid grid-cols-2 gap-2 sm:gap-4 max-w-md mx-auto">
+                <div className="grid grid-cols-2 gap-2 sm:gap-4 max-w-xl mx-auto">
                     {options.map((opt, idx) => (
                         <button
                             key={idx}

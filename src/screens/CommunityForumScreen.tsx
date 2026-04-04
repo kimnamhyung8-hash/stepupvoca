@@ -404,7 +404,7 @@ export const CommunityForumScreen = ({ lang, firebaseUser, externalPostId, onBac
               )}
             </div>
             
-            <div className="w-full pb-8 px-4 md:px-8 max-w-4xl mx-auto">
+            <div className="w-full pb-8 px-4 md:px-8">
                <PcAdSlot variant="horizontal" className="w-full shadow-sm rounded-3xl overflow-hidden border border-slate-100/50" />
             </div>
           </div>
@@ -487,7 +487,7 @@ const VideoEmbedList = ({ content }: { content: string }) => {
     <div className="mt-8 space-y-6">
       {ytMatches.map((match, i) => (
         <div key={`yt-${i}`} className="aspect-video rounded-[32px] overflow-hidden bg-slate-100 shadow-2xl border border-slate-200">
-          <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${match[1]}`} frameBorder="0" allowFullScreen />
+          <iframe width="100%" height="100%" src={`https://www.youtube-nocookie.com/embed/${match[1]}?playsinline=1&modestbranding=1`} frameBorder="0" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
         </div>
       ))}
     </div>
@@ -497,6 +497,12 @@ const VideoEmbedList = ({ content }: { content: string }) => {
 const RichTextRenderer = ({ content, className }: { content: string, className?: string }) => {
   if (!content) return null;
   let html = content;
+  
+  // Patch youtube embeds to prevent WKWebView 150/153 Error on iOS
+  html = html.replace(/src="https:\/\/www\.youtube(-nocookie)?\.com\/embed\/([^"?]+)(\?[^"]*)?"/g, (_match, _nocookie, id, params) => {
+     let newParams = params ? params.replace('?', '?playsinline=1&') : '?playsinline=1';
+     return `src="https://www.youtube-nocookie.com/embed/${id}${newParams}&modestbranding=1" referrerpolicy="strict-origin-when-cross-origin"`;
+  });
   
   // ???뺥깴?????⑸츩???リ옇?↑??곌떠???(??瑜곷쭊 ?筌뤿굞???
   if (!content.startsWith('<')) {
@@ -697,7 +703,7 @@ const PostDetailView = ({ post, comments, firebaseUser, lang, isGlobalTranslateO
   };
 
   return (
-    <div className="px-4 py-6 md:p-8 max-w-4xl mx-auto space-y-6 md:space-y-8 pb-32">
+    <div className="px-4 py-6 md:p-8 w-full space-y-6 md:space-y-8 pb-32">
         <div className="space-y-3">
             <h3 className="text-2xl md:text-3xl font-bold text-slate-800 leading-snug">
                 {post.isHidden && <span className="bg-slate-800 text-white text-sm px-2 py-1 rounded-md mr-2 align-middle font-bold shrink-0">블라인드</span>}
@@ -782,12 +788,17 @@ const PostDetailView = ({ post, comments, firebaseUser, lang, isGlobalTranslateO
               ))}
            </div>
            
-           <div className="sticky bottom-4 bg-white/95 backdrop-blur-xl border border-slate-200 rounded-[28px] p-3 flex gap-3 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] focus-within:ring-4 ring-indigo-50 transition-all z-20">
+           <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-slate-200 px-4 py-3 pb-[max(env(safe-area-inset-bottom),16px)] z-[100] shadow-[0_-10px_40px_-5px_rgba(0,0,0,0.05)]">
+             <div className="w-full flex gap-3 items-end">
               <textarea
-                className="flex-1 bg-slate-50 rounded-[20px] border border-slate-100 focus:bg-white focus:border-indigo-100 focus:ring-4 focus:ring-indigo-50 text-[15px] font-medium placeholder:text-slate-400 resize-none h-11 py-2.5 px-4 transition-all"
+                className="flex-1 bg-slate-50 rounded-[20px] border border-slate-100 focus:bg-white focus:border-indigo-100 focus:ring-4 focus:ring-indigo-50 text-[15px] font-medium placeholder:text-slate-400 resize-none min-h-[44px] max-h-[120px] py-2.5 px-4 transition-all overflow-y-auto"
                 placeholder={tComm(lang, 'leave_comment')}
                 value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
+                onChange={(e) => {
+                   setCommentText(e.target.value);
+                   e.target.style.height = 'auto';
+                   e.target.style.height = e.target.scrollHeight + 'px';
+                }}
                 disabled={!firebaseUser}
               />
               <button 
@@ -797,6 +808,7 @@ const PostDetailView = ({ post, comments, firebaseUser, lang, isGlobalTranslateO
               >
                 {isSubmitting ? <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" /> : <Send size={16} />}
               </button>
+             </div>
            </div>
         </div>
     </div>
@@ -1032,7 +1044,7 @@ const PostWriteView = ({ lang, category, firebaseUser, onSuccess, initialPost }:
 
         {/* Scrollable Content Area - the only part that shrinks/scrolls when keyboard opens */}
         <div className="flex-1 overflow-y-auto w-full relative bg-slate-50/20">
-           <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-4 pb-64 min-h-full">
+           <div className="w-full p-4 md:p-8 space-y-4 pb-64 min-h-full">
               {/* 1. Title Input (Bigger, clearly separated) */}
               <input type="text" className="w-full text-2xl md:text-3xl font-black border-none focus:ring-0 placeholder:text-slate-300 bg-transparent p-0 leading-tight pt-2" placeholder={tComm(lang, 'enter_title')} value={title} onChange={(e) => setTitle(e.target.value)} />
 

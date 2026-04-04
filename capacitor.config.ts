@@ -5,7 +5,8 @@ const config: CapacitorConfig = {
   appName: 'VocaQuest',
   webDir: 'build_dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    iosScheme: 'https'
   },
   plugins: {
     AdMob: {

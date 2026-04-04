@@ -100,7 +100,7 @@ function MainApp() {
       
       // Update URL without reload (Hybrid SPA)
       const targetUrl = SCREEN_URL_MAP[val];
-      if (targetUrl && (Capacitor.getPlatform() === 'web')) {
+      if (targetUrl && !Capacitor.isNativePlatform()) {
         if (targetUrl.includes('.html') && targetUrl !== 'index.html') {
           window.location.href = `/${targetUrl}${window.location.search}`;
           return;
@@ -208,23 +208,28 @@ function MainApp() {
   const commitReportUsage = () => {};
   const reportUsage = 0;
 
-  // --- [NEW] Cross-Platform Responsive State ---
-  const [isLargeScreen, setIsLargeScreen] = useState(() => window.innerWidth >= 1024);
+  const [isLargeScreen, setIsLargeScreen] = useState(() => window.innerWidth >= 700 || window.screen.width >= 700);
 
   useEffect(() => {
-    const handleResize = () => setIsLargeScreen(window.innerWidth >= 1024);
+    let timeoutId: any;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setIsLargeScreen(window.innerWidth >= 700 || Math.min(window.screen.width, window.screen.height) >= 700);
+      }, 150);
+    };
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => { clearTimeout(timeoutId); window.removeEventListener('resize', handleResize); };
   }, []);
 
   const urlParams = new URLSearchParams(window.location.search);
   const isForceAppTablet = urlParams.get('tablet') === 'app';
-  const platformName = Capacitor.getPlatform();
+  const isNative = Capacitor.isNativePlatform();
 
-  const showAds = platformName !== 'web' && !isPremium;
+  const showAds = !isNative && !isPremium;
 
-  const isWebPcView = isLargeScreen && (platformName === 'web' && !isForceAppTablet);
-  const isAppTabletView = isLargeScreen && (platformName !== 'web' || isForceAppTablet);
+  const isWebPcView = isLargeScreen && (!isNative && !isForceAppTablet);
+  const isAppTabletView = isLargeScreen && (isNative || isForceAppTablet);
 
   const isSyncActiveRef = useRef(false);
 
@@ -780,17 +785,18 @@ function MainApp() {
     return (
       <div className="w-full h-screen bg-slate-50 font-sans flex overflow-hidden">
         {/* Left Vertical Sidebar Navigation */}
-        <TabletSideNav 
-          screen={screen} 
-          setScreen={setScreen} 
-          settings={settings} 
-          setAiReportMode={setAiReportMode} 
-          userPoints={userPoints} 
-        />
-        
+        {screen !== 'COMMUNITY' && (
+          <TabletSideNav 
+            screen={screen} 
+            setScreen={setScreen} 
+            settings={settings} 
+            setAiReportMode={setAiReportMode} 
+            userPoints={userPoints} 
+          />
+        )}
         {/* Right Dashboard Content Area */}
-        <main className="flex-1 h-full overflow-y-auto bg-slate-50 relative p-8">
-            <div className={`w-full max-w-[1200px] mx-auto bg-white rounded-[40px] shadow-sm border border-slate-100 min-h-[90vh] flex flex-col relative overflow-hidden ${screen === 'HOME' ? 'p-0' : 'p-8'}`}>
+        <main className={`flex-1 h-full overflow-y-auto bg-slate-50 relative ${screen === 'LIVE_CHAT' || screen === 'CONVERSATION' ? 'p-2 md:p-4' : (screen === 'COMMUNITY' ? 'p-0 relative' : 'p-8')}`}>
+            <div className={`mx-auto flex flex-col relative text-left ${screen === 'COMMUNITY' ? 'w-full max-w-none bg-transparent' : 'w-full max-w-[1200px] bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden'} ${screen === 'LIVE_CHAT' || screen === 'CONVERSATION' ? 'h-full p-0' : (screen === 'COMMUNITY' ? 'min-h-full p-0' : 'min-h-[90vh] ' + (screen === 'HOME' ? 'p-0' : 'p-8'))}`}>
                 {renderContent()}
             </div>
             

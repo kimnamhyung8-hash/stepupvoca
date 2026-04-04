@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Capacitor } from '@capacitor/core';
 import { getActiveApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
 import { t as globalT } from './i18n';
@@ -336,8 +337,8 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
 
             {showAddModal && <AddPhraseModal settings={settings} onAdd={handleAdd} onClose={() => setShowAddModal(false)} t={t} getCatLabel={getCatLabel} incrementAiUsage={incrementAiUsage} aiUsage={aiUsage} isPremium={isPremium} setShowApiModal={setShowApiModal} setShowQuotaModal={setShowQuotaModal} />}
 
-            {deleteId !== null && (
-                <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm flex items-center justify-center px-6">
+            {deleteId !== null && createPortal(
+                <div className="fixed inset-0 z-[99999] bg-black/40 backdrop-blur-sm flex items-center justify-center px-6">
                     <div className="bg-white rounded-[32px] p-6 w-full max-w-sm">
                         <div className="text-center mb-6">
                             <div className="text-4xl mb-3">🎉</div>
@@ -351,7 +352,7 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                                 className="flex-1 bg-red-500 text-white font-black py-4 rounded-2xl shadow-lg shadow-red-100">{t('delete')}</button>
                         </div>
                     </div>
-                </div>
+                </div>, document.body
             )}
         </div>
     );
@@ -664,8 +665,8 @@ Required Response JSON Format (Return ONLY valid JSON):
         });
     };
 
-    return (
-        <div className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-end justify-center">
+    return createPortal(
+        <div className="fixed inset-0 z-[99999] bg-black/50 backdrop-blur-sm flex items-end justify-center">
             <div
                 className="bg-white w-full max-w-lg rounded-t-[40px] p-6 max-h-[92vh] overflow-y-auto animate-slide-up shadow-2xl"
                 style={{
@@ -785,7 +786,7 @@ Required Response JSON Format (Return ONLY valid JSON):
                 </div>
             </div>
 
-        </div>
+        </div>, document.body
     );
 }
 
