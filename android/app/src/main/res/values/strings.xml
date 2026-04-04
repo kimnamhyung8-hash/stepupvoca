@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">VocaQuest</string>
+    <string name="title_activity_main">VocaQuest</string>
+    <string name="package_name">com.stepup.vocaquest</string>
+    <string name="custom_url_scheme">com.stepup.vocaquest</string>
+    <string name="server_client_id">806999527929-reao0rmomija5d2m738ligum2r2gvu46.apps.googleusercontent.com</string>
+</resources>

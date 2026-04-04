@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "806999527929",
+    "project_id": "vocaquest-7ebea",
+    "storage_bucket": "vocaquest-7ebea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806999527929:android:2a9520a2b08b2112b12d28",
+        "android_client_info": {
+          "package_name": "com.stepup.vocaquest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806999527929-edkst6jh50p1ao65afkgv7ehu5aeifv2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stepup.vocaquest",
+            "certificate_hash": "e84f087822120a6dc10dc8ac3cb837bdd35fc12e"
+          }
+        },
+        {
+          "client_id": "806999527929-l9qu7mct16rlhb35vt6727s1q908i2bv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stepup.vocaquest",
+            "certificate_hash": "d6e2ab7de2e25493d5a795dc45925f426279022d"
+          }
+        },
+        {
+          "client_id": "806999527929-reao0rmomija5d2m738ligum2r2gvu46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5DV51mTijsAmCeE7iGuUjcRwe00JBlJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806999527929-reao0rmomija5d2m738ligum2r2gvu46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
