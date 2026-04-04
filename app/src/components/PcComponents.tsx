@@ -110,7 +110,7 @@ export const PcHeader = ({ screen, setScreen, lang, userPoints }: PcHeaderProps)
               <div 
                 className={`absolute top-[85%] left-0 w-56 bg-white border border-slate-100 rounded-2xl shadow-2xl py-3 transform transition-all duration-200 z-[1001] shadow-indigo-100 
                   before:content-[""] before:absolute before:-top-6 before:left-0 before:w-full before:h-6
-                  ${activeMenu === group.id ? 'opacity-100 translate-y-2' : 'opacity-0 translate-y-0 pointer-events-none'}`}
+                  ${activeMenu === group.id ? 'opacity-100 visible translate-y-2' : 'opacity-0 invisible translate-y-0 pointer-events-none'}`}
               >
                 {group.items.map((item) => (
                   <button

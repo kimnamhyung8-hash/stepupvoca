@@ -63,6 +63,7 @@ import { FeedbackScreen } from './screens/FeedbackScreen';
 import { AdminDashboardScreen } from './AdminScreens';
 import { EvalScreen } from './screens/EvalScreen';
 import { StudyLevelScreen } from './screens/StudyLevelScreen';
+import { TabletSideNav } from './components/TabletSideNav';
 
 const SCREEN_URL_MAP: { [key: string]: string } = {
   'HOME': 'index.html',
@@ -101,10 +102,10 @@ function MainApp() {
       const targetUrl = SCREEN_URL_MAP[val];
       if (targetUrl && (Capacitor.getPlatform() === 'web')) {
         if (targetUrl.includes('.html') && targetUrl !== 'index.html') {
-          window.location.href = `/${targetUrl}`;
+          window.location.href = `/${targetUrl}${window.location.search}`;
           return;
         }
-        window.history.pushState({ screen: val }, '', `/${targetUrl}`);
+        window.history.pushState({ screen: val }, '', `/${targetUrl}${window.location.search}`);
       }
     }
   };
@@ -207,21 +208,23 @@ function MainApp() {
   const commitReportUsage = () => {};
   const reportUsage = 0;
 
-  // --- [NEW] PC Version State ---
-  const [isPcView, setIsPcView] = useState(() => {
-    if (Capacitor.getPlatform() !== 'web') return false;
-    return window.innerWidth > 1024;
-  });
+  // --- [NEW] Cross-Platform Responsive State ---
+  const [isLargeScreen, setIsLargeScreen] = useState(() => window.innerWidth >= 1024);
 
   useEffect(() => {
-    const handleResize = () => {
-        if (Capacitor.getPlatform() === 'web') {
-            setIsPcView(window.innerWidth > 1024);
-        }
-    };
+    const handleResize = () => setIsLargeScreen(window.innerWidth >= 1024);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const isForceAppTablet = urlParams.get('tablet') === 'app';
+  const platformName = Capacitor.getPlatform();
+
+  const showAds = platformName !== 'web' && !isPremium;
+
+  const isWebPcView = isLargeScreen && (platformName === 'web' && !isForceAppTablet);
+  const isAppTabletView = isLargeScreen && (platformName !== 'web' || isForceAppTablet);
 
   const isSyncActiveRef = useRef(false);
 
@@ -707,7 +710,7 @@ function MainApp() {
     }
   };
 
-  if (isPcView && !['LOGIN', 'SPLASH', 'ONBOARDING'].includes(screen)) {
+  if (isWebPcView && !['LOGIN', 'SPLASH', 'ONBOARDING'].includes(screen)) {
     return (
       <div className="w-full min-h-screen bg-slate-50 font-sans flex flex-col">
         <PcHeader screen={screen} setScreen={setScreen} lang={settings.lang} userPoints={userPoints} />
@@ -772,9 +775,44 @@ function MainApp() {
     );
   }
 
+  // --- [NEW] NATIVE APP TABLET VIEW SKELETON ---
+  if (isAppTabletView && !['LOGIN', 'SPLASH', 'ONBOARDING'].includes(screen)) {
+    return (
+      <div className="w-full h-screen bg-slate-50 font-sans flex overflow-hidden">
+        {/* Left Vertical Sidebar Navigation */}
+        <TabletSideNav 
+          screen={screen} 
+          setScreen={setScreen} 
+          settings={settings} 
+          setAiReportMode={setAiReportMode} 
+          userPoints={userPoints} 
+        />
+        
+        {/* Right Dashboard Content Area */}
+        <main className="flex-1 h-full overflow-y-auto bg-slate-50 relative p-8">
+            <div className={`w-full max-w-[1200px] mx-auto bg-white rounded-[40px] shadow-sm border border-slate-100 min-h-[90vh] flex flex-col relative overflow-hidden ${screen === 'HOME' ? 'p-0' : 'p-8'}`}>
+                {renderContent()}
+            </div>
+            
+            {showAds && (
+                <div className="w-full max-w-[1200px] mx-auto mt-6">
+                    <PcAdSlot variant="horizontal" />
+                </div>
+            )}
+        </main>
+
+        <PaywallPopup isVisible={showPaywall} onClose={() => setShowPaywall(false)} setIsPremium={setIsPremium} settings={settings} />
+        <WidgetInstallPopup isVisible={showWidgetPromo} onClose={() => setShowWidgetPromo(false)} settings={settings} />
+        {showDailyGuide && <DailyGuidePopup onClose={() => setShowDailyGuide(false)} setScreen={setScreen} settings={settings} streak={streak} />}
+        {showReview && <ReviewPrompt lang={settings.lang} onClose={() => setShowReview(false)} onNavigateFeedback={() => setScreen('FEEDBACK')} isPremium={isPremium} />}
+        {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} />}
+        {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} />}
+      </div>
+    );
+  }
+
   const platform = Capacitor.getPlatform();
   const isIOS = platform === 'ios';
-  const showAds = platform !== 'web' && !isPremium;
 
   return (
     <div className={`app-container ${isIOS ? 'ios-safe-area' : ''}`}>

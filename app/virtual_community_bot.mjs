@@ -7,16 +7,16 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } f
 // ==========================================
 
 // TODO: 발급받으신 구글 Gemini API 키를 여기에 넣어주세요!
-const GEMINI_API_KEY = "AIzaSyBvdY6geI-G6VAfyiTVVn5OWNdn434F-_Q";
+const GEMINI_API_KEY = "AIzaSyBZCjgSnttGpTA34oBpUT-0wDHUgDsTJPE";
 
 // 봇이 로그인할 가상 계정 정보 (자동 회원가입 및 로그인용)
 const BOT_EMAIL = "bot_vocaquest@gmail.com";
 const BOT_PASSWORD = "vocaquestbot123!@";
 
-// 봇 동작 주기 (밀리초 단위) - 예: 2시간 = 2 * 60 * 60 * 1000
-const POST_INTERVAL_MS = 2 * 60 * 60 * 1000;
-// 랜덤 오차 (±30분)
-const JITTER_MS = 30 * 60 * 1000;
+// 봇 동작 주기 (밀리초 단위) - 예: 30분 = 30 * 60 * 1000
+const POST_INTERVAL_MS = 30 * 60 * 1000;
+// 랜덤 오차 (±5분)
+const JITTER_MS = 5 * 60 * 1000;
 
 // Firebase 설정 (기존 프로젝트 설정 재사용)
 const firebaseConfig = {
@@ -85,49 +85,63 @@ const getPromptByLang = (lang, name) => {
 // Gemini API를 이용해 게시물 데이터 생성
 async function generatePostContent(profile) {
     const prompt = getPromptByLang(profile.lang, profile.name);
-
-    // 카테고리 무작위 픽
     const targetCategory = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
 
-    try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: {
-                    temperature: 0.9,
-                    responseMimeType: "application/json"
-                }
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error(`API Error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const outputText = data.candidates[0].content.parts[0].text;
-
-        let postData;
+    const models = [
+        'gemini-3.1-flash-lite-preview', // User-suggested lightning fast model
+        'gemini-3-flash-preview',        // Frontier grade fallback
+        'gemini-2.5-flash'               // Stable fallback
+    ];
+    
+    for (const model of models) {
         try {
-            postData = JSON.parse(outputText.trim());
-        } catch (e) {
-            // fallback parsing (in case Gemini wraps it with extra text)
-            const match = outputText.match(/\{.*\}/s);
-            if (match) postData = JSON.parse(match[0]);
-            else throw e;
-        }
+            console.log(`[API] Trying model: ${model}...`);
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        temperature: 0.9,
+                        responseMimeType: "application/json"
+                    }
+                })
+            });
 
-        return {
-            category: targetCategory,
-            title: postData.title,
-            content: postData.content,
-        };
-    } catch (error) {
-        console.error("❌ 글 생성 중 에러 발생:", error);
-        return null;
+            if (!response.ok) {
+                if (response.status === 429) {
+                    console.warn(`[API] 429 Rate Limit on ${model}. Waiting 3 seconds before next retry...`);
+                    await new Promise(resolve => setTimeout(resolve, 3000));
+                    continue; // 다음 모델 시도
+                }
+                throw new Error(`API Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const outputText = data.candidates[0].content.parts[0].text;
+
+            let postData;
+            try {
+                postData = JSON.parse(outputText.trim());
+            } catch (e) {
+                // fallback parsing
+                const match = outputText.match(/\{.*\}/s);
+                if (match) postData = JSON.parse(match[0]);
+                else throw e;
+            }
+
+            return {
+                category: targetCategory,
+                title: postData.title,
+                content: postData.content,
+            };
+        } catch (error) {
+            console.error(`❌ [${model}] 글 생성 중 에러 발생:`, error.message);
+        }
     }
+    
+    console.error("❌ 모든 모델에서 생성 실패.");
+    return null;
 }
 
 // 봇이 한 번 글을 작성하는 함수

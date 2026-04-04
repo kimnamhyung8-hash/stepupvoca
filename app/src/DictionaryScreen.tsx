@@ -18,6 +18,14 @@ interface DictionaryResult {
     translation: string;
     explanation: string;
     examples: string[];
+    meaning_loc?: {
+        ko: string;
+        en: string;
+        ja: string;
+        zh: string;
+        tw: string;
+        vi: string;
+    };
 }
 
 // ── 음성 인식 언어 매핑 ──────────────────────────────────────────────────
@@ -116,7 +124,15 @@ Return ONLY in PURE JSON format (no markdown):
   "pronunciation": "Phonetic pronunciation (IPA)",
   "translation": "Meaning in ${lang}",
   "explanation": "Context or usage tips in ${lang}",
-  "examples": ["Eng Example 1 | ${lang} Example 1", "Eng Example 2 | ${lang} Example 2"]
+  "examples": ["Eng Example 1 | ${lang} Example 1", "Eng Example 2 | ${lang} Example 2"],
+  "meaning_loc": {
+    "ko": "Meaning of the word in Korean",
+    "en": "Meaning of the word in English",
+    "ja": "Meaning of the word in Japanese",
+    "zh": "Meaning of the word in Simplified Chinese",
+    "tw": "Meaning of the word in Traditional Chinese",
+    "vi": "Meaning of the word in Vietnamese"
+  }
 }`;
 
             const data = await callGemini(prompt, activeKey);
@@ -207,10 +223,25 @@ Return ONLY in PURE JSON format (no markdown):
 
     const addToNotes = () => {
         if (!result) return;
+        
+        let optionsLoc: any = undefined;
+        if (result.meaning_loc) {
+            optionsLoc = {
+                ko: [result.meaning_loc.ko || result.translation, 'wrong 1', 'wrong 2', 'wrong 3'],
+                en: [result.meaning_loc.en || result.translation, 'wrong 1', 'wrong 2', 'wrong 3'],
+                ja: [result.meaning_loc.ja || result.translation, 'wrong 1', 'wrong 2', 'wrong 3'],
+                zh: [result.meaning_loc.zh || result.translation, 'wrong 1', 'wrong 2', 'wrong 3'],
+                tw: [result.meaning_loc.tw || result.translation, 'wrong 1', 'wrong 2', 'wrong 3'],
+                vi: [result.meaning_loc.vi || result.translation, 'wrong 1', 'wrong 2', 'wrong 3'],
+            };
+        }
+
         setIncorrectNotes((prev: any[]) => [{
             id: Date.now(),
             word: result.word,
             meaning: result.translation,
+            meaning_loc: result.meaning_loc,
+            options_loc: optionsLoc,
             level: 1,
             options: [result.translation, 'wrong 1', 'wrong 2', 'wrong 3'],
             answer_index: 0,

@@ -40,6 +40,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
     const [isAnalyzingWeakness, setIsAnalyzingWeakness] = useState(false);
     const [revealedUsages, setRevealedUsages] = useState<Set<number>>(new Set());
     const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+    const [localLang, setLocalLang] = useState<string>(settings?.lang || 'ko');
 
     const generateWeaknessReport = async () => {
         if (incorrectNotes.length === 0) return;
@@ -58,7 +59,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
         try {
             const prompt = `
         Analyze these missed English vocabulary words: ${incorrectNotes.map(n => n.word).join(', ')}.
-        Provide a concise AI weakness report in ${settings.lang}.
+        Provide a concise AI weakness report in ${localLang}.
         Respond ONLY with a JSON object:
         {
           "overall": "Summary of learning patterns and specific weaknesses found",
@@ -89,7 +90,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
     };
 
     const card = deck[index];
-    const meaning = card ? getVocaMeaning(card, settings.lang) : "";
+    const meaning = card ? getVocaMeaning(card, localLang) : "";
 
     const generateUsages = async (wordToGen: string) => {
         const userSavedKey = localStorage.getItem('vq_gemini_key');
@@ -102,7 +103,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
 
         setIsGeneratingUsages(true);
         try {
-            const prompt = `Provide 3 short English example sentences for "${wordToGen}" with translations in ${settings.lang}. Respond ONLY with a JSON array of objects: [{"en": "...", "tr": "..."}, ...]`;
+            const prompt = `Provide 3 short English example sentences for "${wordToGen}" with translations in ${localLang}. Respond ONLY with a JSON array of objects: [{"en": "...", "tr": "..."}, ...]`;
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -212,8 +213,8 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
 
             // Step 3: Flip and speak meaning (Korean)
             setFlipped(true);
-            const currentMeaning = getVocaMeaning(currentCard, settings.lang);
-            await playNaturalTTS(currentMeaning, settings.lang);
+            const currentMeaning = getVocaMeaning(currentCard, localLang);
+            await playNaturalTTS(currentMeaning, localLang);
             if (!isActive) return;
 
             // Step 4: Pause before next card
@@ -255,10 +256,10 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
         if (!deck[index]) return;
         try {
             const WebSpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-            if (!WebSpeechRecognition) { setFeedbackMsg({ type: 'error', text: t(settings.lang, "browser_no_speech") }); return; }
+            if (!WebSpeechRecognition) { setFeedbackMsg({ type: 'error', text: t(localLang, "browser_no_speech") }); return; }
             const recognition = new WebSpeechRecognition();
             recognition.lang = 'en-US'; recognition.interimResults = true; recognition.maxAlternatives = 1;
-            recognition.onstart = () => { setIsRecording(true); setFeedbackMsg({ type: 'info', text: t(settings.lang, "listening") }); };
+            recognition.onstart = () => { setIsRecording(true); setFeedbackMsg({ type: 'info', text: t(localLang, "listening") }); };
 
             let matched = false;
 
@@ -271,7 +272,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                     const ok = said === target || said.includes(target) || target.includes(said);
                     if (ok) {
                         matched = true;
-                        setFeedbackMsg({ type: 'success', text: `${t(settings.lang, "perfect")} (${event.results[i][0].transcript})` });
+                        setFeedbackMsg({ type: 'success', text: `${t(localLang, "perfect")} (${event.results[i][0].transcript})` });
                         playSound('correct');
                         recognition.stop();
                         setIsRecording(false);
@@ -282,14 +283,14 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
 
                 const lastIdx = event.results.length - 1;
                 if (event.results[lastIdx].isFinal && !matched) {
-                    setFeedbackMsg({ type: 'error', text: `${t(settings.lang, "try_again")} (${event.results[lastIdx][0].transcript})` });
+                    setFeedbackMsg({ type: 'error', text: `${t(localLang, "try_again")} (${event.results[lastIdx][0].transcript})` });
                     playSound('wrong');
                 }
             };
-            recognition.onerror = () => { if (matched) return; setFeedbackMsg({ type: 'error', text: t(settings.lang, "try_again") }); playSound('wrong'); };
+            recognition.onerror = () => { if (matched) return; setFeedbackMsg({ type: 'error', text: t(localLang, "try_again") }); playSound('wrong'); };
             recognition.onend = () => setIsRecording(false);
             recognition.start();
-        } catch (err) { setIsRecording(false); setFeedbackMsg({ type: 'error', text: t(settings.lang, "error_occurred") }); }
+        } catch (err) { setIsRecording(false); setFeedbackMsg({ type: 'error', text: t(localLang, "error_occurred") }); }
     };
 
     const checkMeaningVoice = async () => {
@@ -298,7 +299,12 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
             const WebSpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
             if (!WebSpeechRecognition) { alert("Speech not supported"); return; }
             const recognition = new WebSpeechRecognition();
-            recognition.lang = settings.lang === 'ko' ? 'ko-KR' : 'en-US';
+            
+            const LANG_MAP: Record<string, string> = {
+                ko: 'ko-KR', en: 'en-US', ja: 'ja-JP', zh: 'zh-CN', tw: 'zh-TW', vi: 'vi-VN'
+            };
+            recognition.lang = LANG_MAP[localLang] || 'ko-KR';
+            
             recognition.onstart = () => { setIsRecording(true); };
             recognition.onresult = (event: any) => {
                 const said = event.results[0][0].transcript;
@@ -332,7 +338,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
 
     const handleDeleteWord = () => {
         if (!card) return;
-        if (!confirm(t(settings.lang, 'delete_confirm') || "Remove from list?")) return;
+        if (!confirm(t(localLang, 'delete_confirm') || "Remove from list?")) return;
         const wordId = card.word;
         const remainingNotes = incorrectNotes.filter((n: any) => (getLatestNoteData(n).word) !== wordId);
         setIncorrectNotes(remainingNotes);
@@ -347,13 +353,13 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
             <header className="flex items-center justify-between px-6 pb-4 border-b border-slate-100 bg-white/80 backdrop-blur-xl z-20 shrink-0" style={{ paddingTop: 'calc(max(env(safe-area-inset-top), 20px) + 16px)' }}>
                 <button onClick={() => setScreen('HOME')}
                     className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
-                <h2 className="text-lg font-black text-slate-800 flex items-center gap-2 tracking-tight"><BookOpen size={20} className="text-primary" /> {t(settings.lang, "review_voca")}</h2>
+                <h2 className="text-lg font-black text-slate-800 flex items-center gap-2 tracking-tight"><BookOpen size={20} className="text-primary" /> {t(localLang, "review_voca")}</h2>
                 <div className="w-10"></div>
             </header>
             <div className="flex-1 flex flex-col items-center justify-center text-center py-20 px-8">
                 <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-green-500/10 border border-green-100"><CheckCircle2 size={48} className="text-green-500" /></div>
-                <h3 className="text-2xl font-black text-slate-800 mb-2">{t(settings.lang, "no_wrong_yet")}</h3>
-                <p className="text-sm text-slate-500 font-bold leading-relaxed">{t(settings.lang, "review_empty_desc")}</p>
+                <h3 className="text-2xl font-black text-slate-800 mb-2">{t(localLang, "no_wrong_yet")}</h3>
+                <p className="text-sm text-slate-500 font-bold leading-relaxed">{t(localLang, "review_empty_desc")}</p>
             </div>
         </div>
     );
@@ -362,13 +368,13 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
         <div className="screen animate-fade-in bg-white flex flex-col overflow-hidden">
             <div className="flex-1 flex flex-col items-center justify-center text-center px-8">
                 <div className="w-32 h-32 bg-indigo-50 rounded-[48px] flex items-center justify-center mb-8 shadow-2xl shadow-indigo-500/10 border-2 border-indigo-100 animate-bounce"><Trophy size={64} className="text-primary" /></div>
-                <h2 className="text-4xl font-black text-slate-800 mb-3 tracking-tighter">{t(settings.lang, "review_finished")}</h2>
-                <p className="text-slate-400 font-bold text-sm mb-10">{t(settings.lang, "total")} <span className="text-primary">{deck.length}</span> {t(settings.lang, "words_completed")}</p>
+                <h2 className="text-4xl font-black text-slate-800 mb-3 tracking-tighter">{t(localLang, "review_finished")}</h2>
+                <p className="text-slate-400 font-bold text-sm mb-10">{t(localLang, "total")} <span className="text-primary">{deck.length}</span> {t(localLang, "words_completed")}</p>
                 <div className="w-full max-w-xs space-y-3">
                     <button onClick={() => { setPhase('study'); setIndex(0); setFlipped(false); setKnownIds(new Set()); }}
-                        className="w-full three-d-btn bg-primary text-white py-5 rounded-[24px] font-black text-lg shadow-[0_6px_0_#3730A3] active:translate-y-1 active:shadow-none transition-all">{t(settings.lang, "review_again")}</button>
+                        className="w-full three-d-btn bg-primary text-white py-5 rounded-[24px] font-black text-lg shadow-[0_6px_0_#3730A3] active:translate-y-1 active:shadow-none transition-all">{t(localLang, "review_again")}</button>
                     <button onClick={() => setScreen('HOME')}
-                        className="w-full py-5 rounded-[24px] border-2 border-slate-100 text-slate-500 font-black text-lg hover:bg-slate-50 active:scale-95 transition-all">{t(settings.lang, "back_to_home")}</button>
+                        className="w-full py-5 rounded-[24px] border-2 border-slate-100 text-slate-500 font-black text-lg hover:bg-slate-50 active:scale-95 transition-all">{t(localLang, "back_to_home")}</button>
                 </div>
             </div>
         </div>
@@ -383,7 +389,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                     <button onClick={() => setScreen('HOME')}
                         className="bg-slate-100 text-slate-500 rounded-full p-2.5 active:scale-90 transition shadow-sm"><X size={20} /></button>
                     <div className="flex flex-col items-center">
-                        <h2 className="text-sm font-black text-primary flex items-center gap-1.5 uppercase tracking-widest leading-none mb-1"><BookOpen size={16} /> {t(settings.lang, "review_voca")}</h2>
+                        <h2 className="text-sm font-black text-primary flex items-center gap-1.5 uppercase tracking-widest leading-none mb-1"><BookOpen size={16} /> {t(localLang, "review_voca")}</h2>
                         <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">{index + 1} / {deck.length}</span>
                     </div>
                     <div className="flex gap-2">
@@ -415,8 +421,8 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                 <div className="flex items-center gap-3">
                                     <div className="p-3 bg-indigo-500 text-white rounded-2xl shadow-lg shadow-indigo-500/20"><Sparkles size={24} /></div>
                                     <div>
-                                        <h3 className="text-xl font-black text-slate-800 tracking-tight">{t(settings.lang, "ai_weakness_report")}</h3>
-                                        <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest leading-none">{t(settings.lang, "analysis_complete")}</p>
+                                        <h3 className="text-xl font-black text-slate-800 tracking-tight">{t(localLang, "ai_weakness_report")}</h3>
+                                        <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest leading-none">{t(localLang, "analysis_complete")}</p>
                                     </div>
                                 </div>
                                 <button onClick={() => setWeaknessReport(null)}
@@ -425,14 +431,14 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
 
                             <div className="space-y-8 pb-12">
                                 <section>
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">{t(settings.lang, "weakness_summary")}</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">{t(localLang, "weakness_summary")}</label>
                                     <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 italic font-medium text-slate-600 leading-relaxed">
                                         "{weaknessReport.overall}"
                                     </div>
                                 </section>
 
                                 <section>
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">{t(settings.lang, "overcoming_plan")}</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">{t(localLang, "overcoming_plan")}</label>
                                     <div className="grid gap-3">
                                         {(weaknessReport.roadmap || []).map((step: string, i: number) => (
                                             <div key={i}
@@ -445,7 +451,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                 </section>
 
                                 <section>
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">{t(settings.lang, "challenge_words")}</label>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 block">{t(localLang, "challenge_words")}</label>
                                     <div className="space-y-3">
                                         {(weaknessReport.challengeWords || []).map((cw: any, i: number) => (
                                             <div key={i}
@@ -467,7 +473,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                     onClick={() => setWeaknessReport(null)}
                                     className="w-full py-5 bg-indigo-600 text-white rounded-3xl font-black text-lg shadow-xl shadow-indigo-500/20 active:scale-95 transition-all"
                                 >
-                                    {t(settings.lang, "confirm")}
+                                    {t(localLang, "confirm")}
                                 </button>
                             </div>
                         </div>
@@ -482,8 +488,8 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                             </div>
                             <div className="absolute inset-0 border-4 border-indigo-500 border-t-transparent rounded-[40px] animate-spin"></div>
                         </div>
-                        <h3 className="text-2xl font-black text-slate-800 mb-2">{t(settings.lang, "ai_weakness_report")}</h3>
-                        <p className="text-sm text-slate-400 font-bold tracking-tight animate-pulse">{t(settings.lang, "generating_report")}</p>
+                        <h3 className="text-2xl font-black text-slate-800 mb-2">{t(localLang, "ai_weakness_report")}</h3>
+                        <p className="text-sm text-slate-400 font-bold tracking-tight animate-pulse">{t(localLang, "generating_report")}</p>
                     </div>
                 )}
 
@@ -493,14 +499,34 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                         onClick={() => setReviewMode('STUDY')}
                         className={`flex-1 py-2.5 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-2 ${reviewMode === 'STUDY' ? 'bg-white text-primary shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                     >
-                        <Sparkles size={14} /> {t(settings.lang, "study_mode")}
+                        <Sparkles size={14} /> {t(localLang, "study_mode")}
                     </button>
                     <button
                         onClick={() => setReviewMode('TEST')}
                         className={`flex-1 py-2.5 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-2 ${reviewMode === 'TEST' ? 'bg-white text-primary shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                     >
-                        <CheckCircle2 size={14} /> {t(settings.lang, "test_mode")}
+                        <CheckCircle2 size={14} /> {t(localLang, "test_mode")}
                     </button>
+                </div>
+
+                {/* Quick Language Switcher */}
+                <div className="flex justify-center gap-2 mt-3 mb-1">
+                    {[
+                        { code: 'ko', img: '/assets/flags/kr.png' },
+                        { code: 'en', img: '/assets/flags/us.png' },
+                        { code: 'ja', img: '/assets/flags/jp.png' },
+                        { code: 'zh', img: '/assets/flags/cn.png' },
+                        { code: 'tw', img: '/assets/flags/tw.png' },
+                        { code: 'vi', img: '/assets/flags/vn.png' }
+                    ].map(lang => (
+                        <button
+                            key={lang.code}
+                            onClick={() => setLocalLang(lang.code)}
+                            className={`p-1.5 rounded-lg transition-all ${localLang === lang.code ? 'bg-indigo-100/50 scale-[1.15] shadow-md border border-indigo-200' : 'bg-transparent opacity-40 hover:opacity-100 hover:scale-110 border border-transparent grayscale hover:grayscale-0'}`}
+                        >
+                            <img src={lang.img} alt={lang.code} className="w-6 h-4 object-cover rounded-[2px]" />
+                        </button>
+                    ))}
                 </div>
             </header>
 
@@ -516,19 +542,19 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                         <div className="bg-white rounded-[32px] p-6 shadow-2xl border-2 border-slate-50 flex flex-col items-center text-center relative overflow-hidden min-h-[320px]">
                             <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none"><Vibrate size={120} /></div>
 
-                            <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em] mb-4">{t(settings.lang, "step_learn")}</p>
+                            <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em] mb-4">{t(localLang, "step_learn")}</p>
                             <h1 className="text-4xl font-black text-slate-800 tracking-tighter italic mb-4 break-all">{card.word}</h1>
                             <button onClick={(e) => { e.stopPropagation(); playTTS(card.word); }}
                                 className="p-3 bg-indigo-50 text-indigo-500 hover:bg-indigo-100 rounded-2xl active:scale-90 transition mb-6 cursor-pointer relative z-10"><Volume2 size={32} /></button>
 
                             <div className="w-full h-px bg-slate-50 mb-6"></div>
 
-                            <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em] mb-2">{t(settings.lang, 'meaning_label')}</p>
+                            <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em] mb-2">{t(localLang, 'meaning_label')}</p>
                             <p className="text-2xl font-black text-slate-800 mb-6 underline decoration-indigo-200 decoration-8 underline-offset-4">{meaning}</p>
 
                             {(card.usages || [card.usage]).filter(Boolean).length > 0 ? (
                                 <div className="bg-indigo-50/30 rounded-2xl p-4 w-full text-left border border-indigo-100/50">
-                                    <p className="text-[9px] font-black text-indigo-400 uppercase tracking-widest mb-3 flex items-center gap-2">📑 {t(settings.lang, "practical_examples")}</p>
+                                    <p className="text-[9px] font-black text-indigo-400 uppercase tracking-widest mb-3 flex items-center gap-2">📑 {t(localLang, "practical_examples")}</p>
                                     <div className="space-y-4">
                                         {(card.usages || [card.usage]).filter(Boolean).slice(0, 3).map((u: any, idx: number) => {
                                             const isObj = typeof u === 'object';
@@ -574,7 +600,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                     {isGeneratingUsages ? (
                                         <div className="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
                                     ) : <Sparkles size={16} />}
-                                    {isGeneratingUsages ? t(settings.lang, 'ai_generating_usage') : t(settings.lang, 'ai_generate_usage_title')}
+                                    {isGeneratingUsages ? t(localLang, 'ai_generating_usage') : t(localLang, 'ai_generate_usage_title')}
                                 </button>
                             )}
                         </div>
@@ -583,11 +609,11 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                             <button onClick={() => setIndex(i => Math.max(0, i - 1))}
                                 disabled={index === 0}
                                 className="flex-1 py-5 rounded-[28px] bg-slate-100 text-slate-400 font-black active:scale-95 disabled:opacity-30 transition">
-                                {t(settings.lang, "prev")}
+                                {t(localLang, "prev")}
                             </button>
                             <button onClick={next}
                                 className="flex-[2] py-5 rounded-[28px] bg-indigo-500 text-white font-black shadow-xl shadow-indigo-500/25 active:scale-95 transition">
-                                {index === deck.length - 1 ? t(settings.lang, "close") : t(settings.lang, "next")}
+                                {index === deck.length - 1 ? t(localLang, "close") : t(localLang, "next")}
                             </button>
                         </div>
                     </div>
@@ -600,7 +626,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                         >
                             {!flipped ? (
                                 <div className="w-full flex flex-col items-center">
-                                    <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-6">{t(settings.lang, "test_meaning")}</p>
+                                    <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-6">{t(localLang, "test_meaning")}</p>
                                     <h1 className={`font-black text-slate-800 tracking-tighter italic mb-8 break-all px-2 ${(card.word).length > 12 ? 'text-3xl' : 'text-5xl'}`}>
                                         {card.word}
                                     </h1>
@@ -609,7 +635,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                         <div className="relative">
                                             <input
                                                 type="text"
-                                                placeholder={t(settings.lang, "type_meaning")}
+                                                placeholder={t(localLang, "type_meaning")}
                                                 value={userInput}
                                                 onChange={(e) => setUserInput(e.target.value)}
                                                 onKeyDown={(e) => { if (e.key === 'Enter') handleCheckMeaning(); }}
@@ -622,9 +648,9 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                         </div>
                                         <div className="flex gap-2">
                                             <button onClick={() => handleCheckMeaning()}
-                                                className="flex-1 bg-primary text-white py-3 rounded-2xl font-black text-xs shadow-lg active:scale-95 transition">{t(settings.lang, "confirm")}</button>
+                                                className="flex-1 bg-primary text-white py-3 rounded-2xl font-black text-xs shadow-lg active:scale-95 transition">{t(localLang, "confirm")}</button>
                                             <button onClick={() => setFlipped(true)}
-                                                className="bg-slate-200 text-slate-500 py-3 px-6 rounded-2xl font-black text-xs active:scale-95 transition">{t(settings.lang, "reveal")}</button>
+                                                className="bg-slate-200 text-slate-500 py-3 px-6 rounded-2xl font-black text-xs active:scale-95 transition">{t(localLang, "reveal")}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -636,11 +662,11 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                     <div className="flex items-center justify-center gap-3 w-full">
                                         <button onClick={(e) => { e.stopPropagation(); playTTS(card.word); }}
                                             className="flex-1 flex justify-center items-center gap-2 px-4 py-4 rounded-3xl font-black text-sm transition-all border-2 bg-slate-50 text-slate-600 border-slate-100 active:bg-slate-100">
-                                            <Volume2 size={20} /> {settings.lang === 'ko' ? '발음 듣기' : t(settings.lang, "voice_check")?.replace('확인', '듣기') || 'Listen'}
+                                            <Volume2 size={20} /> {localLang === 'ko' ? '발음 듣기' : t(localLang, "voice_check")?.replace('확인', '듣기') || 'Listen'}
                                         </button>
                                         <button onClick={(e) => { e.stopPropagation(); checkPronunciation(); }}
                                             className={`flex-[1.2] flex justify-center items-center gap-2 px-4 py-4 rounded-3xl font-black text-sm transition-all border-2 ${isRecording ? 'bg-red-50 text-red-500 border-red-100 animate-pulse' : 'bg-indigo-50 text-indigo-600 border-indigo-100 active:bg-indigo-100'}`}>
-                                            <Mic size={20} /> {isRecording ? t(settings.lang, "listening") : t(settings.lang, "voice_check")}
+                                            <Mic size={20} /> {isRecording ? t(localLang, "listening") : t(localLang, "voice_check")}
                                         </button>
                                     </div>
 
@@ -654,12 +680,12 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                 <button onClick={next}
                                     className="flex-1 py-4 rounded-[24px] bg-white border-2 border-red-100 text-red-500 font-black flex flex-col items-center gap-1">
                                     <RefreshCcw size={20} />
-                                    <span className="text-[9px] uppercase tracking-widest">{t(settings.lang, "one_more")}</span>
+                                    <span className="text-[9px] uppercase tracking-widest">{t(localLang, "one_more")}</span>
                                 </button>
                                 <button onClick={handleKnow}
                                     className="flex-1 py-4 rounded-[24px] bg-slate-800 text-white font-black flex flex-col items-center gap-1 shadow-xl">
                                     <CheckCircle2 size={20} />
-                                    <span className="text-[9px] uppercase tracking-widest">{t(settings.lang, "got_it")}</span>
+                                    <span className="text-[9px] uppercase tracking-widest">{t(localLang, "got_it")}</span>
                                 </button>
                             </div>
                         ) : (
@@ -668,7 +694,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
                                     disabled={index === 0}
                                     className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl font-black disabled:opacity-30"><ChevronLeft size={20} /></button>
                                 <button onClick={() => { setFlipped(true); playTTS(card.w); }}
-                                    className="flex-[3] py-4 bg-primary text-white rounded-2xl font-black shadow-lg">{t(settings.lang, "reveal")}</button>
+                                    className="flex-[3] py-4 bg-primary text-white rounded-2xl font-black shadow-lg">{t(localLang, "reveal")}</button>
                                 <button onClick={() => setIndex(i => Math.min(deck.length - 1, i + 1))}
                                     disabled={index === deck.length - 1}
                                     className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl font-black disabled:opacity-30"><ChevronRight size={20} /></button>

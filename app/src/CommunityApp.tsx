@@ -44,22 +44,18 @@ function CommunityMain() {
             onNavigateToCategory={handleNavigateToCategory}
             onNavigateToPost={handleNavigateToPost}
             onLoginClick={() => setView('LOGIN')}
+            onBack={() => window.location.href = '/index.html' + window.location.search}
           />
         );
       case 'FORUM':
         return (
           <div className="h-screen bg-slate-50 md:p-6 lg:p-12 flex flex-col">
              <div className="flex-1 bg-white rounded-[40px] shadow-2xl overflow-hidden border border-slate-100 relative">
-                <button 
-                  onClick={() => setView('HOME')}
-                  className="absolute top-6 left-6 z-[110] bg-white/80 backdrop-blur-md border border-slate-200 px-4 py-2 rounded-2xl font-black text-xs text-slate-600 hover:bg-indigo-600 hover:text-white transition-all shadow-sm flex items-center gap-2"
-                >
-                  ← 커뮤니티 홈으로
-                </button>
                 <CommunityForumScreen 
                     lang={lang} 
                     firebaseUser={firebaseUser} 
                     externalPostId={selectedPostId} 
+                    onBack={() => setView('HOME')}
                 />
              </div>
           </div>

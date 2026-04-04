@@ -1,59 +1,103 @@
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
+import { Capacitor } from '@capacitor/core';
 
 /**
  * TTS 발화 전 텍스트 정제
- * - 이모지 제거
- * - 괄호 및 괄호 안 내용(보통 번역본) 제거
- * - 따옴표 제거
  */
 export const cleanTextForTTS = (text: string): string => {
     return text
-        .replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDDFF])/g, '') // 이모지 제거
-        .replace(/\(.*?\)/g, '') // 괄호와 그 안의 내용 제거 (번역본 무시)
-        .replace(/["'「」『』]/g, '') // 따옴표 제거
-        .replace(/[*_#]/g, '') // 마크다운 기호(*, _, #) 제거
-        .replace(/\s+/g, ' ') // 공백 정형화
+        .replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDDFF])/g, '')
+        .replace(/\(.*?\)/g, '')
+        .replace(/["'「」『』]/g, '')
+        .replace(/[*_#]/g, '')
+        .replace(/\s+/g, ' ')
         .trim();
 };
 
-/**
- * 젊고 친절한 여성 음성톤을 위한 설정값
- */
 const FEMALE_VOICE_CONFIG = {
-    rate: 0.95, // 약간 천천히 읽어줌
-    pitch: 1.2, // 피치를 높여 더 젊고 밝은 톤 구현
+    rate: 0.95,
+    pitch: 1.2,
     volume: 1.0,
     category: 'playback' as const,
 };
 
-/**
- * 한국어와 영어가 섞인 문장을 분석하여 언어별로 원어민 음성을 번역하여 들려줌
- */
+const LANG_MAP: Record<string, string> = {
+    ko: 'ko-KR',
+    en: 'en-US',
+    ja: 'ja-JP',
+    zh: 'zh-CN',
+    tw: 'zh-TW',
+    vi: 'vi-VN'
+};
+
+const speakWithWebTTS = (text: string, langCode: string): Promise<void> => {
+    return new Promise((resolve) => {
+        if (!window.speechSynthesis) return resolve();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = langCode;
+        utterance.rate = FEMALE_VOICE_CONFIG.rate;
+        utterance.pitch = FEMALE_VOICE_CONFIG.pitch;
+        utterance.volume = FEMALE_VOICE_CONFIG.volume;
+
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length > 0) {
+            const shortCode = langCode.split('-')[0];
+            // 1. Google Network Voice (Highest quality)
+            let voice = voices.find(v => v.lang.includes(shortCode) && v.name.includes('Google'));
+            // 2. Any Voice matching language (e.g. native OS Vietnamese voice)
+            if (!voice) voice = voices.find(v => v.lang.includes(shortCode));
+            
+            if (voice) {
+                utterance.voice = voice;
+            }
+        }
+
+        utterance.onend = () => resolve();
+        utterance.onerror = () => resolve();
+        window.speechSynthesis.speak(utterance);
+    });
+};
+
+const speakText = async (text: string, langCode: string) => {
+    if (Capacitor.getPlatform() === 'web' && window.speechSynthesis) {
+        await speakWithWebTTS(text, langCode);
+    } else {
+        await TextToSpeech.speak({
+            ...FEMALE_VOICE_CONFIG,
+            text,
+            lang: langCode,
+        });
+    }
+};
+
 export const playNaturalTTS = async (text: string, defaultLang: string = 'ko') => {
     try {
         await TextToSpeech.stop();
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
         
         const cleaned = cleanTextForTTS(text);
         if (!cleaned) return;
 
-        // 문장을 한글 구간과 영어 구간으로 분리 (단순화된 정규식)
-        // 한글 구간 또는 영어 구간으로 나누어 배열 생성
+        const targetLangCode = LANG_MAP[defaultLang] || (defaultLang === 'ko' ? 'ko-KR' : 'en-US');
+
+        if (defaultLang === 'vi' || defaultLang === 'en') {
+            await speakText(cleaned, targetLangCode);
+            return;
+        }
+
         const segments = cleaned.split(/([a-zA-Z\s,.'!?-]{4,})/g).filter(s => s.trim().length > 0);
 
         for (const segment of segments) {
             const isEnglish = /^[a-zA-Z\s,.'!?-]+$/.test(segment);
-            const lang = isEnglish ? 'en-US' : (defaultLang === 'ko' ? 'ko-KR' : 'en-US');
-
-            await TextToSpeech.speak({
-                ...FEMALE_VOICE_CONFIG,
-                text: segment.trim(),
-                lang,
-            });
+            const lang = isEnglish ? 'en-US' : targetLangCode;
+            await speakText(segment.trim(), lang);
         }
     } catch (e) {
         console.error("Natural TTS Error:", e);
     }
 };
+
 
 export const stopTTS = async () => {
     try {
