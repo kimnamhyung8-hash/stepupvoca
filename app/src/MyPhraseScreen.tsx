@@ -374,8 +374,7 @@ function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActiveP
         if (settings?.tts === false) return;
         setIsSpeakingOriginal(true);
         try {
-            const ttsLang = NATIVE_TTS_LOCALE[phrase.inputLangCode] || 'en-US';
-            await TextToSpeech.speak({ text: phrase.original, lang: ttsLang, rate: 0.85 });
+            await playNaturalTTS(phrase.original, phrase.inputLangCode || 'en');
         } catch (_) { } finally { setIsSpeakingOriginal(false); }
     };
 
@@ -390,7 +389,8 @@ function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActiveP
         if (settings?.tts === false) return;
         setIsSpeakingMeaning(true);
         try {
-            await playNaturalTTS(phrase.nativeTranslation, localLang);
+            const currentMeaning = phrase.nativeTranslationLoc ? (phrase.nativeTranslationLoc[localLang] || phrase.nativeTranslation) : phrase.nativeTranslation;
+            await playNaturalTTS(currentMeaning, localLang);
         } catch (_) { } finally { setIsSpeakingMeaning(false); }
     };
 
@@ -587,6 +587,7 @@ function AddPhraseModal({ settings, onAdd, onClose, t, getCatLabel, incrementAiU
             const prompt = `Task: Translate the following sentence into natural English and ${nativeLangLabel}.
 - Input Sentence: "${text}"
 - Detected Input Language Hint: ${inputLangLabel} (Determine actual language automatically if different)
+* NOTICE: The input was transcribed via STT and may lack punctuation (?, !, .). For languages dependent on intonation like Korean, infer the intended sentence type (Question vs Statement) from the context before translating.
 
 Required Response JSON Format (Return ONLY valid JSON):
 {

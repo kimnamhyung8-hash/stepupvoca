@@ -1,0 +1,15 @@
+﻿5651487 chore(release): v1.9.5 - iPad optimizations & iOS fixes
+3e4eddf Merge Windows Tablet layouts with Mac TTS optimizations
+dde6b22 fix(phrase): enforce JSON output from Gemini in handleTranslate
+4fa6e2b fix(sync): stop firestore from overwriting local myPhrases state on listen
+c02867b fix(conversation): correct language property mapping for nativeTranslationLoc
+21554b8 fix(phrase_sync): add nativeTranslationLoc to AI Conversation and Live Chat saved phrases, fix MyPhraseScreen state bugs
+bc29eb3 feat: add flag UI language switcher, fix TTS default voice fallback bug on web
+da3dee7 fix: restore Firebase Auth client IDs for iOS and fix PWAServiceWorker Auth interception
+55407ce chore: format and save unsaved changes (MyPhrase, Arcade, Review, LiveChat)
+fe058ea 臾댄븳 ?ъ깮 諛?湲濡쒕쾶 ?쇱씠釉뚯콟 AI 媛뺤궗, 紐ъ뒪??蹂댁뭅 ?덉씠?꾩썐 ?섏젙?ы빆 理쒖쥌 諛섏쁺
+6cf1d88 Bump android version code to 77 and update aab build script
+82c93e4 Fix Arcade mode layout overlapping on small Android screens and retry HP bug + AI Chat Lobby UI fix
+1022ba3 feat(AI Config): implement firestore driven remote dynamic config
+79c4092 fix(AI Report): Catch all API errors to trigger fallback
+20ad467 fix(AI Report): Add lightweight model fallback for 429 quota errors & resolve merge conflicts

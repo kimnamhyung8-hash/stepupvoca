@@ -569,12 +569,13 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
             ? `Your specific goal is to handle: "${subSc.description_en}".`
             : `Handle the general situation of ${sc.title_en} professionally.`;
 
-        const systemInstruction = `You are a professional ${identityContext} staff. You MUST follow these 5 Fundamental Rules:
+        const systemInstruction = `You are a professional ${identityContext} staff. You MUST follow these 6 Fundamental Rules:
         1. IDENTITY: Fully embody your role at ${identityContext}. Use industry-specific terminology and etiquette.
         2. CONSISTENCY: Never break character. If the user goes off-topic, politely guide them back.
         3. MISSION: ${missionGoal} Lead the conversation educationally with natural questions and hints.
         4. TURN STRATEGY: This is turn ${turnCount + 1} of 15. Manage the flow logically: [Intro -> Core Interaction -> Closing].
         5. CULTURAL SENSITIVITY: ${getCulturalHint(lang)}
+        6. STT AWARENESS: The user's input is transcribed via Speech-to-Text and may lack punctuation (?, !, .). Infer the intended sentence type (e.g., Question vs Statement) based on context, especially for languages reliant on intonation like Korean.
 
         LEARNER LEVEL: ${convLevel}
         ${getLevelInstruction(convLevel)}
@@ -614,8 +615,12 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                 }
             });
 
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000); // 15초 타임아웃 방어벽
+
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
+                signal: controller.signal,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     contents: finalHistory,
@@ -627,6 +632,7 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                     }
                 })
             });
+            clearTimeout(timeoutId);
 
             if (!res.ok) {
                 const errData = await res.json().catch(() => ({}));
@@ -710,11 +716,16 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
         Example: "Prioritize explaining check-in terminology more simply, as the student struggled with the word 'reservation'."`;
 
         try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
+                signal: controller.signal,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: reflectionPrompt }] }] })
             });
+            clearTimeout(timeoutId);
             const data = await res.json();
             const reflection = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
@@ -808,7 +819,7 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                 const langMap: any = { ko: 'ko-KR', en: 'en-US', ja: 'ja-JP', zh: 'zh-CN', tw: 'zh-TW', vi: 'vi-VN' };
                 recognition.lang = langMap[inputLang] || 'en-US';
                 recognition.interimResults = true;
-                recognition.continuous = false;
+                recognition.continuous = true;
 
                 recognition.onresult = (e: any) => {
                     const transcript = Array.from(e.results).map((result: any) => result[0].transcript).join('');

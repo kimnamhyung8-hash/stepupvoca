@@ -768,7 +768,7 @@ const PostDetailView = ({ post, comments, firebaseUser, lang, isGlobalTranslateO
         {/* AdSense Placement (Single Slot) */}
         {!isHiddenVisual && (
           <div className="w-full pt-8 pb-4">
-             <PcAdSlot variant="horizontal" adClient="ca-pub-2942259555786766" adSlot="3363415185" className="w-full shadow-sm rounded-[24px] overflow-hidden border border-slate-100/50" />
+             <PcAdSlot variant="horizontal" adClient="ca-pub-8125662823247706" adSlot="3363415185" className="w-full shadow-sm rounded-[24px] overflow-hidden border border-slate-100/50" />
           </div>
         )}
 

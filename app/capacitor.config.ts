@@ -10,8 +10,8 @@ const config: CapacitorConfig = {
   plugins: {
     AdMob: {
       // K-Account Real App IDs
-      androidAppId: 'ca-app-pub-6224627094460293~1345014713',
-      iosAppId: 'ca-app-pub-6224627094460293~8590112124',
+      androidAppId: 'ca-app-pub-8125662823247706~7103375293',
+      iosAppId: 'ca-app-pub-8125662823247706~6554814026',
     },
     FirebaseAuthentication: {
       skipNativeAuth: true,
@@ -20,7 +20,7 @@ const config: CapacitorConfig = {
       serverClientId: "806999527929-reao0rmomija5d2q0o04279s4e9455d3.apps.googleusercontent.com",
       forceCodeForRefreshToken: true,
       scopes: ["profile", "email"]
-    }
+    } as any
   }
 };
 

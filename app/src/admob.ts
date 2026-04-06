@@ -5,16 +5,16 @@ import { pauseMainBGM } from './bgm';
 const AD_IDS = {
     // Real IDs (Google provided)
     banner: {
-        android: 'ca-app-pub-6224627094460293/5694958301',
-        ios: 'ca-app-pub-6224627094460293/1859783323',
+        android: 'ca-app-pub-8125662823247706/1882109256',
+        ios: 'ca-app-pub-8125662823247706/1830867315',
     },
     interstitial: {
-        android: 'ca-app-pub-6224627094460293/5848334101',
-        ios: 'ca-app-pub-6224627094460293/7697704419',
+        android: 'ca-app-pub-8125662823247706/3225943107',
+        ios: 'ca-app-pub-8125662823247706/4280004473',
     },
     rewarded_interstitial: {
-        android: 'ca-app-pub-6224627094460293/1390214344',
-        ios: 'ca-app-pub-6224627094460293/9324609298',
+        android: 'ca-app-pub-8125662823247706/9585339454',
+        ios: 'ca-app-pub-8125662823247706/5774815902',
     },
     // Official Test IDs
     test: {
