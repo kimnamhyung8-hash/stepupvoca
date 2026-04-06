@@ -391,7 +391,8 @@ function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActiveP
         if (settings?.tts === false) return;
         setIsSpeakingMeaning(true);
         try {
-            await playNaturalTTS(phrase.nativeTranslation, localLang);
+            const currentMeaning = phrase.nativeTranslationLoc ? (phrase.nativeTranslationLoc[localLang] || phrase.nativeTranslation) : phrase.nativeTranslation;
+            await playNaturalTTS(currentMeaning, localLang);
         } catch (_) { } finally { setIsSpeakingMeaning(false); }
     };
 
