@@ -6,7 +6,10 @@ const config: CapacitorConfig = {
   webDir: 'build_dist',
   server: {
     androidScheme: 'https',
-    iosScheme: 'https'
+    iosScheme: 'https',
+    url: 'http://10.0.2.2:5173', // 안드로이드 에뮬레이터용 빌드
+    // url: 'http://192.168.0.39:5173', // 실제 기기 연결 시 (Vite 로컬 환경)
+    cleartext: true
   },
   plugins: {
     AdMob: {

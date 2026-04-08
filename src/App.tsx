@@ -208,14 +208,14 @@ function MainApp() {
   const commitReportUsage = () => {};
   const reportUsage = 0;
 
-  const [isLargeScreen, setIsLargeScreen] = useState(() => window.innerWidth >= 700 || window.screen.width >= 700);
+  const [isLargeScreen, setIsLargeScreen] = useState(() => window.innerWidth >= 700);
 
   useEffect(() => {
     let timeoutId: any;
     const handleResize = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        setIsLargeScreen(window.innerWidth >= 700 || Math.min(window.screen.width, window.screen.height) >= 700);
+        setIsLargeScreen(window.innerWidth >= 700);
       }, 150);
     };
     window.addEventListener('resize', handleResize);
