@@ -302,7 +302,7 @@ const globalStyles = `
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 `;
 
-export function ConversationListScreen({ settings, setScreen, setActiveScenario, convLevel, setConvLevel, setAiReportMode }: any) {
+export function ConversationListScreen({ settings, setScreen, setActiveScenario, convLevel, setConvLevel, setAiReportMode, appPurpose }: any) {
     const lang = settings?.lang || 'ko';
     const t = (key: string) => globalT(lang, key) || key;
     const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -314,6 +314,24 @@ export function ConversationListScreen({ settings, setScreen, setActiveScenario,
             return JSON.parse(saved);
         } catch { return null; }
     };
+
+    const getFilteredScenarios = () => {
+        if (!appPurpose) return SCENARIOS;
+        switch (appPurpose) {
+            case 'TRAVEL':
+                return SCENARIOS.filter(sc => ['airport', 'hotel', 'restaurant', 'shopping', 'directions', 'emergency', 'taxi', 'cafe'].includes(sc.id));
+            case 'BUSINESS':
+                return SCENARIOS.filter(sc => ['business', 'interview', 'phone', 'appointments', 'hotel', 'restaurant', 'airport'].includes(sc.id));
+            case 'COMMUNICATION':
+                return SCENARIOS.filter(sc => ['cafe', 'hobbies', 'appointments', 'phone', 'shopping', 'directions', 'restaurant'].includes(sc.id));
+            case 'LEARNING':
+            case 'TESTING':
+            default:
+                return SCENARIOS;
+        }
+    };
+
+    const filteredScenarios = getFilteredScenarios();
 
     return (
         <div className="w-full flex-1 animate-fade-in bg-[#0A0A0E] flex flex-col sm:rounded-[32px] sm:shadow-2xl">
@@ -339,7 +357,7 @@ export function ConversationListScreen({ settings, setScreen, setActiveScenario,
             </div>
 
             <div className="flex-1 overflow-y-auto px-5 py-2 space-y-4 scrollbar-hide pb-20">
-                {SCENARIOS.map((sc: Scenario) => {
+                {filteredScenarios.map((sc: Scenario) => {
                     const isExpanded = expandedId === sc.id;
                     const subCount = sc.subScenarios?.length || 0;
 

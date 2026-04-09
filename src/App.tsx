@@ -395,13 +395,18 @@ function MainApp() {
     if (saved) return saved;
     return 'B1';
   });
+  const [appPurpose, setAppPurpose] = useState<string>(() => {
+    const saved = localStorage.getItem('vq_purpose');
+    if (saved) return saved;
+    return '';
+  });
 
   const resetSessionData = () => {
     isSyncActiveRef.current = false;
     setUserPoints(1250); setCurrentLevel(1); setIncorrectNotes([]); setUserInfo(null);
     setEquippedSkin('default'); setPurchasedSkins(['default']); setUnlockedLevels([1]);
     setMyPhrases([]); setAiUsage(0); setIsPremium(false); setWaitingRoomId(null);
-    setStreak(0); setStreakMax(0); setTodayDone(false); setConvLevel('B1');
+    setStreak(0); setStreakMax(0); setTodayDone(false); setConvLevel('B1'); setAppPurpose('');
     lastSyncedData.current = ''; if (syncTimerRef.current) clearTimeout(syncTimerRef.current);
     Object.keys(localStorage).forEach(key => {
       if ((key.startsWith('vq_') && key !== 'vq_settings') || key.startsWith('voca_')) {
@@ -435,6 +440,7 @@ function MainApp() {
             if (profile.unlockedLevels) setUnlockedLevels(profile.unlockedLevels);
             if (profile.notes) { try { setIncorrectNotes(JSON.parse(profile.notes)); } catch (e) { } }
             if (profile.myPhrases) { try { setMyPhrases(JSON.parse(profile.myPhrases)); } catch (e) { } }
+            if (profile.purpose) setAppPurpose(profile.purpose);
             localStorage.setItem('vq_user', JSON.stringify(enrichedProfile));
             isSyncActiveRef.current = true;
             if (!profile.nickname && screen !== 'SPLASH') setScreen('ONBOARDING');
@@ -474,6 +480,7 @@ function MainApp() {
   useEffect(() => { localStorage.setItem('vq_skins_purchased', JSON.stringify(purchasedSkins)); }, [purchasedSkins]);
   useEffect(() => { localStorage.setItem('vq_skin', equippedSkin); }, [equippedSkin]);
   useEffect(() => { localStorage.setItem('vq_unlocked_levels', JSON.stringify(unlockedLevels)); }, [unlockedLevels]);
+  useEffect(() => { localStorage.setItem('vq_purpose', appPurpose); }, [appPurpose]);
   useEffect(() => { localStorage.setItem('vq_ai_usage', JSON.stringify({ date: new Date().toDateString(), count: aiUsage })); }, [aiUsage]);
   useEffect(() => { 
     localStorage.setItem('vq_premium', isPremium ? 'true' : 'false'); 
@@ -548,7 +555,7 @@ function MainApp() {
       await upsertUser(firebaseUser.uid, {
         ...userInfoRef.current, points: userPoints, level: currentLevel, streak, streakMax,
         notes: JSON.stringify(incorrectNotes), myPhrases: JSON.stringify(myPhrases),
-        purchasedSkins, unlockedLevels, skin: equippedSkin, lastActive: new Date().toISOString()
+        purchasedSkins, unlockedLevels, skin: equippedSkin, lastActive: new Date().toISOString(), purpose: appPurpose
       });
     } catch (e) { lastSyncedData.current = ''; }
   };
@@ -607,6 +614,7 @@ function MainApp() {
         if (profile.isPremium !== undefined) setIsPremium(profile.isPremium);
         // if (profile.notes) { try { setIncorrectNotes(JSON.parse(profile.notes)); } catch (e) { } }
         // if (profile.myPhrases) { try { setMyPhrases(JSON.parse(profile.myPhrases)); } catch (e) { } }
+        if (profile.purpose) setAppPurpose(profile.purpose);
         setIsBanned(profile.status === 'banned');
       }
     });
@@ -668,7 +676,7 @@ function MainApp() {
       case 'SPLASH': return <SplashScreen settings={settings} setScreen={setScreen} />;
       case 'LOGIN': return <LoginScreen settings={settings} setScreen={setScreen} />;
       case 'ONBOARDING': return <OnboardingScreen settings={settings} setSettings={setSettings} setScreen={setScreen} userInfo={userInfo} setUserInfo={setUserInfo} setCurrentLevel={setCurrentLevel} setUnlockedLevels={setUnlockedLevels} firebaseUser={firebaseUser} />;
-      case 'HOME': return <HomeScreen settings={settings} setScreen={setScreen} userPoints={userPoints} setUserPoints={setUserPoints} streak={streak} streakMax={streakMax} todayDone={todayDone} userInfo={userInfo} currentLevel={currentLevel} equippedSkin={equippedSkin} isPremium={isPremium} setActiveStudyLevel={setActiveStudyLevel} setAiReportMode={setAiReportMode} />;
+      case 'HOME': return <HomeScreen settings={settings} setScreen={setScreen} userPoints={userPoints} setUserPoints={setUserPoints} streak={streak} streakMax={streakMax} todayDone={todayDone} userInfo={userInfo} currentLevel={currentLevel} equippedSkin={equippedSkin} isPremium={isPremium} setActiveStudyLevel={setActiveStudyLevel} setAiReportMode={setAiReportMode} appPurpose={appPurpose} setAppPurpose={setAppPurpose} />;
       case 'STUDY_LEVEL': return <StudyLevelScreen settings={settings} setScreen={setScreen} userPoints={userPoints} setUserPoints={setUserPoints} unlockedLevels={unlockedLevels} setUnlockedLevels={setUnlockedLevels} isPremium={isPremium} setActiveStudyLevel={setActiveStudyLevel} />;
       case 'QUIZ': return (
         <QuizScreen settings={settings} setScreen={setScreen} currentLevel={activeStudyLevel} setCurrentLevel={setCurrentLevel} setUserPoints={setUserPoints} setIncorrectNotes={setIncorrectNotes} userInfo={userInfo} equippedSkin={equippedSkin} onActivityDone={handleActivityDone} triggerReview={triggerReviewIfReady} vocaDB={mergedVocaDB} setCorrectCount={setCorrectCount} setTotalQuestions={setTotalQuestions} setTimeTaken={setTimeTaken} setRecordedVideoUrl={setRecordedVideoUrl} />
@@ -691,7 +699,7 @@ function MainApp() {
       case 'BIBLE': return <BibleScreen settings={settings} setScreen={setScreen} aiUsage={aiUsage} incrementAiUsage={() => incrementAiUsage('general')} isPremium={isPremium} setShowApiModal={setShowApiModal} />;
       case 'MY_PHRASES': return <MyPhraseScreen settings={settings} setScreen={setScreen} phrases={myPhrases} setPhrases={setMyPhrases} aiUsage={aiUsage} incrementAiUsage={() => incrementAiUsage('general')} isPremium={isPremium} setShowApiModal={setShowApiModal} setShowQuotaModal={setShowQuotaModal} />;
       case 'AI_REPORT': return <AiReportScreen settings={settings} setScreen={setScreen} prevScreen={prevScreen} userInfo={userInfo} incorrectNotes={incorrectNotes} setIncorrectNotes={setIncorrectNotes} setMyPhrases={setMyPhrases} aiUsage={aiUsage} incrementAiUsage={() => incrementAiUsage('report')} commitReportUsage={commitReportUsage} reportUsage={reportUsage} activeScenario={activeScenario} convLevel={convLevel} mode={aiReportMode} setShowApiModal={setShowApiModal} />;
-      case 'CONVERSATION_LIST': return <ConversationListScreen settings={settings} setScreen={setScreen} setActiveScenario={setActiveScenario} convLevel={convLevel} setConvLevel={setConvLevel} setAiReportMode={setAiReportMode} />;
+      case 'CONVERSATION_LIST': return <ConversationListScreen settings={settings} setScreen={setScreen} setActiveScenario={setActiveScenario} convLevel={convLevel} setConvLevel={setConvLevel} setAiReportMode={setAiReportMode} appPurpose={appPurpose} />;
       case 'CONVERSATION': return activeScenario ? (
         <ConversationScreen settings={settings} setScreen={setScreen} activeScenario={activeScenario} convLevel={convLevel} incrementAiUsage={() => incrementAiUsage('general')} aiUsage={aiUsage} isPremium={isPremium} myPhrases={myPhrases} setMyPhrases={setMyPhrases} incorrectNotes={incorrectNotes} setIncorrectNotes={setIncorrectNotes} setAiReportMode={setAiReportMode} setShowApiModal={setShowApiModal} />
       ) : null;
