@@ -21,163 +21,244 @@ interface ButtonProps {
 }
 
 export const MasteryBanner: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button
-        onClick={() => setScreen('MASTERY')}
-        className="w-full mt-2 bg-[#4F46E5] py-6 rounded-[32px] text-white flex items-center justify-center gap-3 shadow-2xl shadow-indigo-500/40 active:scale-95 transition-all group"
-    >
-        <Zap size={28} className="fill-white" />
-        <span className="text-2xl font-black">{t(lang, 'start_challenge')}</span>
+    <button onClick={() => setScreen('MASTERY')} className="w-full bg-[#EEF2FF] p-5 rounded-[36px] border border-[#E0E7FF] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-indigo-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-indigo-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-indigo-50 relative group-hover:scale-105 transition-transform">
+                <Zap size={28} className="fill-indigo-600" />
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-indigo-900 leading-tight truncate">{t(lang, 'start_challenge')}</h4>
+                <p className="text-indigo-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? '단어 암기 챌린지 시작하기' : 'Start Vocabulary Challenge'}</p>
+            </div>
+            <div className="bg-indigo-600/10 text-indigo-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
     </button>
 );
 
-export const CommunityBanner: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('COMMUNITY')} className="w-full mt-2 bg-[#EEF2FF] p-6 rounded-[40px] border border-[#E0E7FF] shadow-xl hover:shadow-indigo-100 active:scale-[0.98] transition-all text-left relative overflow-hidden group">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-indigo-600/10 transition-colors" />
-        <div className="flex items-center gap-5 relative z-10">
-            <div className="w-16 h-16 bg-white text-indigo-600 rounded-[24px] flex items-center justify-center shrink-0 shadow-lg border border-indigo-50 relative group-hover:scale-110 transition-transform">
-                <Globe size={32} />
-                <div className="absolute -top-2 -right-2 bg-indigo-600 text-white text-[8px] font-black px-2 py-1 rounded-lg shadow-md border-2 border-white animate-bounce">HOT</div>
+export const StudyLevelCard: React.FC<ButtonProps & { currentLevel: number; setActiveStudyLevel: (lvl: number) => void }> = ({ lang, setScreen, currentLevel, setActiveStudyLevel }) => (
+    <button onClick={() => { setActiveStudyLevel(currentLevel); setScreen('STUDY_LEVEL'); }} className="w-full bg-[#ECFDF5] p-5 rounded-[36px] border border-[#D1FAE5] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-emerald-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-emerald-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-emerald-50 relative group-hover:scale-105 transition-transform">
+                <BookOpen size={28} />
             </div>
             <div className="flex-1 min-w-0">
-                <h4 className="font-black text-xl text-indigo-900 leading-tight">{tComm(lang, 'hero_title')}</h4>
-                <p className="text-indigo-600/70 text-xs font-bold mt-1 tracking-tight">{tComm(lang, 'hero_desc')}</p>
+                <h4 className="font-black text-lg text-emerald-900 leading-tight truncate">{t(lang, 'study_tab')}</h4>
+                <p className="text-emerald-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? '레벨별 맞춤 단어 학습장' : 'Level-based Vocabulary Study'}</p>
             </div>
-            <div className="bg-indigo-600 text-white p-3 rounded-2xl shadow-lg shadow-indigo-200 group-hover:translate-x-1 transition-transform">
-                <ArrowRight size={20} />
+            <div className="bg-emerald-600/10 text-emerald-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
+    </button>
+);
+
+export const ReviewCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
+    <button onClick={() => setScreen('REVIEW')} className="w-full bg-[#FDF4FF] p-5 rounded-[36px] border border-[#FAE8FF] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-fuchsia-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-fuchsia-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-fuchsia-50 relative group-hover:scale-105 transition-transform">
+                <BookOpen size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-fuchsia-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">AI</div>
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-fuchsia-900 leading-tight truncate">{t(lang, 'review')}</h4>
+                <p className="text-fuchsia-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? '틀린 단어들을 AI로 복습' : 'Review incorrect words with AI'}</p>
+            </div>
+            <div className="bg-fuchsia-600/10 text-fuchsia-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
+    </button>
+);
+
+export const DictionaryCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
+    <button onClick={() => setScreen('DICTIONARY')} className="w-full bg-[#ECFEFF] p-5 rounded-[36px] border border-[#CFFAFE] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-cyan-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-cyan-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-cyan-50 relative group-hover:scale-105 transition-transform">
+                <Sparkles size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-cyan-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">AI</div>
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-cyan-900 leading-tight truncate">{t(lang, 'ai_dictionary')}</h4>
+                <p className="text-cyan-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? 'AI 문맥 학습 영한사전' : 'AI Contextual Dictionary'}</p>
+            </div>
+            <div className="bg-cyan-600/10 text-cyan-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
+    </button>
+);
+
+export const BattleCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
+    <button onClick={() => setScreen('BATTLE')} className="w-full bg-[#FFF1F2] p-5 rounded-[36px] border border-[#FFE4E6] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-rose-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-rose-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-rose-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-rose-50 relative group-hover:scale-105 transition-transform">
+                <Swords size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">LIVE</div>
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-rose-900 leading-tight truncate">{t(lang, 'battle_title')}</h4>
+                <p className="text-rose-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? '글로벌 유저와 1:1 보카 대결' : '1:1 Global Voca Battle'}</p>
+            </div>
+            <div className="bg-rose-600/10 text-rose-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
+    </button>
+);
+
+export const MinigameCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
+    <button onClick={() => setScreen('MINIGAME')} className="w-full bg-[#FFFBEB] p-5 rounded-[36px] border border-[#FEF3C7] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-amber-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-amber-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-amber-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-amber-50 relative group-hover:scale-105 transition-transform">
+                <Target size={28} />
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-amber-900 leading-tight truncate">{t(lang, 'defender_title')}</h4>
+                <p className="text-amber-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? '긴장감 넘치는 단어 요격 게임' : 'Action-packed words game'}</p>
+            </div>
+            <div className="bg-amber-600/10 text-amber-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
+    </button>
+);
+
+export const AiReportCard: React.FC<ButtonProps & { setAiReportMode: (mode: 'VOCAB' | 'CONVERSATION') => void }> = ({ lang, setScreen, setAiReportMode }) => (
+    <button onClick={() => { setAiReportMode('VOCAB'); setScreen('AI_REPORT'); }} className="w-full bg-[#F5F3FF] p-5 rounded-[36px] border border-[#EDE9FE] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-violet-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-violet-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-violet-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-violet-50 relative group-hover:scale-105 transition-transform">
+                <BarChart3 size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-yellow-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">PRO</div>
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-violet-900 leading-tight truncate">{t(lang, 'ai_report_title')}</h4>
+                <p className="text-violet-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? 'AI 종합 분석 및 취약점 리포트' : 'Comprehensive AI Analysis'}</p>
+            </div>
+            <div className="bg-violet-600/10 text-violet-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
+    </button>
+);
+
+export const PhraseBibleBanner: React.FC<ButtonProps> = ({ lang, setScreen }) => (
+    <button onClick={() => setScreen('MY_PHRASES')} className="w-full bg-[#FFF7ED] p-5 rounded-[36px] border border-[#FFEDD5] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-orange-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-orange-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-orange-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-orange-50 relative group-hover:scale-105 transition-transform">
+                <BookMarked size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-orange-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">AI</div>
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-orange-900 leading-tight truncate">{t(lang, 'phrase_bible_title')}</h4>
+                <p className="text-orange-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? 'AI 회화에서 배운 나만의 표현장' : 'Your saved expressions'}</p>
+            </div>
+            <div className="bg-orange-600/10 text-orange-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
+    </button>
+);
+
+export const AiConversationCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
+    <button onClick={() => setScreen('CONVERSATION_LIST')} className="w-full bg-[#F0FDF4] p-5 rounded-[36px] border border-[#D1FAE5] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-emerald-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-emerald-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-emerald-50 relative group-hover:scale-105 transition-transform">
+                <MessageSquare size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-emerald-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">AI</div>
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-emerald-900 leading-tight truncate">{t(lang, 'ai_conversation_title')}</h4>
+                <p className="text-emerald-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? '상황별 리얼 AI 롤플레잉' : 'Situational AI Roleplay'}</p>
+            </div>
+            <div className="bg-emerald-600/10 text-emerald-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
+    </button>
+);
+
+export const BibleCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
+    <button onClick={() => setScreen('BIBLE')} className="w-full bg-[#EFF6FF] p-5 rounded-[36px] border border-[#DBEAFE] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-blue-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-blue-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-blue-50 relative group-hover:scale-105 transition-transform">
+                <BookOpen size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-blue-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">AI</div>
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-blue-900 leading-tight truncate">{t(lang, 'bible_title')}</h4>
+                <p className="text-blue-600/70 text-xs font-bold mt-1 tracking-tight truncate">{lang === 'ko' ? '핵심 영어 패턴 50개 마스터하기' : 'Master 50 Core Patterns'}</p>
+            </div>
+            <div className="bg-blue-600/10 text-blue-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
             </div>
         </div>
     </button>
 );
 
 export const LiveChatBanner: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('LIVE_CHAT')} className="w-full bg-teal-50 p-6 rounded-[32px] shadow-sm border border-teal-100 flex items-center gap-4 active:scale-95 transition-all text-left relative overflow-hidden group">
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/5 to-teal-500/10 group-hover:opacity-100 opacity-0 transition-opacity" />
-        <div className="w-14 h-14 bg-white text-teal-600 rounded-2xl flex items-center justify-center shrink-0 shadow-sm border border-teal-50 relative">
-            <Globe size={28} />
-            <div className="absolute -top-1.5 -right-1.5 bg-teal-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">AI</div>
-        </div>
-        <div className="flex-1 z-10">
-            <h4 className="font-bold text-[15px] text-slate-800 leading-tight">{tComm(lang, 'live_chat_title')}</h4>
-            <p className="text-teal-600/80 text-xs font-bold mt-1 tracking-tight">{tComm(lang, 'live_chat_desc')}</p>
-        </div>
-        <div className="bg-teal-100/50 text-teal-600 p-2.5 rounded-2xl shadow-sm z-10">
-            <ArrowRight size={18} />
-        </div>
-    </button>
-);
-
-export const AiConversationCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('CONVERSATION_LIST')} className="w-full bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex items-center gap-4 active:scale-95 transition-all text-left relative overflow-hidden group">
-        <div className="w-14 h-14 bg-[#F5F7FF] text-[#6366F1] rounded-2xl flex items-center justify-center border border-indigo-50/50 shrink-0 relative">
-            <MessageSquare size={28} />
-            <div className="absolute -top-1.5 -right-1.5 bg-indigo-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg shadow-md border border-white">AI</div>
-        </div>
-        <div className="flex-1 z-10">
-            <h4 className="font-bold text-[15px] text-slate-800 leading-tight">{t(lang, 'ai_conversation_title')}</h4>
-        </div>
-    </button>
-);
-
-export const AiConversationMiniCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('CONVERSATION_LIST')} className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left relative">
-        <div className="w-14 h-14 bg-[#F5F7FF] text-[#6366F1] rounded-2xl flex items-center justify-center border border-indigo-50/50 relative">
-            <MessageSquare size={28} />
-            <div className="absolute -top-1.5 -right-1.5 bg-indigo-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg shadow-md border border-white">AI</div>
-        </div>
-        <span className="font-bold text-[13px] text-slate-800 leading-tight">{t(lang, 'ai_conversation_title')}</span>
-    </button>
-);
-
-export const StudyLevelCard: React.FC<ButtonProps & { currentLevel: number; setActiveStudyLevel: (lvl: number) => void }> = ({ lang, setScreen, currentLevel, setActiveStudyLevel }) => (
-    <button onClick={() => { setActiveStudyLevel(currentLevel); setScreen('STUDY_LEVEL'); }} className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left">
-        <div className="w-14 h-14 bg-[#F0FDF4] text-[#22C55E] rounded-2xl flex items-center justify-center border border-emerald-50/50">
-            <BookOpen size={28} />
-        </div>
-        <span className="font-bold text-[13px] text-slate-800 leading-tight">{t(lang, 'study_tab')}</span>
-    </button>
-);
-
-export const PhraseBibleBanner: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('MY_PHRASES')} className="w-full bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex items-center gap-5 active:scale-95 transition-all text-left relative">
-        <div className="w-14 h-14 bg-[#FFF7ED] text-[#F97316] rounded-2xl flex items-center justify-center border border-orange-50/50 shrink-0 relative">
-            <BookMarked size={28} />
-            <div className="absolute -top-1.5 -right-1.5 bg-orange-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg shadow-md border border-white">AI</div>
-        </div>
-        <div className="flex-1"><h4 className="font-bold text-[15px] text-slate-800 leading-tight">{t(lang, 'phrase_bible_title')}</h4></div>
-        <div className="px-3 py-1 bg-[#FFEDD5] text-[#9A3412] text-[9px] font-bold rounded-xl shadow-sm italic tracking-tighter">{t(lang, 'new_label')}</div>
-    </button>
-);
-
-export const BibleCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('BIBLE')} className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left">
-        <div className="flex items-center gap-3">
-            <div className="w-14 h-14 bg-[#EFF6FF] text-[#3B82F6] rounded-2xl flex items-center justify-center border border-blue-50/50 relative">
-                <BookOpen size={28} />
-                <div className="absolute -top-1.5 -right-1.5 bg-blue-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg shadow-md border border-white">AI</div>
+    <button onClick={() => setScreen('LIVE_CHAT')} className="w-full bg-[#F0FDF4] p-5 rounded-[36px] border border-[#DCFCE7] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-green-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-green-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-green-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-green-50 relative group-hover:scale-105 transition-transform">
+                <Globe size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">LIVE</div>
             </div>
-            <span className="bg-[#3B82F6] text-white text-[8px] font-black px-2 py-1 rounded-full tracking-wider shadow-sm uppercase whitespace-nowrap">CORE 50</span>
-        </div>
-        <h4 className="font-bold text-[13px] text-slate-800 leading-tight">{t(lang, 'bible_title')}</h4>
-    </button>
-);
-
-export const ReviewCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('REVIEW')} className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left">
-        <div className="w-14 h-14 bg-[#FAF5FF] text-[#A855F7] rounded-2xl flex items-center justify-center border border-purple-50/50 relative">
-            <BookOpen size={28} />
-            <div className="absolute -top-1.5 -right-1.5 bg-purple-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg shadow-md border border-white">AI</div>
-        </div>
-        <span className="font-bold text-[13px] text-slate-800 leading-tight">{t(lang, 'review')}</span>
-    </button>
-);
-
-export const DictionaryCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('DICTIONARY')} className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left">
-        <div className="relative">
-            <div className="w-14 h-14 bg-[#ECFEFF] text-[#0891B2] rounded-2xl flex items-center justify-center border border-cyan-50/50"><Sparkles size={28} /></div>
-            <div className="absolute -top-1 -right-2 bg-[#22D3EE] text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg tracking-tighter whitespace-nowrap shadow-sm">{t(lang, 'ai_new_label')}</div>
-        </div>
-        <span className="font-bold text-[13px] text-slate-800 leading-tight">{t(lang, 'ai_dictionary')}</span>
-    </button>
-);
-
-export const AiReportCard: React.FC<ButtonProps & { setAiReportMode: (mode: 'VOCAB' | 'CONVERSATION') => void }> = ({ lang, setScreen, setAiReportMode }) => (
-    <button onClick={() => { setAiReportMode('VOCAB'); setScreen('AI_REPORT'); }} className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left">
-        <div className="relative">
-            <div className="w-14 h-14 bg-[#F5F3FF] text-[#8B5CF6] rounded-2xl flex items-center justify-center border border-purple-50/50 relative">
-                <BarChart3 size={28} />
-                <div className="absolute -top-1.5 -right-1.5 bg-indigo-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg shadow-md border border-white">AI</div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-green-900 leading-tight truncate">{tComm(lang, 'live_chat_title')}</h4>
+                <p className="text-green-600/70 text-xs font-bold mt-1 tracking-tight truncate">{tComm(lang, 'live_chat_desc')}</p>
             </div>
-            <div className="absolute -top-2 -left-2 bg-[#FBBF24] text-[#78350F] text-[7px] font-black px-1.5 py-0.5 rounded-lg tracking-tighter shadow-sm border border-white">PRO</div>
+            <div className="bg-green-600/10 text-green-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
         </div>
-        <span className="font-bold text-[13px] text-slate-800 leading-tight">{t(lang, 'ai_report_title')}</span>
-    </button>
-);
-
-export const BattleCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('BATTLE')} className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left">
-        <div className="relative">
-            <div className="w-14 h-14 bg-[#FFF1F2] text-[#E11D48] rounded-2xl flex items-center justify-center border border-rose-50/50"><Swords size={28} /></div>
-            <div className="absolute top-0 -right-2 bg-[#F43F5E] text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg tracking-tighter shadow-sm">{t(lang, 'live_label')}</div>
-        </div>
-        <span className="font-bold text-[13px] text-slate-800 leading-tight">{t(lang, 'battle_title')}</span>
-    </button>
-);
-
-export const MinigameCard: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('MINIGAME')} className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col items-start gap-4 active:scale-95 transition-all text-left">
-        <div className="w-14 h-14 bg-[#FFFBEB] text-[#D97706] rounded-2xl flex items-center justify-center border border-amber-50/50"><Target size={28} /></div>
-        <span className="font-bold text-[13px] text-slate-800 leading-tight">{t(lang, 'defender_title')}</span>
     </button>
 );
 
 export const LevelTestBanner: React.FC<ButtonProps> = ({ lang, setScreen }) => (
-    <button onClick={() => setScreen('LEVEL_TEST')} className="w-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] p-1 rounded-[40px] shadow-xl shadow-indigo-100 active:scale-[0.98] transition-all mt-4 mb-4">
-        <div className="flex items-center gap-5 pr-8">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-[28px] flex items-center justify-center m-1 shadow-inner outline outline-1 outline-white/20"><BarChart3 size={28} className="text-white" /></div>
-            <div className="flex-1 text-center">
-                <h4 className="text-white font-bold text-lg tracking-tight">{t(lang, 'level_test_title')}</h4>
-                <p className="text-white/70 font-bold text-[10px] mt-0.5 tracking-wider uppercase italic">{t(lang, 'level_test_desc_short')}</p>
+    <button onClick={() => setScreen('LEVEL_TEST')} className="w-full bg-[#FAFAF9] p-5 rounded-[36px] border border-[#E7E5E4] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-yellow-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-yellow-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-yellow-50 relative group-hover:scale-105 transition-transform">
+                <BarChart3 size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-yellow-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">TEST</div>
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-yellow-900 leading-tight truncate">{t(lang, 'level_test_title')}</h4>
+                <p className="text-yellow-600/70 text-xs font-bold mt-1 tracking-tight truncate">{t(lang, 'level_test_desc_short')}</p>
+            </div>
+            <div className="bg-yellow-600/10 text-yellow-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+            </div>
+        </div>
+    </button>
+);
+
+export const CommunityBanner: React.FC<ButtonProps> = ({ lang, setScreen }) => (
+    <button onClick={() => setScreen('COMMUNITY')} className="w-full bg-[#EEF2FF] p-5 rounded-[36px] border border-[#E0E7FF] shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-indigo-600/10 transition-colors" />
+        <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white text-indigo-600 rounded-[20px] flex items-center justify-center shrink-0 shadow-sm border border-indigo-50 relative group-hover:scale-105 transition-transform">
+                <Globe size={28} />
+                <div className="absolute -top-1.5 -right-1.5 bg-indigo-600 text-white text-[7px] font-black px-1.5 py-0.5 rounded-lg border border-white">HOT</div>
+            </div>
+            <div className="flex-1 min-w-0">
+                <h4 className="font-black text-lg text-indigo-900 leading-tight truncate">{tComm(lang, 'hero_title')}</h4>
+                <p className="text-indigo-600/70 text-xs font-bold mt-1 tracking-tight truncate">{tComm(lang, 'hero_desc')}</p>
+            </div>
+            <div className="bg-indigo-600/10 text-indigo-600 p-2.5 rounded-2xl group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
             </div>
         </div>
     </button>

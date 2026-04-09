@@ -2,6 +2,16 @@ import { en } from './en';
 
 export const ko = {
     ...en,
+    purpose_learning_title: "수업 모드 (집중 학습)",
+    purpose_learning_desc: "체계적인 어휘 마스터리와 오답노트",
+    purpose_travel_title: "해외 여행 준비",
+    purpose_travel_desc: "공항, 식당 등 여행 실전 영어",
+    purpose_business_title: "비즈니스 / 직무",
+    purpose_business_desc: "오피스, 미팅 등 프로페셔널 회화",
+    purpose_comm_title: "자연스러운 회화",
+    purpose_comm_desc: "글로벌 친구들과 부담 없는 소통",
+    purpose_test_title: "내 실력 점검",
+    purpose_test_desc: "AI 분석 기반 상세 레벨 평가",
     guide_title: "DAY {n} · 7일 가이드",
     guide_header: "오늘 무엇을 할까요? 🎯",
     guide_subheader: "목적에 맞는 기능을 골라 바로 시작해보세요.",

@@ -15,18 +15,17 @@ import { t } from '../i18n';
 import { Capacitor } from '@capacitor/core';
 import { showRewardedInterstitialAd, grantAdFreePass } from '../admob';
 import { PurposeSelectionModal } from '../components/PurposeSelectionModal';
-import { CommunityBanner } from '../components/home/HomeButtons';
 import { LearningHomeView, TravelHomeView, BusinessHomeView, CommHomeView, TestingHomeView } from '../components/home/HomeViews';
 
 interface HomeScreenProps {
-    settings: { lang?: string; [key: string]: unknown };
+    settings: { lang?: string;[key: string]: unknown };
     setScreen: (s: string) => void;
     userPoints: number;
     setUserPoints: React.Dispatch<React.SetStateAction<number>>;
     streak: number;
     streakMax: number;
     todayDone: boolean;
-    userInfo: { nickname?: string; [key: string]: unknown } | null;
+    userInfo: { nickname?: string;[key: string]: unknown } | null;
     currentLevel: number;
     equippedSkin: string;
     isPremium?: boolean;
@@ -77,7 +76,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     };
 
     const skinData = skins[equippedSkin] || skins.default;
-    const collectedWords = 20; 
+    const collectedWords = 20;
     const unmemorizedWords = 0;
 
     const handleSelectPurpose = (p: string) => {
@@ -86,16 +85,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     };
 
     const purposeNameMap: Record<string, string> = {
-        LEARNING: '📚 ' + (lang === 'ko' ? '집중 단어 학습' : 'Focused Learning'),
-        TRAVEL: '✈️ ' + (lang === 'ko' ? '해외 여행 준비' : 'Travel Prep'),
-        BUSINESS: '💼 ' + (lang === 'ko' ? '비즈니스 / 직무' : 'Business / Career'),
-        COMMUNICATION: '🗣️ ' + (lang === 'ko' ? '자연스러운 회화' : 'Communication'),
-        TESTING: '📊 ' + (lang === 'ko' ? '내 실력 점검' : 'Level Testing')
+        LEARNING: '📚 ' + t(lang, 'purpose_learning_title'),
+        TRAVEL: '✈️ ' + t(lang, 'purpose_travel_title'),
+        BUSINESS: '💼 ' + t(lang, 'purpose_business_title'),
+        COMMUNICATION: '🗣️ ' + t(lang, 'purpose_comm_title'),
+        TESTING: '📊 ' + t(lang, 'purpose_test_title')
     };
 
     const renderSelectedView = () => {
         const pProps = { lang, setScreen, currentLevel, setActiveStudyLevel, setAiReportMode };
-        switch(appPurpose) {
+        switch (appPurpose) {
             case 'TRAVEL': return <TravelHomeView {...pProps} />;
             case 'BUSINESS': return <BusinessHomeView {...pProps} />;
             case 'COMMUNICATION': return <CommHomeView {...pProps} />;
@@ -106,9 +105,31 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         }
     };
 
+    const bgImage = (() => {
+        switch (appPurpose) {
+            case 'TRAVEL': return '/travel_bg.png';
+            case 'BUSINESS': return '/business_bg.png';
+            case 'COMMUNICATION': return '/comm_bg.png';
+            case 'TESTING': return '/testing_bg.png';
+            case 'LEARNING':
+            default: return '/learning_bg.png';
+        }
+    })();
+
     return (
-        <div className="screen bg-[#F8FAFF] flex flex-col font-sans select-none overflow-hidden h-full relative">
-            <header className="flex items-center justify-between px-4 py-1.5 bg-white sticky top-0 z-20 transition-all border-b border-slate-100">
+        <div
+            className="screen flex flex-col font-sans select-none overflow-hidden h-full relative"
+            style={{
+                backgroundImage: `url(${bgImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed'
+            }}
+        >
+            {/* Extremely light overlay just to guarantee contrast, no blur for maximum clarity */}
+            <div className="absolute inset-0 bg-white/20 pointer-events-none z-0" />
+
+            <header className="flex items-center justify-between px-4 py-1.5 bg-white/80 backdrop-blur-md sticky top-0 z-20 transition-all border-b border-white/40 shadow-sm">
                 <div className="flex items-center gap-1.5">
                     <div className="w-8 h-8 bg-[#FF6B35] rounded-lg flex items-center justify-center shadow-md shadow-orange-500/20">
                         <Bot size={18} className="text-white" />
@@ -130,11 +151,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
             </header>
 
-            <div className="flex-1 overflow-y-auto pb-24 px-6 space-y-6">
-                
+            <div className="relative z-10 flex-1 overflow-y-auto pb-24 px-6 space-y-6">
+
                 {/* Purpose Switcher */}
-                <div 
-                    className="mt-4 flex justify-between items-center bg-white p-2 pl-5 pr-2 rounded-[24px] border border-indigo-100 shadow-sm cursor-pointer active:scale-95 transition-all outline outline-4 outline-indigo-50/50" 
+                <div
+                    className="mt-4 flex justify-between items-center bg-white p-2 pl-5 pr-2 rounded-[24px] border border-indigo-100 shadow-sm cursor-pointer active:scale-95 transition-all outline outline-4 outline-indigo-50/50"
                     onClick={() => setShowPurposeModal(true)}
                 >
                     <div className="flex items-center gap-3">
@@ -195,10 +216,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
 
                 <div className="space-y-5 border-t border-slate-100 pt-6 mt-6">
+                    {/* Dynamic Purpose View */}
+                    <div className="pt-2">
+                        {renderSelectedView()}
+                    </div>
+
                     {/* Monetization / Reward Quick Actions */}
                     {Capacitor.isNativePlatform() && !isPremium && (
-                        <div className="grid grid-cols-2 gap-4 mb-4">
-                            <button 
+                        <div className="grid grid-cols-2 gap-4 mt-6 mb-4">
+                            <button
                                 onClick={async () => {
                                     if (isRolling) return;
                                     setIsRolling(true);
@@ -223,7 +249,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                                 </div>
                             </button>
 
-                            <button 
+                            <button
                                 onClick={() => {
                                     if (userPoints < 2000) {
                                         alert(t(lang, 'not_enough_points'));
@@ -247,23 +273,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                             </button>
                         </div>
                     )}
-
-                    {/* Global Community prominently displayed across all Views */}
-                    <CommunityBanner lang={lang} setScreen={setScreen} />
-
-                    {/* Dynamic Purpose View */}
-                    <div className="pt-2">
-                        {renderSelectedView()}
-                    </div>
                 </div>
             </div>
 
             {showPurposeModal && (
-                <PurposeSelectionModal 
-                    lang={lang} 
-                    onSelect={handleSelectPurpose} 
-                    onClose={() => { if (appPurpose) setShowPurposeModal(false); }} 
-                    canClose={!!appPurpose} 
+                <PurposeSelectionModal
+                    lang={lang}
+                    onSelect={handleSelectPurpose}
+                    onClose={() => { if (appPurpose) setShowPurposeModal(false); }}
+                    canClose={!!appPurpose}
                 />
             )}
         </div>

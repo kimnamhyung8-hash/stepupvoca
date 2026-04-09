@@ -1,11 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Capacitor } from '@capacitor/core';
+
 import { getActiveApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
 import { t as globalT } from './i18n';
 import {
     ChevronLeft, Plus, Trash2, Volume2, Sparkles, BookOpen,
-    X, RefreshCw, Search,
+    X, RefreshCw,
     Mic, MicOff, ChevronDown, PlayCircle, PauseCircle
 } from 'lucide-react';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
@@ -67,9 +67,11 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
 
     const [selectedCat, setSelectedCat] = useState<string>('all');
     const [searchQuery, setSearchQuery] = useState('');
-    const [showAddModal, setShowAddModal] = useState(false);
     const [deleteId, setDeleteId] = useState<number | null>(null);
-    const [isSpeakingSearch, setIsSpeakingSearch] = useState(false);
+    const [isTranslating, setIsTranslating] = useState(false);
+    const [translated, setTranslated] = useState<any>(null);
+    const [isRecording, setIsRecording] = useState(false);
+    const webRecognitionRef = useRef<any>(null);
     const filtered = phrases.filter((p: any) => {
         const matchCat = selectedCat === 'all' || p.categoryId === selectedCat;
         const q = searchQuery.toLowerCase();
@@ -151,18 +153,150 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
         setDeleteId(null);
     };
 
-    const handleAdd = (phrase: SavedPhrase) => {
-        setPhrases((prev: any[]) => [phrase, ...prev]);
-        setShowAddModal(false);
+    const startRecording = async () => {
+        try {
+            if (isRecording) {
+                if (webRecognitionRef.current) {
+                    try { webRecognitionRef.current.stop(); } catch (e) { }
+                    webRecognitionRef.current = null;
+                }
+                try { await SpeechRecognition.stop(); } catch (e) { }
+                setIsRecording(false);
+                return;
+            }
+
+            const WebSR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+            if (WebSR) {
+                setIsRecording(true);
+                const recognition = new WebSR();
+                webRecognitionRef.current = recognition;
+
+                const locale = VOICE_LANGS.find(v => v.code === localLang)?.locale || 'ko-KR';
+                recognition.lang = locale;
+                recognition.interimResults = true;
+                recognition.maxAlternatives = 1;
+
+                let finalTranscript = '';
+                recognition.onresult = (e: any) => {
+                    let interimTranscript = '';
+                    for (let i = e.resultIndex; i < e.results.length; ++i) {
+                        if (e.results[i].isFinal) {
+                            finalTranscript += e.results[i][0].transcript;
+                        } else {
+                            interimTranscript += e.results[i][0].transcript;
+                        }
+                    }
+                    const txt = finalTranscript + interimTranscript;
+                    if (txt) { setSearchQuery(txt); setTranslated(null); }
+                };
+
+                recognition.onerror = () => { setIsRecording(false); webRecognitionRef.current = null; };
+                recognition.onend = () => { setIsRecording(false); webRecognitionRef.current = null; };
+
+                recognition.start();
+                return;
+            }
+
+            const { available } = await SpeechRecognition.available();
+            if (available) {
+                await SpeechRecognition.requestPermissions();
+                setIsRecording(true);
+                const res: any = await SpeechRecognition.start({
+                    language: VOICE_LANGS.find(v => v.code === localLang)?.locale || 'ko-KR',
+                    partialResults: false, popup: true
+                });
+                setIsRecording(false);
+                if (res.matches?.length > 0) { setSearchQuery(res.matches[0]); setTranslated(null); }
+            }
+        } catch (e) { setIsRecording(false); }
     };
 
-    const playSearchTTS = async () => {
-        if (!searchQuery.trim()) return;
-        setIsSpeakingSearch(true);
+    const handleTranslate = async () => {
+        const text = searchQuery.trim();
+        if (!text) return;
+
+        const userSavedKey = localStorage.getItem('vq_gemini_key');
+        const activeKey = getActiveApiKey(userSavedKey, isPremium, aiUsage);
+        if (!activeKey) {
+            if (setShowApiModal) setShowApiModal(true); return;
+        }
+
+        if (incrementAiUsage && !incrementAiUsage()) return;
+        setIsTranslating(true);
+        const langMap: any = { ko: 'Korean', en: 'English', ja: 'Japanese', zh: 'Mandarin Chinese', tw: 'Traditional Chinese', vi: 'Vietnamese' };
+        const nativeLangLabel = langMap[lang] || 'English';
+        const inputLangLabel = langMap[localLang] || 'English';
+
         try {
-            const ttsLang = NATIVE_TTS_LOCALE[lang] || 'ko-KR';
-            await TextToSpeech.speak({ text: searchQuery, lang: ttsLang, rate: 0.9 });
-        } catch (_) { } finally { setIsSpeakingSearch(false); }
+            const prompt = `Task: Translate the following sentence into natural English and ${nativeLangLabel}.
+- Input Sentence: "${text}"
+- Detected Input Language Hint: ${inputLangLabel} (Determine actual language automatically if different)
+
+Required Response JSON Format (Return ONLY valid JSON):
+{
+  "detectedLangCode": "Two-letter code of the input sentence: ko, en, ja, zh, tw, or vi",
+  "english": "Natural English translation",
+  "englishPronunciation": "English pronunciation written in ${nativeLangLabel} characters",
+  "nativeTranslation": "The exact meaning of the input sentence in ${nativeLangLabel} (REQUIRED)",
+  "nativeTranslationLoc": {
+    "ko": "Korean meaning",
+    "en": "English meaning",
+    "ja": "Japanese meaning",
+    "zh": "Simplified Chinese meaning",
+    "tw": "Traditional Chinese meaning",
+    "vi": "Vietnamese meaning"
+  },
+  "pronunciationLoc": {
+    "ko": "Phonetic reading of Korean meaning in ${nativeLangLabel}",
+    "ja": "Phonetic reading of Japanese meaning in ${nativeLangLabel}",
+    "zh": "Phonetic reading of Chinese meaning in ${nativeLangLabel}",
+    "tw": "Phonetic reading of Traditional Chinese meaning in ${nativeLangLabel}",
+    "vi": "Phonetic reading of Vietnamese meaning in ${nativeLangLabel}"
+  },
+  "originalPronunciation": "How to read '${text}' in ${nativeLangLabel}"
+}`;
+
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } })
+            });
+
+            if (!res.ok) throw new Error('API request failed');
+            const data = await res.json();
+            const textContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!textContent) throw new Error('No candidates found');
+            const jsonPart = textContent.match(/\{[\s\S]*\}/)?.[0];
+            if (!jsonPart) throw new Error('Invalid AI format');
+            
+            const result = JSON.parse(jsonPart);
+            if (!result.nativeTranslation) result.nativeTranslation = t('translation_error');
+            setTranslated(result);
+        } catch (e: any) {
+            const msg = e.message || '';
+            if (msg.toLowerCase().includes('quota') || msg.includes('429')) {
+                if (setShowQuotaModal) setShowQuotaModal(true);
+            } else { alert(`${t('error_occurred')}: ${msg}`); }
+        } finally { setIsTranslating(false); }
+    };
+
+    const handleSave = () => {
+        if (!translated) return;
+        setPhrases((prev: any[]) => [{
+            id: Date.now(),
+            original: searchQuery,
+            english: translated.english,
+            englishPronunciation: translated.englishPronunciation,
+            nativeTranslation: translated.nativeTranslation,
+            nativeTranslationLoc: translated.nativeTranslationLoc || undefined,
+            pronunciationLoc: translated.pronunciationLoc || undefined,
+            originalPronunciation: translated.originalPronunciation,
+            inputLangCode: translated.detectedLangCode || localLang,
+            categoryId: selectedCat === 'all' ? 'daily' : selectedCat,
+            createdAt: new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US')
+        }, ...prev]);
+        setTranslated(null);
+        setSearchQuery('');
     };
 
     return (
@@ -189,48 +323,49 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                             if (!isAutoPlaying) setAutoPlayIndex(0);
                             setIsAutoPlaying(p => !p);
                         }}
-                        className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-md active:scale-90 transition ${isAutoPlaying ? 'bg-indigo-500 text-white shadow-indigo-200 animate-pulse' : 'bg-slate-50 text-slate-500'}`}
+                        className={`px-4 h-10 rounded-[18px] flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all ${isAutoPlaying ? 'bg-indigo-600 text-white shadow-indigo-200 shadow-md animate-pulse' : 'bg-slate-50 border border-slate-200/60 text-slate-600 hover:bg-slate-100'}`}
                     >
-                        {isAutoPlaying ? <PauseCircle size={20} /> : <PlayCircle size={20} />}
-                    </button>
-                    <button
-                        onClick={() => setShowAddModal(true)}
-                        className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200 active:scale-90 transition"
-                    >
-                        <Plus size={20} className="text-white" />
+                        {isAutoPlaying ? <PauseCircle size={18} /> : <PlayCircle size={18} />}
+                        <span className="text-[12px] font-black tracking-tight">
+                            {isAutoPlaying 
+                                ? (lang === 'ko' ? '재생 정지' : 'Stop Play')
+                                : (lang === 'ko' ? '무한 반복' : 'Auto Play')}
+                        </span>
                     </button>
                 </div>
             </header>
 
             <div className="flex-1 overflow-hidden flex flex-col max-w-2xl mx-auto w-full">
-                {/* 검색창 */}
+                {/* 통합 입력 / 검색창 */}
                 <div className="px-5 pt-4 pb-2">
                     <div className="flex items-center gap-2">
                         <div className="relative flex-1">
-                            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                            <button onClick={startRecording} className={`absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-xl transition ${isRecording ? 'bg-red-100 text-red-500 animate-pulse' : 'bg-slate-100 text-slate-400 hover:text-indigo-500'}`}>
+                                {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
+                            </button>
                             <input
                                 type="text"
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder={t('phrase_search_placeholder')}
-                                className="w-full bg-white border border-slate-200 rounded-2xl pl-10 pr-10 py-3 text-sm font-bold text-slate-800 outline-none focus:border-indigo-400 transition shadow-sm"
+                                onChange={(e) => { setSearchQuery(e.target.value); setTranslated(null); }}
+                                placeholder={lang === 'ko' ? "문장 검색 및 추가 (마이크/텍스트)..." : "Search or Add Phrase..."}
+                                className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-10 py-3 text-sm font-bold text-slate-800 outline-none focus:border-indigo-400 transition shadow-sm"
                             />
                             {searchQuery && (
-                                <button onClick={() => setSearchQuery('')}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2">
-                                    <X size={16} className="text-slate-400" />
+                                <button onClick={() => { setSearchQuery(''); setTranslated(null); }}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-slate-100 rounded-full">
+                                    <X size={12} className="text-slate-500" />
                                 </button>
                             )}
                         </div>
                         <button
-                            onClick={playSearchTTS}
-                            disabled={!searchQuery.trim()}
-                            className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 transition-all ${searchQuery.trim()
-                                ? isSpeakingSearch ? 'bg-indigo-600 text-white animate-pulse' : 'bg-indigo-50 text-indigo-600 border border-indigo-200'
-                                : 'bg-slate-50 text-slate-200 border border-slate-100'
+                            onClick={handleTranslate}
+                            disabled={!searchQuery.trim() || isTranslating}
+                            className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-all shadow-md ${searchQuery.trim()
+                                ? 'bg-indigo-600 text-white shadow-indigo-200 active:scale-95'
+                                : 'bg-slate-100 text-slate-300 shadow-none'
                                 }`}
                         >
-                            <Volume2 size={18} />
+                            {isTranslating ? <RefreshCw size={20} className="animate-spin" /> : <Sparkles size={20} />}
                         </button>
                     </div>
                 </div>
@@ -305,37 +440,94 @@ export function MyPhraseScreen({ settings, setScreen, aiUsage, incrementAiUsage,
                 </div>
 
                 {/* 목록 */}
-                <div className="flex-1 overflow-y-auto px-5 pb-6 space-y-3">
-                    {filtered.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-20 text-center text-slate-300">
-                            <div className="text-5xl mb-4 opacity-50">📖</div>
-                            <p className="font-bold text-sm leading-relaxed">
-                                {searchQuery ? t('phrase_search_empty') : t('phrase_empty_state')}
-                            </p>
+                {/* 결과 또는 목록 */}
+                <div className="flex-1 overflow-y-auto px-5 pb-6">
+                    {translated ? (
+                        <div className="animate-fade-in border border-indigo-100 bg-white rounded-[32px] p-5 shadow-xl shadow-indigo-100/50 mt-2">
+                            <div className="bg-indigo-50/70 rounded-[24px] p-5 border border-indigo-100/50">
+                                <div>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <p className="text-[10px] uppercase font-black text-indigo-500 flex items-center gap-1.5">
+                                            {VOICE_LANGS.find(v => v.code === localLang)?.label} {t('original_text_label')}
+                                        </p>
+                                        <button
+                                            onClick={() => {
+                                                if (settings?.tts !== false) {
+                                                    TextToSpeech.speak({
+                                                        text: searchQuery,
+                                                        lang: NATIVE_TTS_LOCALE[translated.detectedLangCode] || VOICE_LANGS.find(v => v.code === localLang)?.locale || 'ko-KR',
+                                                        rate: 0.9
+                                                    });
+                                                }
+                                            }}
+                                            className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center active:scale-95 transition-all"
+                                        >
+                                            <Volume2 size={12} />
+                                        </button>
+                                    </div>
+                                    <p className="text-base font-black text-slate-800 leading-tight">{searchQuery}</p>
+                                    <p className="text-xs text-orange-400 font-bold italic mt-1.5">{translated.originalPronunciation}</p>
+                                </div>
+                                <div className="h-px bg-indigo-100/50 my-4" />
+                                <div>
+                                    <p className="text-[10px] uppercase font-black text-indigo-500 mb-2 flex items-center gap-1.5">
+                                        {t('meaning_title_label')}
+                                    </p>
+                                    <p className="text-[17px] font-black text-indigo-900 leading-tight mb-2">{translated.english}</p>
+                                    <div className="bg-white/90 rounded-[16px] px-3 py-2.5 border border-indigo-100/50 shadow-sm">
+                                        <p className="text-[14px] font-bold text-slate-700 leading-normal">{translated.nativeTranslation}</p>
+                                        {translated.pronunciationLoc && translated.pronunciationLoc[localLang] && (
+                                            <p className="text-[11px] text-indigo-400 font-bold italic mt-1 opacity-80">
+                                                [{translated.pronunciationLoc[localLang]}]
+                                            </p>
+                                        )}
+                                    </div>
+                                    <p className="text-[11px] text-indigo-400 font-black italic mt-2 ml-1 opacity-80">[{translated.englishPronunciation}]</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-2 mt-4">
+                                <button onClick={() => setTranslated(null)}
+                                    className="flex-1 bg-slate-100 text-slate-500 font-black py-4 rounded-2xl active:scale-95 transition">{t('cancel')}</button>
+                                <button onClick={handleSave}
+                                    className="flex-[2] bg-indigo-600 text-white font-black py-4 rounded-2xl shadow-lg shadow-indigo-100 active:scale-95 transition flex items-center justify-center gap-2">
+                                    <Plus size={16} /> {t('save_btn_labeled')}
+                                </button>
+                            </div>
                         </div>
                     ) : (
-                        filtered.map((phrase: any, idx: number) => {
-                            const cat = PHRASE_CATEGORIES.find((c: any) => c.id === phrase.categoryId);
-                            return (
-                                <PhraseCard
-                                    key={phrase.id}
-                                    phrase={phrase}
-                                    cat={cat}
-                                    lang={lang}
-                                    localLang={localLang}
-                                    t={t}
-                                    settings={settings}
-                                    getCatLabel={getCatLabel}
-                                    onDelete={() => setDeleteId(phrase.id)}
-                                    isActivePlay={isAutoPlaying && autoPlayIndex === idx}
-                                />
-                            );
-                        })
+                        <div className="space-y-3 pt-2">
+                            {filtered.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center py-20 text-center text-slate-300">
+                                    <div className="text-5xl mb-4 opacity-50">📖</div>
+                                    <p className="font-bold text-sm leading-relaxed">
+                                        {searchQuery ? t('phrase_search_empty') : t('phrase_empty_state')}
+                                    </p>
+                                </div>
+                            ) : (
+                                filtered.map((phrase: any, idx: number) => {
+                                    const cat = PHRASE_CATEGORIES.find((c: any) => c.id === phrase.categoryId);
+                                    return (
+                                        <PhraseCard
+                                            key={phrase.id}
+                                            phrase={phrase}
+                                            cat={cat}
+                                            lang={lang}
+                                            localLang={localLang}
+                                            t={t}
+                                            settings={settings}
+                                            getCatLabel={getCatLabel}
+                                            onDelete={() => setDeleteId(phrase.id)}
+                                            isActivePlay={isAutoPlaying && autoPlayIndex === idx}
+                                        />
+                                    );
+                                })
+                            )}
+                        </div>
                     )}
                 </div>
             </div>
 
-            {showAddModal && <AddPhraseModal settings={settings} onAdd={handleAdd} onClose={() => setShowAddModal(false)} t={t} getCatLabel={getCatLabel} incrementAiUsage={incrementAiUsage} aiUsage={aiUsage} isPremium={isPremium} setShowApiModal={setShowApiModal} setShowQuotaModal={setShowQuotaModal} />}
+
 
             {deleteId !== null && createPortal(
                 <div className="fixed inset-0 z-[99999] bg-black/40 backdrop-blur-sm flex items-center justify-center px-6">
@@ -471,6 +663,11 @@ function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActiveP
                                     <Volume2 size={14} />
                                 </button>
                             </div>
+                            {phrase.pronunciationLoc && phrase.pronunciationLoc[localLang] && (
+                                <p className="text-[11px] text-indigo-400 font-bold italic mt-0.5 opacity-80">
+                                    [{phrase.pronunciationLoc[localLang]}]
+                                </p>
+                            )}
                         </div>
                     ) : null}
                 </div>
@@ -488,308 +685,7 @@ function PhraseCard({ phrase, cat, t, getCatLabel, onDelete, settings, isActiveP
     );
 }
 
-// ── 추가 모달 ────────────────────────────────────────────────────────────────
-function AddPhraseModal({ settings, onAdd, onClose, t, getCatLabel, incrementAiUsage, aiUsage, isPremium, setShowApiModal, setShowQuotaModal }: any) {
-    const lang = settings?.lang || 'ko';
-    const [inputText, setInputText] = useState('');
-    const [selectedCat, setSelectedCat] = useState('daily');
-    const [isTranslating, setIsTranslating] = useState(false);
-    const [translated, setTranslated] = useState<any>(null);
-    const [voiceLang, setVoiceLang] = useState<string>(['ko', 'en', 'ja', 'zh', 'tw', 'vi'].includes(lang) ? lang : 'ko');
-    const [isRecording, setIsRecording] = useState(false);
-    const webRecognitionRef = useRef<any>(null); // 웹 음성 인식용 레프 추가
-    const [showCatPicker, setShowCatPicker] = useState(false);
 
-    const startRecording = async () => {
-        try {
-            if (isRecording) {
-                if (webRecognitionRef.current) {
-                    try { webRecognitionRef.current.stop(); } catch (e) { }
-                    webRecognitionRef.current = null;
-                }
-                try { await SpeechRecognition.stop(); } catch (e) { }
-                setIsRecording(false);
-                return;
-            }
-
-            const WebSR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-            if (WebSR) {
-                setIsRecording(true);
-                const recognition = new WebSR();
-                webRecognitionRef.current = recognition;
-
-                const locale = VOICE_LANGS.find(v => v.code === voiceLang)?.locale || 'ko-KR';
-                recognition.lang = locale;
-                recognition.interimResults = true; // live typing effect
-                recognition.maxAlternatives = 1;
-
-                let finalTranscript = '';
-                recognition.onresult = (e: any) => {
-                    let interimTranscript = '';
-                    for (let i = e.resultIndex; i < e.results.length; ++i) {
-                        if (e.results[i].isFinal) {
-                            finalTranscript += e.results[i][0].transcript;
-                        } else {
-                            interimTranscript += e.results[i][0].transcript;
-                        }
-                    }
-                    const txt = finalTranscript + interimTranscript;
-                    if (txt) { setInputText(txt); setTranslated(null); }
-                };
-
-                recognition.onerror = () => {
-                    setIsRecording(false);
-                    webRecognitionRef.current = null;
-                };
-
-                recognition.onend = () => {
-                    setIsRecording(false);
-                    webRecognitionRef.current = null;
-                };
-
-                recognition.start();
-                return;
-            }
-
-            // Fallback to Native if WebSR missing
-            const { available } = await SpeechRecognition.available();
-            if (available) {
-                await SpeechRecognition.requestPermissions();
-                setIsRecording(true);
-                const res: any = await SpeechRecognition.start({
-                    language: VOICE_LANGS.find(v => v.code === voiceLang)?.locale || 'ko-KR',
-                    partialResults: false, popup: true
-                });
-                setIsRecording(false);
-                if (res.matches?.length > 0) { setInputText(res.matches[0]); setTranslated(null); }
-            }
-        } catch (e) { setIsRecording(false); }
-    };
-
-    const handleTranslate = async () => {
-        const text = inputText.trim();
-        if (!text) return;
-
-        const userSavedKey = localStorage.getItem('vq_gemini_key');
-        const activeKey = getActiveApiKey(userSavedKey, isPremium, aiUsage);
-        if (!activeKey) {
-            if (setShowApiModal) setShowApiModal(true);
-            return;
-        }
-
-        // 사용 성공 시점에 카운트 증가
-        if (incrementAiUsage && !incrementAiUsage()) return;
-        setIsTranslating(true);
-        const langMap: any = { ko: 'Korean', en: 'English', ja: 'Japanese', zh: 'Mandarin Chinese', tw: 'Traditional Chinese', vi: 'Vietnamese' };
-        const nativeLangLabel = langMap[lang] || 'English';
-        const inputLangLabel = langMap[voiceLang] || 'English';
-
-        try {
-            const prompt = `Task: Translate the following sentence into natural English and ${nativeLangLabel}.
-- Input Sentence: "${text}"
-- Detected Input Language Hint: ${inputLangLabel} (Determine actual language automatically if different)
-
-Required Response JSON Format (Return ONLY valid JSON):
-{
-  "detectedLangCode": "Two-letter code of the input sentence: ko, en, ja, zh, tw, or vi",
-  "english": "Natural English translation",
-  "englishPronunciation": "English pronunciation written in ${nativeLangLabel} characters",
-  "nativeTranslation": "The exact meaning of the input sentence in ${nativeLangLabel} (REQUIRED)",
-  "nativeTranslationLoc": {
-    "ko": "Korean meaning",
-    "en": "English meaning",
-    "ja": "Japanese meaning",
-    "zh": "Simplified Chinese meaning",
-    "tw": "Traditional Chinese meaning",
-    "vi": "Vietnamese meaning"
-  },
-  "originalPronunciation": "How to read the input '${text}' in ${nativeLangLabel} characters"
-}`;
-
-            const userSavedKey = localStorage.getItem('vq_gemini_key');
-            const activeKey = getActiveApiKey(userSavedKey, isPremium, aiUsage);
-            if (incrementAiUsage && !incrementAiUsage()) return;
-
-            const res = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`,
-                {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { responseMimeType: "application/json" }
-                    })
-                });
-
-            if (!res.ok) {
-                const errorData = await res.json().catch(() => ({}));
-                throw new Error(errorData?.error?.message || 'API request failed');
-            }
-
-            const data = await res.json();
-            if (!data.candidates?.[0]?.content?.parts?.[0]?.text) {
-                throw new Error('No candidates found in AI response');
-            }
-
-            const textContent = data.candidates[0].content.parts[0].text;
-            const jsonPart = textContent.match(/\{[\s\S]*\}/)?.[0];
-            if (!jsonPart) throw new Error('Invalid AI response format');
-
-            const result = JSON.parse(jsonPart);
-            if (!result.nativeTranslation) result.nativeTranslation = t('translation_error');
-            setTranslated(result);
-        } catch (e: any) {
-            console.error('Translation Error:', e);
-            const msg = e.message || '';
-            if (msg.toLowerCase().includes('quota') || msg.includes('429')) {
-                if (setShowQuotaModal) setShowQuotaModal(true);
-            } else {
-                alert(`${t('error_occurred')}: ${msg}`);
-            }
-        } finally { setIsTranslating(false); }
-    };
-
-
-    const handleSave = () => {
-        if (!translated) return;
-        onAdd({
-            id: Date.now(),
-            original: inputText,
-            english: translated.english,
-            englishPronunciation: translated.englishPronunciation,
-            nativeTranslation: translated.nativeTranslation,
-            nativeTranslationLoc: translated.nativeTranslationLoc || undefined,
-            originalPronunciation: translated.originalPronunciation,
-            inputLangCode: translated.detectedLangCode || voiceLang,
-            categoryId: selectedCat,
-            createdAt: new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : lang === 'ja' ? 'ja-JP' : lang === 'zh' ? 'zh-CN' : 'en-US')
-        });
-    };
-
-    return createPortal(
-        <div className="fixed inset-0 z-[99999] bg-black/50 backdrop-blur-sm flex items-end justify-center">
-            <div
-                className="bg-white w-full max-w-lg rounded-t-[40px] p-6 max-h-[92vh] overflow-y-auto animate-slide-up shadow-2xl"
-                style={{
-                    paddingBottom: (Capacitor.getPlatform() !== 'web' && !isPremium) ? 'calc(var(--ad-height) + env(safe-area-inset-bottom, 0px) + 48px)' : 'calc(env(safe-area-inset-bottom, 0px) + 48px)'
-                }}
-            >
-                <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6 opacity-50" />
-                <div className="flex items-center justify-between mb-6 px-1">
-                    <h2 className="text-xl font-black text-slate-900">{t('add_phrase_title')}</h2>
-                    <button onClick={onClose}
-                        className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-400"><X size={20} /></button>
-                </div>
-
-                <div className="space-y-6">
-                    <div className="grid grid-cols-3 gap-3">
-                        {VOICE_LANGS.map(v => (
-                            <button
-                                key={v.code}
-                                onClick={() => setVoiceLang(v.code)}
-                                className={`flex items-center justify-center gap-2 py-2 rounded-[16px] border-2 transition-all ${voiceLang === v.code
-                                    ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg'
-                                    : 'bg-slate-50 border-slate-50 text-slate-600'
-                                    }`}
-                            >
-                                <img
-                                    src={`https://flagcdn.com/w40/${v.imgCode}.png`}
-                                    alt={v.label}
-                                    className="w-6 h-4 rounded-sm object-cover shadow-sm"
-                                />
-                                <span className="text-[11px] font-black uppercase tracking-tight">{v.code}</span>
-                            </button>
-                        ))}
-                    </div>
-
-                    <div className="relative">
-                        <textarea
-                            value={inputText}
-                            onChange={(e) => { setInputText(e.target.value); setTranslated(null); }}
-                            className="w-full bg-slate-50 border-2 border-transparent rounded-[32px] p-6 pr-14 text-base font-bold min-h-[140px] outline-none focus:border-indigo-400 focus:bg-white transition shadow-inner"
-                            placeholder={t('phrase_input_placeholder')}
-                        />
-                        <button onClick={startRecording}
-                            className={`absolute right-4 bottom-4 w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${isRecording ? 'bg-red-500 animate-pulse text-white shadow-lg' : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'}`}>
-                            {isRecording ? <MicOff size={20} /> : <Mic size={22} />}
-                        </button>
-                    </div>
-
-                    <button onClick={() => setShowCatPicker(!showCatPicker)}
-                        className="w-full flex items-center justify-between bg-slate-50 rounded-2xl px-5 py-4 font-black text-[14px] text-slate-700">
-                        <span>{PHRASE_CATEGORIES.find(c => c.id === selectedCat)?.emoji} {getCatLabel(PHRASE_CATEGORIES.find(c => c.id === selectedCat))}</span>
-                        <ChevronDown size={20} className={`transition-transform ${showCatPicker ? 'rotate-180' : ''}`} />
-                    </button>
-                    {showCatPicker && (
-                        <div className="grid grid-cols-3 gap-2 animate-fade-in">
-                            {PHRASE_CATEGORIES.map(c => (
-                                <button key={c.id}
-                                    onClick={() => { setSelectedCat(c.id); setShowCatPicker(false); }}
-                                    className={`flex flex-col items-center p-3.5 rounded-[20px] border-2 font-black text-[11px] transition-all ${selectedCat === c.id ? 'bg-indigo-50 border-indigo-400 text-indigo-800' : 'bg-white border-slate-50 text-slate-500'}`}>
-                                    <span className="text-2xl mb-1.5">{c.emoji}</span>{getCatLabel(c)}
-                                </button>
-                            ))}
-                        </div>
-                    )}
-
-                    {!translated ? (
-                        <button onClick={handleTranslate}
-                            disabled={!inputText.trim() || isTranslating}
-                            className="w-full bg-indigo-600 text-white font-black py-5 rounded-[24px] shadow-xl shadow-indigo-200 active:scale-[0.98] transition flex items-center justify-center gap-2.5">
-                            {isTranslating ? <RefreshCw className="animate-spin" size={22} /> : <><Sparkles size={22} /> {t('ai_translate_create')}</>}
-                        </button>
-                    ) : (
-                        <div className="space-y-4 animate-fade-in border-t border-slate-100 pt-6">
-                            <div className="bg-indigo-50/50 rounded-[32px] p-6 space-y-5 border border-indigo-100/50">
-                                <div>
-                                    <div className="flex items-center justify-between mb-2">
-                                        <p className="text-[11px] uppercase font-black text-indigo-400 flex items-center gap-1.5">
-                                            <div className="w-1 h-1 bg-indigo-400 rounded-full" /> {VOICE_LANGS.find(v => v.code === voiceLang)?.label} {t('original_text_label')}
-                                        </p>
-                                        <button
-                                            onClick={() => {
-                                                if (settings?.tts !== false) {
-                                                    TextToSpeech.speak({
-                                                        text: inputText,
-                                                        lang: NATIVE_TTS_LOCALE[translated.detectedLangCode] || VOICE_LANGS.find(v => v.code === voiceLang)?.locale || 'ko-KR',
-                                                        rate: 0.9
-                                                    });
-                                                }
-                                            }}
-                                            className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center active:scale-95 transition-all"
-                                        >
-                                            <Volume2 size={14} />
-                                        </button>
-                                    </div>
-                                    <p className="text-lg font-black text-slate-800 leading-tight">{inputText}</p>
-                                    <p className="text-sm text-orange-400 font-bold italic mt-1.5">{translated.originalPronunciation}</p>
-                                </div>
-                                <div className="h-px bg-indigo-100/30" />
-                                <div>
-                                    <p className="text-[11px] uppercase font-black text-indigo-400 mb-2 flex items-center gap-1.5">
-                                        <div className="w-1 h-1 bg-indigo-400 rounded-full" /> {t('meaning_title_label')}
-                                    </p>
-                                    <p className="text-[19px] font-black text-indigo-900 leading-tight mb-2">{translated.english}</p>
-                                    <div className="bg-white/80 rounded-[20px] px-4 py-3 border border-indigo-100/50 shadow-sm">
-                                        <p className="text-[15px] font-bold text-slate-700 leading-normal">{translated.nativeTranslation}</p>
-                                    </div>
-                                    <p className="text-[11px] text-indigo-300 font-black italic mt-2 ml-1 opacity-70">[{translated.englishPronunciation}]</p>
-                                </div>
-                            </div>
-                            <div className="flex gap-3">
-                                <button onClick={() => setTranslated(null)}
-                                    className="flex-1 bg-slate-100 text-slate-500 font-black py-4.5 rounded-[22px] active:scale-95 transition">{t('reenter')}</button>
-                                <button onClick={handleSave}
-                                    className="flex-[2] bg-indigo-600 text-white font-black py-4.5 rounded-[22px] shadow-lg shadow-indigo-100 active:scale-95 transition">{t('save_btn_labeled')}</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
-
-        </div>, document.body
-    );
-}
 
 const style = document.createElement('style');
 style.innerText = `

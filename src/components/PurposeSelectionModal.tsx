@@ -1,5 +1,6 @@
 import React from 'react';
 import { BookOpen, Plane, Briefcase, MessageCircle, BarChart, X } from 'lucide-react';
+import { t } from '../i18n';
 
 interface PurposeSelectionModalProps {
     lang: string;
@@ -15,8 +16,8 @@ export const PurposeSelectionModal: React.FC<PurposeSelectionModalProps> = ({ la
         { 
             id: 'LEARNING', 
             icon: BookOpen, 
-            title: isKo ? '집중 단어 학습' : 'Focused Learning', 
-            desc: isKo ? '체계적인 어휘 마스터리와 오답노트' : 'Systematic vocabulary mastery',
+            title: t(lang, 'purpose_learning_title'), 
+            desc: t(lang, 'purpose_learning_desc'),
             gradient: 'from-indigo-500 to-indigo-600',
             bg: 'bg-indigo-50',
             text: 'text-indigo-600'
@@ -24,8 +25,8 @@ export const PurposeSelectionModal: React.FC<PurposeSelectionModalProps> = ({ la
         { 
             id: 'TRAVEL', 
             icon: Plane, 
-            title: isKo ? '해외 여행 준비' : 'Travel Prep', 
-            desc: isKo ? '공항, 택시, 호텔 등 여행 실전 영어' : 'Airport, taxi, hotel scenarios',
+            title: t(lang, 'purpose_travel_title'), 
+            desc: t(lang, 'purpose_travel_desc'),
             gradient: 'from-sky-500 to-sky-600',
             bg: 'bg-sky-50',
             text: 'text-sky-600'
@@ -33,8 +34,8 @@ export const PurposeSelectionModal: React.FC<PurposeSelectionModalProps> = ({ la
         { 
             id: 'BUSINESS', 
             icon: Briefcase, 
-            title: isKo ? '비즈니스 / 직무' : 'Business / Career', 
-            desc: isKo ? '오피스, 미팅 등 프로페셔널 회화' : 'Office, meetings, professional talk',
+            title: t(lang, 'purpose_business_title'), 
+            desc: t(lang, 'purpose_business_desc'),
             gradient: 'from-slate-700 to-slate-800',
             bg: 'bg-slate-100',
             text: 'text-slate-800'
@@ -42,8 +43,8 @@ export const PurposeSelectionModal: React.FC<PurposeSelectionModalProps> = ({ la
         { 
             id: 'COMMUNICATION', 
             icon: MessageCircle, 
-            title: isKo ? '자연스러운 회화' : 'Free Communication', 
-            desc: isKo ? '글로벌 친구들과 부담 없는 소통' : 'Casual talk with global friends',
+            title: t(lang, 'purpose_comm_title'), 
+            desc: t(lang, 'purpose_comm_desc'),
             gradient: 'from-rose-500 to-rose-600',
             bg: 'bg-rose-50',
             text: 'text-rose-600'
@@ -51,8 +52,8 @@ export const PurposeSelectionModal: React.FC<PurposeSelectionModalProps> = ({ la
         { 
             id: 'TESTING', 
             icon: BarChart, 
-            title: isKo ? '내 실력 점검' : 'Level Testing', 
-            desc: isKo ? 'AI 분석 기반 상세 레벨 평가' : 'AI-based detailed level assessment',
+            title: t(lang, 'purpose_test_title'), 
+            desc: t(lang, 'purpose_test_desc'),
             gradient: 'from-fuchsia-500 to-fuchsia-600',
             bg: 'bg-fuchsia-50',
             text: 'text-fuchsia-600'

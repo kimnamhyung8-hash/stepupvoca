@@ -2,6 +2,16 @@ import { en } from './en';
 
 export const vi = {
     ...en,
+    purpose_learning_title: "Chế độ lớp học (Học tập)",
+    purpose_learning_desc: "Làm chủ từ vựng một cách hệ thống",
+    purpose_travel_title: "Chuẩn bị du lịch",
+    purpose_travel_desc: "Các tình huống ở sân bay, taxi, khách sạn",
+    purpose_business_title: "Kinh doanh / Công việc",
+    purpose_business_desc: "Văn phòng, cuộc họp, nói chuyện chuyên nghiệp",
+    purpose_comm_title: "Giao tiếp tự do",
+    purpose_comm_desc: "Nói chuyện bình thường với bạn bè quốc tế",
+    purpose_test_title: "Kiểm tra cấp độ",
+    purpose_test_desc: "Đánh giá cấp độ chi tiết với AI",
     guide_title: "NGÀY {n} · Hướng dẫn 7 ngày",
     guide_header: "Hôm nay bạn muốn làm gì? 🎯",
     guide_subheader: "Chọn tính năng phù hợp với mục tiêu của bạn và bắt đầu ngay.",
