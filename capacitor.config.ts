@@ -11,6 +11,9 @@ const config: CapacitorConfig = {
     // url: 'http://192.168.0.39:5173', // 실제 기기 연결 시 (Vite 로컬 환경)
     cleartext: true
   },
+  android: {
+    path: 'app/android'
+  },
   plugins: {
     AdMob: {
       // Test App IDs - Replace with real IDs for production
