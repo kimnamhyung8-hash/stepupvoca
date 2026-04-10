@@ -262,7 +262,10 @@ Required Response JSON Format (Return ONLY valid JSON):
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } })
             });
 
-            if (!res.ok) throw new Error('API request failed');
+            if (!res.ok) {
+                const errText = await res.text().catch(() => '');
+                throw new Error(`API request failed: ${res.status} ${errText}`);
+            }
             const data = await res.json();
             const textContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
             if (!textContent) throw new Error('No candidates found');

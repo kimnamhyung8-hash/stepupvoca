@@ -30,7 +30,7 @@ const config: CapacitorConfig = {
       skipNativeAuth: true,
       providers: ["google.com"],
       iosClientId: "806999527929-h7t4ftee1gdud4d2hqichsgpkkrk2d0v.apps.googleusercontent.com",
-      serverClientId: "806999527929-reao0rmomija5d2q0o04279s4e9455d3.apps.googleusercontent.com",
+      serverClientId: "806999527929-reao0rmomija5d2m738ligum2r2gvu46.apps.googleusercontent.com",
       forceCodeForRefreshToken: true,
       scopes: ["profile", "email"]
     }
