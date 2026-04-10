@@ -37,7 +37,23 @@ export function ApiKeyModal({ settings, onClose, onSave, isPremium }: ApiKeyModa
                 </div>
 
                 <div className="space-y-5 text-sm">
-                    <p className="text-slate-400 font-bold leading-relaxed px-1">
+                    {localStorage.getItem('vq_key_rewarded') !== 'true' && (
+                        <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/10 border border-amber-500/30 rounded-2xl p-3 flex items-start gap-3 mt-2 shadow-inner">
+                            <div className="bg-amber-500/20 p-2 rounded-xl shrink-0 animate-pulse">
+                                <Sparkles className="text-amber-400" size={18} />
+                            </div>
+                            <div>
+                                <h4 className="text-amber-400 font-black text-sm uppercase tracking-tight">
+                                    {lang === 'ko' ? '최초 등록 한정 보상' : 'FIRST REGISTRATION REWARD'}
+                                </h4>
+                                <p className="text-amber-200/80 text-[11px] font-bold mt-0.5 leading-tight">
+                                    {lang === 'ko' ? '아래 튜토리얼을 따라 내 API 키를 처음 등록하면 💎2,000 Pts를 즉시 증정합니다!' : 'Get 💎2,000 Pts instantly as a reward for connecting your API key!'}
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                    <p className="text-slate-400 font-bold leading-relaxed px-1 mt-2">
                         {t(lang, 'api_key_missing')}
                     </p>
 

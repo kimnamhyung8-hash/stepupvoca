@@ -1,4 +1,4 @@
-import { Sparkles, Key, Zap, Clock } from 'lucide-react';
+import { Sparkles, Key, Zap, Clock, Tv } from 'lucide-react';
 import { t } from '../i18n';
 
 interface AiQuotaModalProps {
@@ -7,9 +7,10 @@ interface AiQuotaModalProps {
     onGoPremium: () => void;
     onEnterKey: () => void;
     onPressGuide: () => void;
+    onWatchAd?: () => void;
 }
 
-export function AiQuotaModal({ settings, onClose, onGoPremium, onEnterKey, onPressGuide }: AiQuotaModalProps) {
+export function AiQuotaModal({ settings, onClose, onGoPremium, onEnterKey, onPressGuide, onWatchAd }: AiQuotaModalProps) {
     const lang = settings?.lang || 'ko';
 
     return (
@@ -60,6 +61,26 @@ export function AiQuotaModal({ settings, onClose, onGoPremium, onEnterKey, onPre
                                 </div>
                             </div>
                         </button>
+
+                        {/* Option 1.5: Watch Ad */}
+                        {onWatchAd && (
+                            <button
+                                onClick={onWatchAd}
+                                className="w-full group flex items-center gap-4 bg-gradient-to-r from-blue-600 to-cyan-600 p-4 rounded-2xl active:scale-95 transition shadow-lg hover:shadow-cyan-500/25"
+                            >
+                                <div className="bg-white/20 p-2 rounded-xl">
+                                    <Tv className="text-white" size={20} />
+                                </div>
+                                <div className="text-left">
+                                    <div className="text-white font-black text-sm uppercase tracking-tighter">
+                                        {lang === 'ko' ? '광고 시청하고 20회 충전' : 'WATCH AD & +20 TURNS'}
+                                    </div>
+                                    <div className="text-blue-100 text-[10px] font-bold opacity-80">
+                                        {lang === 'ko' ? '짧은 영상 시청만으로 대화 즉시 연장' : 'Instantly recharge after a short video'}
+                                    </div>
+                                </div>
+                            </button>
+                        )}
 
                         {/* Option 2: Enter Key */}
                         <button

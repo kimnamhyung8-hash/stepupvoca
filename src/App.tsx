@@ -506,6 +506,30 @@ function MainApp() {
     return true;
   };
 
+  const handleWatchAdForQuota = async () => {
+    try {
+      const { showRewardedInterstitialAd } = await import('./admob');
+      const watched = await showRewardedInterstitialAd();
+      if (watched) {
+        setAiUsage((prev: number) => Math.max(0, prev - 20)); // 광고 시청 시 사용량 20회 감소(회복)
+        setShowQuotaModal(false);
+        // [수정] 모달이 닫히고 잠시 후 뜨도록 alert 처리
+        setTimeout(() => alert(settings.lang === 'ko' ? '✅ 광고 시청 완료! AI 채팅 20회가 무상 충전되었습니다.' : '✅ Ad watched! 20 AI turns recharged.'), 300);
+      }
+    } catch (err) {
+      console.warn('Ad error in Quota:', err);
+    }
+  };
+
+  const handleApiKeySave = (newKey: string) => {
+    // 최초 등록 혜택 부여 (2000 Points)
+    if (localStorage.getItem('vq_key_rewarded') !== 'true') {
+      localStorage.setItem('vq_key_rewarded', 'true');
+      setUserPoints((prev: number) => prev + 2000);
+      setTimeout(() => alert(settings.lang === 'ko' ? '💎 축하합니다! 최초 API 키 등록 특별 보상으로 2,000 포인트가 지급되었습니다!' : '💎 Congratulations! You got 2,000 Points for registering your own API key!'), 300);
+    }
+  };
+
   useEffect(() => {
     initBilling(); initBGM();
     const initializeApp = async () => {
@@ -781,8 +805,8 @@ function MainApp() {
             setScreen={setScreen}
           />
         </main>
-        {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} />}
-        {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} />}
+        {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} onWatchAd={handleWatchAdForQuota} />}
+        {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} onSave={handleApiKeySave} />}
         {showReview && <ReviewPrompt lang={settings.lang} onClose={() => setShowReview(false)} onNavigateFeedback={() => setScreen('FEEDBACK')} isPremium={isPremium} />}
       </div>
     );
@@ -819,8 +843,8 @@ function MainApp() {
         <WidgetInstallPopup isVisible={showWidgetPromo} onClose={() => setShowWidgetPromo(false)} settings={settings} />
         {showDailyGuide && <DailyGuidePopup onClose={() => setShowDailyGuide(false)} setScreen={setScreen} settings={settings} streak={streak} />}
         {showReview && <ReviewPrompt lang={settings.lang} onClose={() => setShowReview(false)} onNavigateFeedback={() => setScreen('FEEDBACK')} isPremium={isPremium} />}
-        {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} />}
-        {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} />}
+        {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} onWatchAd={handleWatchAdForQuota} />}
+        {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} onSave={handleApiKeySave} />}
       </div>
     );
   }
@@ -854,8 +878,8 @@ function MainApp() {
       <WidgetInstallPopup isVisible={showWidgetPromo} onClose={() => setShowWidgetPromo(false)} settings={settings} />
       {showDailyGuide && <DailyGuidePopup onClose={() => setShowDailyGuide(false)} setScreen={setScreen} settings={settings} streak={streak} />}
       {showReview && <ReviewPrompt lang={settings.lang} onClose={() => setShowReview(false)} onNavigateFeedback={() => setScreen('FEEDBACK')} isPremium={isPremium} />}
-      {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} />}
-      {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} />}
+      {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} onWatchAd={handleWatchAdForQuota} />}
+      {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} onSave={handleApiKeySave} />}
     </div>
   );
 }
