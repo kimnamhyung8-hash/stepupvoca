@@ -826,7 +826,7 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                 const langMap: any = { ko: 'ko-KR', en: 'en-US', ja: 'ja-JP', zh: 'zh-CN', tw: 'zh-TW', vi: 'vi-VN' };
                 recognition.lang = langMap[inputLang] || 'en-US';
                 recognition.interimResults = true;
-                recognition.continuous = false;
+                recognition.continuous = true; // 음성 도중 끊김 방지를 위해 true로 변경
 
                 recognition.onresult = (e: any) => {
                     const transcript = Array.from(e.results).map((result: any) => result[0].transcript).join('');
@@ -938,6 +938,7 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                 try {
                     await SpeechRecognition.start({
                         language: (inputLang === 'ko' ? 'ko-KR' : 'en-US'),
+                        maxResults: 5,
                         partialResults: true,
                         popup: false
                     });
