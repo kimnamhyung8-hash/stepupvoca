@@ -1665,14 +1665,12 @@ Respond in 1-3 sentences. Stay in character as a helpful friend.
 Always respond in this EXACT JSON format (no markdown, no preamble):
 {"en": "English response", "nat": "${myLang} translation", "suggestion": "Suggested English response for the USER'S next turn", "suggestionNative": "Translation of the suggestion in ${myLang}"}`;
 
-            // 번째 이스메지 prepend
-            const contents = conversationHistory.current.length === 1
-                ? [
-                    { role: 'user', parts: [{ text: systemPrompt }] },
-                    { role: 'model', parts: [{ text: '{"en": "Hello! Let\'s practice English together. What would you like to talk about", "nat": "녕세함께 어 대화습봐무엇야기하으요"}' }] },
-                    ...conversationHistory.current
-                ]
-                : conversationHistory.current;
+            // 항상 시스템 프롬파트와 초기 세팅을 유지하여, 두 번째 이후 대화에서도 봇이 성격과 JSON 응답 형태를 기억하도록 합니다.
+            const contents = [
+                { role: 'user', parts: [{ text: systemPrompt }] },
+                { role: 'model', parts: [{ text: '{"en": "Hello! Let\'s practice English together. What would you like to talk about", "nat": "안녕하세요! 함께 대화를 연습해봐요. 무엇에 대해 이야기할까요?"}' }] },
+                ...conversationHistory.current
+            ];
 
             const res = await fetch(
                 `https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`,
@@ -1684,7 +1682,7 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                         generationConfig: {
                             temperature: 0.85,
                             maxOutputTokens: 300,
-                            responseMimeType: 'text/plain'
+                            responseMimeType: 'application/json'
                         }
                     })
                 }
