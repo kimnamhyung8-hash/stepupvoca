@@ -3,8 +3,7 @@ import {
     Target,
     User,
     ChevronRight,
-    Sparkles,
-    CheckCircle2
+    Sparkles
 } from 'lucide-react';
 import { t as globalT } from '../i18n';
 import { upsertUser } from '../userService';
@@ -22,22 +21,22 @@ interface OnboardingScreenProps {
 
 const slides = [
     {
-        image: '/onboarding/media__1775793179483.png',
+        image: '/onboarding/slide1.webp',
         title: "언제까지 통째로 외우시겠어요?",
         desc: "찍어낸 교재, 나와 무관한 단어 암기는 이제 그만두세요."
     },
     {
-        image: '/onboarding/media__1775796750190.png',
+        image: '/onboarding/slide2.webp',
         title: "내가 하고 싶은 말, 바로 지금",
         desc: "초 개인화! 내가 필요한 문장만 실시간으로 대화하고 확인해보세요."
     },
     {
-        image: '/onboarding/media__1775796750190.png', // *Note: 4번째 이미지는 업로드 안됨으로 2번째 재활용, 추후 이미지 교체 권장
+        image: '/onboarding/slide3.webp',
         title: "무한 반복으로 자연스럽게",
         desc: "자기 전, 저장된 나만의 문장들을 수면 학습하듯 무한 반복 플레이하세요."
     },
     {
-        image: '/onboarding/media__1775798545770.png',
+        image: '/onboarding/slide4.webp',
         title: "3개월 후, 당신의 삶",
         desc: "외국인 앞에서도 당당하게 미소 지으며 대화하는 내 모습을 발견하게 될 것입니다."
     }

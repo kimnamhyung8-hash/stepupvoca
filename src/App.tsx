@@ -521,7 +521,7 @@ function MainApp() {
     }
   };
 
-  const handleApiKeySave = (newKey: string) => {
+  const handleApiKeySave = () => {
     // 최초 등록 혜택 부여 (2000 Points)
     if (localStorage.getItem('vq_key_rewarded') !== 'true') {
       localStorage.setItem('vq_key_rewarded', 'true');
