@@ -25,8 +25,8 @@ export const decryptApiKey = (encrypted: string) => {
 // ─── [NEW] HYBRID AI CONFIGURATION ──────────────────────────────────────────
 // GitHub의 구글 보안 스캐너(Leaked 봇)를 속이기 위해 토큰을 Base64로 감싸서(난독화) 방어합니다.
 export let SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q0JVRm13b3JQMmZ0amxEdklFb0o5YWs0b1lYamVCbzBj") : "";
-export let HIGH_PERFORMANCE_MODEL = "gemini-3.1-pro-preview"; 
-export let LIGHTWEIGHT_MODEL = "gemini-2.0-flash"; // 2.5-flash 모델의 503 과부하 에러 회피 및 3-flash 속도 저하 방지용 안정화 버전
+export let HIGH_PERFORMANCE_MODEL = "gemini-1.5-pro"; 
+export let LIGHTWEIGHT_MODEL = "gemini-1.5-flash"; // 2.0-flash 지원 종료에 따른 안정적인 1.5-flash 모델로 롤백
 export let DEFAULT_AI_MODEL = LIGHTWEIGHT_MODEL;
 export let AI_DAILY_LIMIT = 100; // 초기 유저 모객 이벤트: 1000명 돌파 전까지 100회 제공
 
