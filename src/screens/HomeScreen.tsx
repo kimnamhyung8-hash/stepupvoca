@@ -225,81 +225,82 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
                     {/* Monetization / Reward Quick Actions */}
                     {Capacitor.isNativePlatform() && !isPremium && (
-                        <div className="grid grid-cols-2 gap-4 mt-6 mb-4">
+                        <>
+                            <div className="grid grid-cols-2 gap-4 mt-6 mb-4">
+                                <button
+                                    onClick={async () => {
+                                        if (isRolling) return;
+                                        setIsRolling(true);
+                                        try {
+                                            const reward = await showRewardedInterstitialAd();
+                                            if (reward) {
+                                                _setUserPoints((p: number) => p + 500);
+                                                alert(t(lang, 'ad_complete'));
+                                            }
+                                        } finally {
+                                            setIsRolling(false);
+                                        }
+                                    }}
+                                    className="bg-indigo-50 border border-indigo-100 p-4 rounded-[28px] flex flex-col items-center justify-center gap-2 shadow-sm active:scale-95 transition-all text-center"
+                                >
+                                    <div className="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-500">
+                                        <PlayCircle size={24} />
+                                    </div>
+                                    <div>
+                                        <span className="block text-[11px] font-black tracking-tight text-slate-800">{lang === 'ko' ? '광고 보고 500P' : 'Watch Ad'}</span>
+                                        <span className="block text-sm font-black text-indigo-600">+500P</span>
+                                    </div>
+                                </button>
+
+                                <button
+                                    onClick={() => {
+                                        if (userPoints < 2000) {
+                                            alert(t(lang, 'not_enough_points'));
+                                            return;
+                                        }
+                                        if (window.confirm(t(lang, 'confirm_buy_ad_free') || 'Spend 2000P to study ad-free for 1 hr?')) {
+                                            _setUserPoints(p => p - 2000);
+                                            grantAdFreePass(1);
+                                            alert(t(lang, 'ad_free_hour_btn') + ' Activated!');
+                                        }
+                                    }}
+                                    className="bg-rose-50 border border-rose-100 p-4 rounded-[28px] flex flex-col items-center justify-center gap-2 shadow-sm active:scale-95 transition-all text-center"
+                                >
+                                    <div className="w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-500">
+                                        <Ban size={24} />
+                                    </div>
+                                    <div>
+                                        <span className="block text-[11px] font-black tracking-tight text-slate-800">{lang === 'ko' ? '1시간 광고 제거' : '1Hr Ad Free'}</span>
+                                        <span className="block text-sm font-black text-rose-600">-2,000P</span>
+                                    </div>
+                                </button>
+                            </div>
+                            
+                            {/* New AI Quota Refill Button */}
                             <button
                                 onClick={async () => {
                                     if (isRolling) return;
                                     setIsRolling(true);
                                     try {
-                                        const reward = await showRewardedInterstitialAd();
-                                        if (reward) {
-                                            _setUserPoints((p: number) => p + 500);
-                                            alert(t(lang, 'ad_complete'));
+                                        if (handleWatchAdForQuota) {
+                                            await handleWatchAdForQuota();
                                         }
                                     } finally {
                                         setIsRolling(false);
                                     }
                                 }}
-                                className="bg-indigo-50 border border-indigo-100 p-4 rounded-[28px] flex flex-col items-center justify-center gap-2 shadow-sm active:scale-95 transition-all text-center"
+                                className="bg-emerald-50 border border-emerald-100 p-4 rounded-[28px] flex items-center justify-center gap-3 shadow-sm active:scale-95 transition-all text-center w-full"
                             >
-                                <div className="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-500">
-                                    <PlayCircle size={24} />
+                                <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-500 shrink-0">
+                                    <Sparkles size={24} />
                                 </div>
-                                <div>
-                                    <span className="block text-[11px] font-black tracking-tight text-slate-800">{lang === 'ko' ? '광고 보고 500P' : 'Watch Ad'}</span>
-                                    <span className="block text-sm font-black text-indigo-600">+500P</span>
+                                <div className="text-left">
+                                    <span className="block text-xs font-black tracking-tight text-slate-800">{lang === 'ko' ? '광고 보고 초고속 AI 충전' : 'Watch Ad to Refill AI'}</span>
+                                    <span className="block text-base font-black text-emerald-600">API +20회 무료 획득</span>
                                 </div>
                             </button>
-
-                            <button
-                                onClick={() => {
-                                    if (userPoints < 2000) {
-                                        alert(t(lang, 'not_enough_points'));
-                                        return;
-                                    }
-                                    if (window.confirm(t(lang, 'confirm_buy_ad_free') || 'Spend 2000P to study ad-free for 1 hr?')) {
-                                        _setUserPoints(p => p - 2000);
-                                        grantAdFreePass(1);
-                                        alert(t(lang, 'ad_free_hour_btn') + ' Activated!');
-                                    }
-                                }}
-                                className="bg-rose-50 border border-rose-100 p-4 rounded-[28px] flex flex-col items-center justify-center gap-2 shadow-sm active:scale-95 transition-all text-center"
-                            >
-                                <div className="w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-500">
-                                    <Ban size={24} />
-                                </div>
-                                <div>
-                                    <span className="block text-[11px] font-black tracking-tight text-slate-800">{lang === 'ko' ? '1시간 광고 제거' : '1Hr Ad Free'}</span>
-                                    <span className="block text-sm font-black text-rose-600">-2,000P</span>
-                                </div>
-                            </button>
-                        </div>
-                        
-                        {/* New AI Quota Refill Button */}
-                        <button
-                            onClick={async () => {
-                                if (isRolling) return;
-                                setIsRolling(true);
-                                try {
-                                    if (handleWatchAdForQuota) {
-                                        await handleWatchAdForQuota();
-                                    }
-                                } finally {
-                                    setIsRolling(false);
-                                }
-                            }}
-                            className="bg-emerald-50 border border-emerald-100 p-4 rounded-[28px] flex items-center justify-center gap-3 shadow-sm active:scale-95 transition-all text-center w-full"
-                        >
-                            <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-500 shrink-0">
-                                <Sparkles size={24} />
-                            </div>
-                            <div className="text-left">
-                                <span className="block text-xs font-black tracking-tight text-slate-800">{lang === 'ko' ? '광고 보고 초고속 AI 충전' : 'Watch Ad to Refill AI'}</span>
-                                <span className="block text-base font-black text-emerald-600">API +20회 무료 획득</span>
-                            </div>
-                        </button>
-                    </div>
-                )}
+                        </>
+                    )}
                 </div>
             </div>
 
