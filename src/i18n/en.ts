@@ -757,6 +757,7 @@ Enjoy skins and gacha with points earned while studying! PRO subscription provid
     login_title_main: "All the words in the world,\nMake them yours",
     login_desc_main: "Connect your account to protect your history and progress.",
     continue_google: "Continue with Google",
+    continue_apple: "Continue with Apple",
     maybe_later: "Maybe Later",
     fast_payment: "Fast Payment",
     secure_sync: "Secure Sync",

@@ -28,11 +28,15 @@ const config: CapacitorConfig = {
     },
     FirebaseAuthentication: {
       skipNativeAuth: true,
+<<<<<<< Updated upstream
       providers: ["google.com"],
       iosClientId: "806999527929-h7t4ftee1gdud4d2hqichsgpkkrk2d0v.apps.googleusercontent.com",
       serverClientId: "806999527929-reao0rmomija5d2m738ligum2r2gvu46.apps.googleusercontent.com",
       forceCodeForRefreshToken: true,
       scopes: ["profile", "email"]
+=======
+      providers: ["google.com", "apple.com"]
+>>>>>>> Stashed changes
     }
   }
 };

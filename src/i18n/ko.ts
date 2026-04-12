@@ -785,6 +785,7 @@ AI와 함께 영어를 마스터하세요! 홈 화면에서 레벨을 선택해 
     login_title_main: "세상의 모든 단어를,\n나의 것으로",
     login_desc_main: "계정을 연결하여 결제 내역과 학습 상황을 안전하게 보호하세요.",
     continue_google: "Google로 로그인",
+    continue_apple: "Apple로 로그인",
     maybe_later: "나중에 설정",
     fast_payment: "빠른 결제",
     secure_sync: "안전한 동기화",

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { ChevronLeft, Sparkles, ShieldCheck, Globe, Zap } from 'lucide-react';
+import { ChevronLeft, Sparkles, ShieldCheck, Globe, Zap, Apple } from 'lucide-react';
 import { t } from './i18n';
 import { auth, googleProvider } from './firebase';
-import { signInWithPopup, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, signInWithCredential, OAuthProvider } from 'firebase/auth';
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
 export function LoginScreen({ settings, setScreen }: any) {
@@ -96,6 +96,68 @@ export function LoginScreen({ settings, setScreen }: any) {
         }
     };
 
+    const handleAppleLogin = async () => {
+        setIsLoading(true);
+        try {
+            if (isNative) {
+                console.log("Native Firebase Apple Login starting...");
+                try {
+                    const result = await FirebaseAuthentication.signInWithApple();
+                    console.log("Native Firebase Apple Login result received:", result);
+
+                    if (!result || !result.credential || !result.credential.idToken) {
+                        alert("Apple 인증 정보가 누락되었습니다. 에러 리포트: " + JSON.stringify(result).substring(0, 100));
+                        setIsLoading(false);
+                        return;
+                    }
+
+                    const provider = new OAuthProvider('apple.com');
+                    const credential = provider.credential({
+                        idToken: result.credential.idToken,
+                        rawNonce: result.credential.nonce,
+                    });
+                    console.log("[LoginScreen] Calling signInWithCredential with Apple credential...");
+                    
+                    const signInPromise = signInWithCredential(auth, credential);
+                    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("signInWithCredential timed out after 10 seconds")), 10000));
+                    
+                    await Promise.race([signInPromise, timeoutPromise]);
+                    console.log("[LoginScreen] Apple signInWithCredential success!");
+                    
+                    setScreen('HOME');
+                } catch (err: any) {
+                    setIsLoading(false);
+                    console.error("[LoginScreen] Apple FirebaseAuthentication error:", err);
+                    const errMsg = String(err.message || '').toLowerCase();
+                    if (errMsg.includes('canceled') || errMsg.includes('cancelled')) {
+                        return;
+                    }
+                    alert(`Apple 로그인 오류: ${err.message || '알 수 없는 오류'}`);
+                }
+            } else {
+                console.log("Web Apple Login starting...");
+                const provider = new OAuthProvider('apple.com');
+                await signInWithPopup(auth, provider);
+                setScreen('HOME');
+            }
+        } catch (error: any) {
+            console.error("Apple Login Error:", error);
+            const errorCode = error.code || '';
+            if (errorCode === 'auth/popup-closed-by-user' || errorCode === 'auth/cancelled-popup-request') {
+                return;
+            }
+            if (errorCode === 'auth/network-request-failed') {
+                alert(lang === 'ko' 
+                    ? "네트워크 연결이 불안정합니다. 인터넷을 확인해 주세요." 
+                    : "Network connection failed.");
+                return;
+            }
+            alert(`로그인 실패: ${error.message}`);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="screen bg-[#0A0A0E] flex flex-col text-white animate-fade-in overflow-hidden relative">
             {/* Animated Background Elements */}
@@ -128,7 +190,7 @@ export function LoginScreen({ settings, setScreen }: any) {
                     <button
                         onClick={handleGoogleLogin}
                         disabled={isLoading}
-                        className="w-full bg-white text-slate-900 py-5 rounded-[24px] font-black text-lg flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all disabled:opacity-50"
+                        className="w-full bg-white text-slate-900 py-4 rounded-[24px] font-black text-lg flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all disabled:opacity-50"
                     >
                         {isLoading ? (
                             <div className="w-6 h-6 border-4 border-slate-200 border-t-indigo-600 rounded-full animate-spin"></div>
@@ -136,6 +198,21 @@ export function LoginScreen({ settings, setScreen }: any) {
                             <>
                                 <Globe size={24} className="text-indigo-600" />
                                 {t(lang, 'continue_google')}
+                            </>
+                        )}
+                    </button>
+
+                    <button
+                        onClick={handleAppleLogin}
+                        disabled={isLoading}
+                        className="w-full bg-black text-white py-4 rounded-[24px] font-black text-lg flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all disabled:opacity-50 border border-white/20"
+                    >
+                        {isLoading ? (
+                            <div className="w-6 h-6 border-4 border-slate-700 border-t-white rounded-full animate-spin"></div>
+                        ) : (
+                            <>
+                                <Apple size={24} />
+                                {t(lang, 'continue_apple')}
                             </>
                         )}
                     </button>
