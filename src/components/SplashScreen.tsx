@@ -37,7 +37,7 @@ export const SplashScreen = ({ settings, setScreen }: SplashScreenProps) => {
                 setScreen('HOME');
             }
         } else {
-            setScreen('ONBOARDING');
+            setScreen('LOGIN');
         }
     };
 

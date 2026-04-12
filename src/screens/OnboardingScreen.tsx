@@ -134,23 +134,24 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
         const slide = slides[activeSlide];
         return (
             <div className="relative w-full h-screen bg-[#0F172A] flex flex-col overflow-hidden text-white" onClick={handleNextSlide}>
-                {/* 배경 이미지 애니메이션 래퍼 */}
-                {slides.map((s, idx) => (
-                    <div 
-                        key={idx}
-                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${activeSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-                    >
+                {/* 동적 그라데이션 아름다운 배경 애니메이션 래퍼 (이미지 제거됨) */}
+                {slides.map((s, idx) => {
+                    const bgGradients = [
+                        'bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900',
+                        'bg-gradient-to-br from-emerald-900 via-slate-900 to-teal-900',
+                        'bg-gradient-to-br from-fuchsia-900 via-slate-900 to-rose-900',
+                        'bg-gradient-to-br from-blue-900 via-slate-900 to-indigo-900'
+                    ];
+                    return (
                         <div 
-                            className="absolute inset-0 bg-cover bg-center transition-transform duration-10000"
-                            style={{ 
-                                backgroundImage: `url(${s.image})`,
-                                transform: activeSlide === idx ? 'scale(1.05)' : 'scale(1)',
-                            }} 
-                        />
-                        {/* 그라데이션 오버레이 (텍스트 가독성용) */}
-                        <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent" />
-                    </div>
-                ))}
+                            key={idx}
+                            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${activeSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'} ${bgGradients[idx]}`}
+                        >
+                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+                            <div className="absolute inset-x-0 bottom-0 h-[70vh] bg-gradient-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent" />
+                        </div>
+                    );
+                })}
 
                 {/* 텍스트 및 UI 컨테이너 */}
                 <div className="relative z-20 flex-1 flex flex-col justify-end p-8 pb-12">
