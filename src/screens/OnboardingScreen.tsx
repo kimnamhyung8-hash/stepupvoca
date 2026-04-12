@@ -135,7 +135,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
         return (
             <div className="relative w-full h-screen bg-[#0F172A] flex flex-col overflow-hidden text-white" onClick={handleNextSlide}>
                 {/* 동적 그라데이션 아름다운 배경 애니메이션 래퍼 (이미지 제거됨) */}
-                {slides.map((s, idx) => {
+                {slides.map((_, idx) => {
                     const bgGradients = [
                         'bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900',
                         'bg-gradient-to-br from-emerald-900 via-slate-900 to-teal-900',
