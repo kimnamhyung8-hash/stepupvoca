@@ -103,7 +103,7 @@ export function LoginScreen({ settings, setScreen }: any) {
             <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[40%] bg-purple-600/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
 
             <header className="p-6 flex items-center justify-between relative z-10">
-                <button onClick={() => setScreen('HOME')}
+                <button onClick={() => setScreen('ONBOARDING')}
  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 active:scale-90 transition">
                     <ChevronLeft size={20} />
                 </button>
@@ -148,7 +148,7 @@ export function LoginScreen({ settings, setScreen }: any) {
 
                     {isNative && (
                         <button
-                            onClick={() => setScreen('HOME')}
+                            onClick={() => setScreen('ONBOARDING')}
                             className="w-full bg-white/5 text-slate-400 py-5 rounded-[24px] font-black text-sm border border-white/5 hover:bg-white/10 transition-all"
                         >
                             {t(lang, 'maybe_later')}
