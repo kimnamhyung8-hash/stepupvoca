@@ -28,7 +28,7 @@ export let SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q0JVRm
 export let HIGH_PERFORMANCE_MODEL = "gemini-3.1-pro-preview"; 
 export let LIGHTWEIGHT_MODEL = "gemini-2.0-flash"; // 2.5-flash 모델의 503 과부하 에러 회피 및 3-flash 속도 저하 방지용 안정화 버전
 export let DEFAULT_AI_MODEL = LIGHTWEIGHT_MODEL;
-export let AI_DAILY_LIMIT = 20;
+export let AI_DAILY_LIMIT = 100; // 초기 유저 모객 이벤트: 1000명 돌파 전까지 100회 제공
 
 export const setDynamicGeminiConfig = (config: any) => {
     if (config.apiKey) SERVER_API_KEY = config.apiKey;

@@ -33,6 +33,7 @@ interface HomeScreenProps {
     setAiReportMode: (mode: 'VOCAB' | 'CONVERSATION') => void;
     appPurpose?: string;
     setAppPurpose?: (s: string) => void;
+    handleWatchAdForQuota?: () => Promise<void>;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
@@ -50,7 +51,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     setActiveStudyLevel,
     setAiReportMode,
     appPurpose,
-    setAppPurpose
+    setAppPurpose,
+    handleWatchAdForQuota
 }) => {
     const lang = settings.lang || 'ko';
     const [isRolling, setIsRolling] = useState(false);
@@ -272,7 +274,32 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                                 </div>
                             </button>
                         </div>
-                    )}
+                        
+                        {/* New AI Quota Refill Button */}
+                        <button
+                            onClick={async () => {
+                                if (isRolling) return;
+                                setIsRolling(true);
+                                try {
+                                    if (handleWatchAdForQuota) {
+                                        await handleWatchAdForQuota();
+                                    }
+                                } finally {
+                                    setIsRolling(false);
+                                }
+                            }}
+                            className="bg-emerald-50 border border-emerald-100 p-4 rounded-[28px] flex items-center justify-center gap-3 shadow-sm active:scale-95 transition-all text-center w-full"
+                        >
+                            <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-500 shrink-0">
+                                <Sparkles size={24} />
+                            </div>
+                            <div className="text-left">
+                                <span className="block text-xs font-black tracking-tight text-slate-800">{lang === 'ko' ? '광고 보고 초고속 AI 충전' : 'Watch Ad to Refill AI'}</span>
+                                <span className="block text-base font-black text-emerald-600">API +20회 무료 획득</span>
+                            </div>
+                        </button>
+                    </div>
+                )}
                 </div>
             </div>
 
