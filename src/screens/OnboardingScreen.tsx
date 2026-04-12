@@ -21,22 +21,22 @@ interface OnboardingScreenProps {
 
 const slides = [
     {
-        image: '/onboarding/slide1.webp',
+        image: '/onboarding/slide1.jpg',
         title: "언제까지 통째로 외우시겠어요?",
         desc: "찍어낸 교재, 나와 무관한 단어 암기는 이제 그만두세요."
     },
     {
-        image: '/onboarding/slide2.webp',
+        image: '/onboarding/slide2.jpg',
         title: "내가 하고 싶은 말, 바로 지금",
         desc: "초 개인화! 내가 필요한 문장만 실시간으로 대화하고 확인해보세요."
     },
     {
-        image: '/onboarding/slide3.webp',
+        image: '/onboarding/slide3.jpg',
         title: "무한 반복으로 자연스럽게",
         desc: "자기 전, 저장된 나만의 문장들을 수면 학습하듯 무한 반복 플레이하세요."
     },
     {
-        image: '/onboarding/slide4.webp',
+        image: '/onboarding/slide4.jpg',
         title: "3개월 후, 당신의 삶",
         desc: "외국인 앞에서도 당당하게 미소 지으며 대화하는 내 모습을 발견하게 될 것입니다."
     }
@@ -134,24 +134,23 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
         const slide = slides[activeSlide];
         return (
             <div className="relative w-full h-screen bg-[#0F172A] flex flex-col overflow-hidden text-white" onClick={handleNextSlide}>
-                {/* 동적 그라데이션 아름다운 배경 애니메이션 래퍼 (이미지 제거됨) */}
-                {slides.map((_, idx) => {
-                    const bgGradients = [
-                        'bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900',
-                        'bg-gradient-to-br from-emerald-900 via-slate-900 to-teal-900',
-                        'bg-gradient-to-br from-fuchsia-900 via-slate-900 to-rose-900',
-                        'bg-gradient-to-br from-blue-900 via-slate-900 to-indigo-900'
-                    ];
-                    return (
+                {/* 배경 이미지 애니메이션 래퍼 */}
+                {slides.map((s, idx) => (
+                    <div 
+                        key={idx}
+                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${activeSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                    >
                         <div 
-                            key={idx}
-                            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${activeSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'} ${bgGradients[idx]}`}
-                        >
-                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-                            <div className="absolute inset-x-0 bottom-0 h-[70vh] bg-gradient-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent" />
-                        </div>
-                    );
-                })}
+                            className="absolute inset-0 bg-cover bg-center transition-transform duration-10000"
+                            style={{ 
+                                backgroundImage: `url(${s.image})`,
+                                transform: activeSlide === idx ? 'scale(1.05)' : 'scale(1)',
+                            }} 
+                        />
+                        {/* 그라데이션 오버레이 (텍스트 가독성용) */}
+                        <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent" />
+                    </div>
+                ))}
 
                 {/* 텍스트 및 UI 컨테이너 */}
                 <div className="relative z-20 flex-1 flex flex-col justify-end p-8 pb-12">
