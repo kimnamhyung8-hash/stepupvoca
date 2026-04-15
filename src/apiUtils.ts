@@ -1,3 +1,6 @@
+import { db } from './firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+
 // ─── API KEY SECURITY UTILITIES ──────────────────────────────────────────
 // This provides a layer of security by obfuscating the API key in local storage.
 // It matches the 'Encrypted/Secure' claim in the user announcement.
@@ -93,4 +96,49 @@ export const fetchGemini = async (url: string, init: RequestInit): Promise<Respo
     }
     
     return response;
+};
+
+// ─── [NEW] FIRESTORE AI CACHING SYSTEM ──────────────────────────────────────────
+
+/**
+ * Check if a cached AI response exists and is less than 30 days old.
+ */
+export const checkAiCache = async (cacheKey: string): Promise<any | null> => {
+    try {
+        const docRef = doc(db, "ai_cache", cacheKey);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            const now = Date.now();
+            const createdAt = data.createdAt || 0;
+            const daysDiff = (now - createdAt) / (1000 * 60 * 60 * 24);
+            
+            // Lazy TTL check: Only return if it's less than 30 days old
+            if (daysDiff <= 30) {
+                console.log(`[AI Cache Hit] ⚡ Reusing Firebase data for: ${cacheKey}`);
+                return data.payload;
+            } else {
+                console.log(`[AI Cache Expired] Data older than 30 days for: ${cacheKey}`);
+            }
+        }
+    } catch (e) {
+        console.warn("[AI Cache Error] Failed to read cache:", e);
+    }
+    return null;
+};
+
+/**
+ * Save the generated AI response to Firestore for future reuse (30 days TTL).
+ */
+export const saveAiCache = async (cacheKey: string, payload: any) => {
+    try {
+        const docRef = doc(db, "ai_cache", cacheKey);
+        await setDoc(docRef, {
+            payload,
+            createdAt: Date.now()
+        });
+        console.log(`[AI Cache Saved] 💾 Data stored in Firebase for: ${cacheKey}`);
+    } catch (e) {
+        console.warn("[AI Cache Error] Failed to save cache:", e);
+    }
 };

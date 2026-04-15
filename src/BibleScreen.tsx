@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Capacitor } from '@capacitor/core';
-import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini, checkAiCache, saveAiCache} from './apiUtils';
 import { ChevronDown, BookOpen, Volume2, X, RefreshCw, Sparkles } from 'lucide-react';
 import { play20sFemaleTTS } from './utils/ttsUtils';
 import { showAdIfFree } from './admob';
@@ -238,6 +238,14 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
         }
         `;
 
+            const cacheKey = `bible_${lang}_${item.word.trim().toLowerCase().replace(/\s+/g, '_')}`;
+            const cachedResult = await checkAiCache(cacheKey);
+            if (cachedResult) {
+                setWordDetails(cachedResult);
+                setIsLoadingDetails(false);
+                return;
+            }
+
             const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -252,7 +260,9 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
 
             if (!jsonPart) throw new Error("Invalid AI response");
 
-            setWordDetails(JSON.parse(jsonPart));
+            const parsedResult = JSON.parse(jsonPart);
+            await saveAiCache(cacheKey, parsedResult);
+            setWordDetails(parsedResult);
         } catch (err: any) {
             setDetailError(t(lang, 'analysis_failed'));
         } finally {

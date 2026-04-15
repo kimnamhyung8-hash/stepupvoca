@@ -4,7 +4,7 @@ import { PcAdSlot } from './components/PcComponents';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { t } from './i18n';
-import { getActiveApiKey, LIGHTWEIGHT_MODEL, fetchGemini } from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL, fetchGemini, checkAiCache, saveAiCache } from './apiUtils';
 
 
 // 국기 이모지 맵 (외부 CDN 의존 제거 — 오프라인 대응)
@@ -134,12 +134,22 @@ Return ONLY in PURE JSON format (no markdown):
     "vi": "Meaning of the word in Vietnamese"
   }
 }`;
+            const cacheKey = `dict_${lang}_${text.trim().toLowerCase().replace(/\s+/g, '_')}`;
+            const cachedResult = await checkAiCache(cacheKey);
+            if (cachedResult) {
+                setResult(cachedResult);
+                setIsLoading(false);
+                return;
+            }
 
             const data = await callGemini(prompt, activeKey);
             const textContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
             const jsonPart = textContent.match(/\{[\s\S]*\}/)?.[0];
             if (!jsonPart) throw new Error('AI returned a non-JSON response.');
-            setResult(JSON.parse(jsonPart));
+            
+            const parsedResult = JSON.parse(jsonPart);
+            await saveAiCache(cacheKey, parsedResult);
+            setResult(parsedResult);
         } catch (err: any) {
             console.error('Dictionary API Error:', err);
             const msg = err.message || '';
