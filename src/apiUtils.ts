@@ -71,8 +71,8 @@ export const getActiveApiKey = (userSavedKey: string | null, isPremium: boolean,
 export const fetchGemini = async (url: string, init: RequestInit): Promise<Response> => {
     let response = await fetch(url, init);
     if (!response.ok && (response.status === 503 || response.status === 429 || response.status >= 500)) {
-        console.warn(`[AI Fallback] ${response.status} Error. Retrying with gemini-1.5-flash...`);
-        const fallbackUrl = url.replace(/\/models\/gemini-[^:]+:/, '/models/gemini-2.5-flash:');
+        console.warn(`[AI Fallback] ${response.status} Error. Retrying with gemini-2.5-pro...`);
+        const fallbackUrl = url.replace(/\/models\/gemini-[^:]+:/, '/models/gemini-2.5-pro:');
         response = await fetch(fallbackUrl, init);
     }
     return response;
