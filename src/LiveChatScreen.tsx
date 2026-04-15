@@ -1672,7 +1672,7 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                 ...conversationHistory.current
             ];
 
-            const res = await fetch(
+            const res = await fetchGemini(
                 `https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`,
                 {
                     method: 'POST',

@@ -4,7 +4,7 @@ import { PcAdSlot } from './components/PcComponents';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { t } from './i18n';
-import { getActiveApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL, fetchGemini } from './apiUtils';
 
 
 // 국기 이모지 맵 (외부 CDN 의존 제거 — 오프라인 대응)
@@ -60,7 +60,7 @@ export function DictionaryScreen({ settings, setScreen, setIncorrectNotes, aiUsa
     const ui = dictI18n[lang] || dictI18n['en'];
 
     const callGemini = async (prompt: string, apiKey: string) => {
-        const res = await fetch(
+        const res = await fetchGemini(
             `https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`,
             {
                 method: 'POST',
