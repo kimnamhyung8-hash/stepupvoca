@@ -8,7 +8,7 @@ import { t } from './i18n';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { getBestVoiceIndex, TEEN_GIRL_PROFILES } from './utils/ttsUtils';
-import { getActiveApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from './apiUtils';
 import {
     searchUserByNickname,
     getChatLobbyUsers,
@@ -796,7 +796,7 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
 
         try {
             const promptT = `Translate to ${myLang}: "${msg.translatedEn || msg.text}"\nReturn ONLY the translated text.`;
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+            const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: promptT }] }] })
             });
@@ -991,7 +991,7 @@ function LiveChatScreenContent({ userInfo, firebaseUser, settings, setScreen, se
             {"en": "Greeting in English", "nat": "Translation in ${myLang}"}
             `;
 
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+            const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
@@ -1084,7 +1084,7 @@ Format strictly as JSON:
             }
             if (incrementAiUsage) incrementAiUsage();
 
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+            const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
             });
@@ -2807,7 +2807,7 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                                                             const myLang = langMap[lang] || 'Korean';
                                                             try {
                                                                 const promptT = `Translate to ${myLang}: "${msg.translatedEn || msg.text}"\nReturn ONLY the translated text.`;
-                                                                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+                                                                const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                                                                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                                                                     body: JSON.stringify({ contents: [{ parts: [{ text: promptT }] }] })
                                                                 });

@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { t } from '../i18n';
 import { playNaturalTTS, stopTTS } from '../utils/ttsUtils';
-import { getActiveApiKey, HIGH_PERFORMANCE_MODEL, LIGHTWEIGHT_MODEL } from '../apiUtils';
+import { getActiveApiKey, HIGH_PERFORMANCE_MODEL, LIGHTWEIGHT_MODEL , fetchGemini} from '../apiUtils';
 import { showAdIfFree } from '../admob';
 import { getActivityLog } from '../streak';
 import { getCefrFromLevel } from '../utils/wordUtils';
@@ -285,7 +285,7 @@ export const AiReportScreen = ({
         }
 
         try {
-            let response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
+            let response = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
@@ -293,7 +293,7 @@ export const AiReportScreen = ({
 
             if (!response.ok) {
                 console.warn(`[AI Report] API Error (${response.status}) on ${HIGH_PERFORMANCE_MODEL}. Falling back to ${LIGHTWEIGHT_MODEL}...`);
-                response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+                response = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
@@ -420,7 +420,7 @@ export const AiReportScreen = ({
         5. 오직 "한국어"로만 응답하며, 이모지를 활용해 가독성을 높이세요.
       `;
 
-            let response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
+            let response = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
@@ -428,7 +428,7 @@ export const AiReportScreen = ({
 
             if (!response.ok) {
                 console.warn(`[AI Report] API Error (${response.status}) on ${HIGH_PERFORMANCE_MODEL}. Falling back to ${LIGHTWEIGHT_MODEL}...`);
-                response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+                response = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })

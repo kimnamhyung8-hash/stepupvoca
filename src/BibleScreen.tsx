@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Capacitor } from '@capacitor/core';
-import { getActiveApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from './apiUtils';
 import { ChevronDown, BookOpen, Volume2, X, RefreshCw, Sparkles } from 'lucide-react';
 import { play20sFemaleTTS } from './utils/ttsUtils';
 import { showAdIfFree } from './admob';
@@ -238,7 +238,7 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
         }
         `;
 
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {
+            const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })

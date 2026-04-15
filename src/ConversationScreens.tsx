@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { getActiveApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from './apiUtils';
 import {
     X, Send, ChevronRight, Volume2, Eye, RotateCcw, Mic, Lightbulb, ChevronDown, Trophy, BookOpen, Bot, ShieldCheck, Globe, EyeOff, Sparkles, Plus
 } from 'lucide-react';
@@ -632,7 +632,7 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
                 }
             });
 
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+            const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -728,7 +728,7 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
         Example: "Prioritize explaining check-in terminology more simply, as the student struggled with the word 'reservation'."`;
 
         try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+            const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: reflectionPrompt }] }] })

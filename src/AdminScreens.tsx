@@ -1,6 +1,6 @@
 // src/AdminScreens.tsx
 import { useState, useEffect } from 'react';
-import { decryptApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
+import { decryptApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from './apiUtils';
 import { 
   collection, getDocs, updateDoc, doc, addDoc, query, orderBy, 
   serverTimestamp, deleteDoc, where, setDoc 
@@ -920,7 +920,7 @@ function NoticesSection() {
 입력된 한국어 제목: ${title}
 입력된 한국어 내용: ${content}`;
 
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {
+      const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
@@ -1178,7 +1178,7 @@ function MarketingSection() {
     try {
       const apiKey = decryptApiKey(localStorage.getItem('vq_gemini_key') || '');
       const prompt = `VocaQuest 마케팅 전문가로서 주제 "${topic}"에 대한 알림 문구와 SNS 설명을 한국어로 작성해줘. JSON 형식으로 답해.`;
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {
+      const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })

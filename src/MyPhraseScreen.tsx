@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-import { getActiveApiKey, LIGHTWEIGHT_MODEL } from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from './apiUtils';
 import { t as globalT } from './i18n';
 import {
     ChevronLeft, Plus, Trash2, Volume2, Sparkles, BookOpen,
@@ -257,7 +257,7 @@ Required Response JSON Format (Return ONLY valid JSON):
   "originalPronunciation": "How to read '${text}' in ${nativeLangLabel}"
 }`;
 
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+            const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } })
             });

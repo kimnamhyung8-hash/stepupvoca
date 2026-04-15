@@ -55,10 +55,10 @@ export const getActiveApiKey = (userSavedKey: string | null, isPremium: boolean,
 
     // 2. 프리미엄 유저면 서버 키 사용
     if (isPremium && isServerKeyValid) return SERVER_API_KEY;
-    
+
     // 3. 일반 유저면 한도 확인 후 서버 키 제공
     if (dailyCount < AI_DAILY_LIMIT && isServerKeyValid) return SERVER_API_KEY;
-    
+
     // 5. 한도 초과 또는 서버 키 없음
-    return null; 
+    return null;
 };

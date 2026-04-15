@@ -12,7 +12,7 @@ import { vocaDBJson } from '../data/vocaData';
 import { PcAdSlot } from '../components/PcComponents';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 
-import { getActiveApiKey, LIGHTWEIGHT_MODEL } from '../apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from '../apiUtils';
 interface ReviewScreenProps {
     settings: any;
     setScreen: (screen: string) => void;
@@ -68,7 +68,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
           "challengeWords": [{"word": "Word", "reason": "Why this is a focus word"}]
         }
       `;
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+            const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
@@ -104,7 +104,7 @@ export const ReviewScreen = ({ settings, setScreen, incorrectNotes, setIncorrect
         setIsGeneratingUsages(true);
         try {
             const prompt = `Provide 3 short English example sentences for "${wordToGen}" with translations in ${localLang}. Respond ONLY with a JSON array of objects: [{"en": "...", "tr": "..."}, ...]`;
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+            const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
