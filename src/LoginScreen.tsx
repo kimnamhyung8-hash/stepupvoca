@@ -8,7 +8,11 @@ import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 export function LoginScreen({ settings, setScreen }: any) {
     const [isLoading, setIsLoading] = useState(false);
     const lang = settings.lang || 'ko';
-    const isNative = typeof (window as any).Capacitor !== 'undefined' && (window as any).Capacitor.getPlatform() !== 'web';
+    
+    // Cross-Platform Device Check (기기 방어벽)
+    const platform = typeof (window as any).Capacitor !== 'undefined' ? (window as any).Capacitor.getPlatform() : 'web';
+    const isNative = platform !== 'web';
+    const isIOS = platform === 'ios';
 
     const handleGoogleLogin = async () => {
         setIsLoading(true);
@@ -99,7 +103,8 @@ export function LoginScreen({ settings, setScreen }: any) {
     const handleAppleLogin = async () => {
         setIsLoading(true);
         try {
-            if (isNative) {
+            // 안드로이드는 Native 옵션 누락 시 튕기므로 iOS만 Native 플러그인을 태우도록 방어벽 적용
+            if (isIOS) {
                 console.log("Native Firebase Apple Login starting...");
                 try {
                     const result = await FirebaseAuthentication.signInWithApple();
