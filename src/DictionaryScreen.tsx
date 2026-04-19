@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Mic, MicOff, Volume2, Plus, ChevronLeft, ArrowRight, Book, RefreshCw, Globe } from 'lucide-react';
 import { PcAdSlot } from './components/PcComponents';
-import { TextToSpeech } from '@capacitor-community/text-to-speech';
+import { playNaturalTTS } from './utils/ttsUtils';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { t } from './i18n';
 import { getActiveApiKey, LIGHTWEIGHT_MODEL, fetchGemini, checkAiCache, saveAiCache } from './apiUtils';
@@ -260,7 +260,7 @@ Return ONLY in PURE JSON format (no markdown):
     };
 
     const playTTS = async (text: string) => {
-        try { await TextToSpeech.speak({ text, lang: 'en-US', rate: 0.9 }); } catch (_) { /* ignore */ }
+        try { await playNaturalTTS(text, 'en'); } catch (_) { /* ignore */ }
     };
 
     return (
