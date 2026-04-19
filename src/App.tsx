@@ -651,7 +651,7 @@ function MainApp() {
       const last = localStorage.getItem('vq_guide_last_date');
       const count = parseInt(localStorage.getItem('vq_guide_day_count') || '0');
       if (count >= 7 || last === today) return;
-      setShowDailyGuide(true);
+      // setShowDailyGuide(true); // Disabled by user request
       localStorage.setItem('vq_guide_last_date', today);
       localStorage.setItem('vq_guide_day_count', String(count + 1));
     }, 2000);

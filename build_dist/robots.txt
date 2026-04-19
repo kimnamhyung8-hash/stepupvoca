@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vocaquest-7ebea.web.app/sitemap.xml
