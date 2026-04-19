@@ -10,7 +10,7 @@ let isBillingReady = false;
 // RevenueCat API Keys - Replace with your real keys
 const RC_API_KEYS = {
     android: 'goog_rEkHYKXXMwEFTepFEDnorjwlJPb',
-    ios: 'appl_YOUR_REVENUECAT_IOS_KEY',
+    ios: 'appl_VdZCoBPzLTnAkjLoIAwLJgjcbcy',
 };
 
 // Product IDs (must match Google Play Console / App Store Connect)

@@ -760,6 +760,7 @@ AI 输入数据：为翻译及对话而传输的文本及语音数据（通过 G
     login_title_main: "世界所有的单词，\n属于我",
     login_desc_main: "连接账户，安全保护结账明细和学习状态。",
     continue_google: "使用 Google 继续",
+    continue_apple: "使用 Apple 继续",
     maybe_later: "稍后再试",
     fast_payment: "快速支付",
     secure_sync: "安全同步",

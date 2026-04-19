@@ -765,6 +765,7 @@ AI 輸入數據：為翻譯及對話而傳輸的文本及語音數據（通過 G
     login_title_main: "世界所有的單詞，\n屬於我",
     login_desc_main: "連接賬戶，安全保護結賬明細和學習狀態。",
     continue_google: "使用 Google 繼續",
+    continue_apple: "使用 Apple 繼續",
     maybe_later: "稍後再試",
     fast_payment: "快速支付",
     secure_sync: "安全同步",

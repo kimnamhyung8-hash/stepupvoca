@@ -786,6 +786,7 @@ Hãy tận hưởng các trang phục và gacha bằng số điểm tích lũy �
     login_title_main: "Mọi từ vựng trên thế giới,\nSẽ là của tôi",
     login_desc_main: "Kết nối tài khoản để bảo vệ an toàn lịch sử thanh toán và tình trạng học tập.",
     continue_google: "Tiếp tục với Google",
+    continue_apple: "Tiếp tục với Apple",
     maybe_later: "Để sau",
     fast_payment: "Thanh toán nhanh",
     secure_sync: "Đồng bộ an toàn",
