@@ -226,7 +226,8 @@ function MainApp() {
   const isForceAppTablet = urlParams.get('tablet') === 'app';
   const isNative = Capacitor.isNativePlatform();
 
-  const showAds = !isNative && !isPremium;
+  const showWebAds = !isNative && !isPremium;
+  const hasBannerAd = !isPremium;
 
   const isWebPcView = isLargeScreen && (!isNative && !isForceAppTablet);
   const isAppTabletView = isLargeScreen && (isNative || isForceAppTablet);
@@ -832,7 +833,7 @@ function MainApp() {
                 {renderContent()}
             </div>
             
-            {showAds && (
+            {showWebAds && (
                 <div className="w-full max-w-[1200px] mx-auto mt-6">
                     <PcAdSlot variant="horizontal" />
                 </div>
@@ -863,13 +864,13 @@ function MainApp() {
           position: 'relative', 
           overflowY: 'auto',
           paddingBottom: ['HOME', 'STATS', 'PROFILE', 'STORE', 'SETTINGS', 'CONVERSATION_LIST', 'BIBLE', 'EVAL', 'STUDY_LEVEL'].includes(screen) ? 'var(--nav-height)' : '0px', 
-          marginBottom: showAds ? 'calc(var(--ad-height) + var(--safe-area-bottom))' : '0px'
+          marginBottom: hasBannerAd ? 'calc(var(--ad-height) + var(--safe-area-bottom))' : '0px'
         }}
       >
         {renderContent()}
       </div>
       {['HOME', 'STATS', 'PROFILE', 'STORE', 'SETTINGS', 'CONVERSATION_LIST', 'BIBLE'].includes(screen) && (platform !== 'web' || screen === 'HOME') && (
-          <div style={{ bottom: showAds ? 'calc(var(--ad-height) + var(--safe-area-bottom))' : 'var(--safe-area-bottom)', position: 'absolute', width: '100%', left: 0, zIndex: 50 }}>
+          <div style={{ bottom: hasBannerAd ? 'calc(var(--ad-height) + var(--safe-area-bottom))' : 'var(--safe-area-bottom)', position: 'absolute', width: '100%', left: 0, zIndex: 50 }}>
             <BottomNav screen={screen} setScreen={setScreen} settings={settings} setAiReportMode={setAiReportMode} />
           </div>
         )
