@@ -28,8 +28,8 @@ export const decryptApiKey = (encrypted: string) => {
 // ─── [NEW] HYBRID AI CONFIGURATION ──────────────────────────────────────────
 // GitHub의 구글 보안 스캐너(Leaked 봇)를 속이기 위해 토큰을 Base64로 감싸서(난독화) 방어합니다.
 export let SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q0JVRm13b3JQMmZ0amxEdklFb0o5YWs0b1lYamVCbzBj") : "";
-export let HIGH_PERFORMANCE_MODEL = "gemini-3.1-flash-lite-preview";  
-export let LIGHTWEIGHT_MODEL = "gemini-2.5-flash"; 
+export let HIGH_PERFORMANCE_MODEL = "gemini-3-flash-preview";  
+export let LIGHTWEIGHT_MODEL = "gemini-3.1-flash-lite-preview"; 
 export let DEFAULT_AI_MODEL = LIGHTWEIGHT_MODEL;
 export let AI_DAILY_LIMIT = 100; // 초기 유저 모객 이벤트: 1000명 돌파 전까지 100회 제공
 
@@ -88,10 +88,10 @@ export const fetchGemini = async (url: string, init: RequestInit): Promise<Respo
         }
     }
 
-    // If it STILL fails after all retries, force a fallback to gemini-2.0-flash (most stable/always available)
+    // If it STILL fails after all retries, force a fallback to gemini-2.5-flash-lite (most stable/always available)
     if (!response.ok && (response.status === 503 || response.status === 429 || response.status >= 500 || response.status === 404)) {
-        console.warn(`[AI Final Fallback] All retries failed. Falling back to gemini-2.0-flash...`);
-        const fallbackUrl = url.replace(/\/models\/gemini-[^:]+:/, '/models/gemini-2.0-flash:');
+        console.warn(`[AI Final Fallback] All retries failed. Falling back to gemini-2.5-flash-lite...`);
+        const fallbackUrl = url.replace(/\/models\/gemini-[^:]+:/, '/models/gemini-2.5-flash-lite:');
         response = await fetch(fallbackUrl, init);
     }
     
