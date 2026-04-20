@@ -43,6 +43,7 @@ import { ReviewPrompt } from './ReviewPrompt';
 import { OfflineBanner } from './OfflineBanner';
 import { AiQuotaModal } from './components/AiQuotaModal';
 import { ApiKeyModal } from './components/ApiKeyModal';
+import { LoginRequireModal } from './components/LoginRequireModal';
 import { AI_DAILY_LIMIT, setDynamicGeminiConfig } from './apiUtils';
 
 // Screens
@@ -90,8 +91,18 @@ function MainApp() {
     return foundEntry ? foundEntry[0] : 'SPLASH';
   });
   const [prevScreen, setPrevScreen] = useState<any>('HOME');
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [pendingScreen, setPendingScreen] = useState<string | null>(null);
 
   const setScreen = (val: any) => {
+    const restrictedScreens = ['BIBLE', 'MASTERY', 'EVAL', 'BATTLE', 'PROFILE', 'CONVERSATION_LIST', 'MY_PHRASES'];
+    // Cannot access restricted screens without login
+    if (restrictedScreens.includes(val) && !firebaseUser) {
+      setPendingScreen(val);
+      setShowLoginPrompt(true);
+      return;
+    }
+
     if (val !== screen) {
       if (['HOME', 'CONVERSATION_LIST', 'STATS', 'PROFILE', 'STORE', 'SETTINGS', 'MASTERY', 'BIBLE', 'MY_PHRASES', 'DICTIONARY', 'REVIEW', 'STUDY_LEVEL'].includes(screen)) {
         setPrevScreen(screen);
@@ -846,6 +857,12 @@ function MainApp() {
         {showReview && <ReviewPrompt lang={settings.lang} onClose={() => setShowReview(false)} onNavigateFeedback={() => setScreen('FEEDBACK')} isPremium={isPremium} />}
         {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} onWatchAd={handleWatchAdForQuota} />}
         {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} onSave={handleApiKeySave} />}
+        {showLoginPrompt && (
+          <LoginRequireModal 
+            onCancel={() => setShowLoginPrompt(false)} 
+            onLogin={() => { setShowLoginPrompt(false); _setScreen('LOGIN'); }} 
+          />
+        )}
       </div>
     );
   }
@@ -881,6 +898,12 @@ function MainApp() {
       {showReview && <ReviewPrompt lang={settings.lang} onClose={() => setShowReview(false)} onNavigateFeedback={() => setScreen('FEEDBACK')} isPremium={isPremium} />}
       {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} onWatchAd={handleWatchAdForQuota} />}
       {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} onSave={handleApiKeySave} />}
+      {showLoginPrompt && (
+        <LoginRequireModal 
+          onCancel={() => setShowLoginPrompt(false)} 
+          onLogin={() => { setShowLoginPrompt(false); _setScreen('LOGIN'); }} 
+        />
+      )}
     </div>
   );
 }
