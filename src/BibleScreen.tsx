@@ -213,8 +213,7 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
             return;
         }
 
-        // 사용 성공 시점에 카운트 증가 - 한도 초과 시 중단
-        if (incrementAiUsage && !incrementAiUsage()) return;
+
 
         setIsLoadingDetails(true);
         setDetailError(null);
@@ -238,12 +237,19 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
         }
         `;
 
-            const cacheKey = `bible_${lang}_${item.word.trim().toLowerCase().replace(/\s+/g, '_')}`;
+            // '/ ' 등의 특수문자가 Firestore 문서 ID 경로를 파괴하지 못하도록 알파벳, 숫자 외의 모든 문자를 _로 치환
+            const cacheKey = `bible_${lang}_${item.word.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_')}`;
             const cachedResult = await checkAiCache(cacheKey);
             if (cachedResult) {
                 setWordDetails(cachedResult);
                 setIsLoadingDetails(false);
                 return;
+            }
+
+            // 진짜 API를 탈 때만 카운트 증가 (한도 초과 시 중단)
+            if (incrementAiUsage && !incrementAiUsage()) {
+                 setIsLoadingDetails(false);
+                 return;
             }
 
             const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {

@@ -1,5 +1,5 @@
 export const APP_VERSION = "1.8.8";
-export const AD_TEST_MODE = false; // Set to false for production App Store submission and real users
+export const AD_TEST_MODE = true; // Set to false for production App Store submission and real users
 export const STORE_URL_ANDROID = "https://play.google.com/store/apps/details?id=com.stepup.vocaquest";
 export const STORE_URL_IOS = "https://apps.apple.com/app/vocaquest/id6475685145";
 

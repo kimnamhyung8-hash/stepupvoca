@@ -87,8 +87,7 @@ export function DictionaryScreen({ settings, setScreen, setIncorrectNotes, aiUsa
             return;
         }
 
-        // 사용 성공 시점에 카운트 증가
-        if (incrementAiUsage && !incrementAiUsage()) return;
+
 
         // 2. 오프라인 체크 — AI 기능은 인터넷 필요
         if (!navigator.onLine) {
@@ -138,6 +137,12 @@ Return ONLY in PURE JSON format (no markdown):
             const cachedResult = await checkAiCache(cacheKey);
             if (cachedResult) {
                 setResult(cachedResult);
+                setIsLoading(false);
+                return;
+            }
+
+            // 진짜 API를 탈 때만 카운트 증가
+            if (incrementAiUsage && !incrementAiUsage()) {
                 setIsLoading(false);
                 return;
             }

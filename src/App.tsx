@@ -43,7 +43,7 @@ import { ReviewPrompt } from './ReviewPrompt';
 import { OfflineBanner } from './OfflineBanner';
 import { AiQuotaModal } from './components/AiQuotaModal';
 import { ApiKeyModal } from './components/ApiKeyModal';
-import { LoginRequireModal } from './components/LoginRequireModal';
+import { LoginPromptModal } from './components/LoginPromptModal';
 import { AI_DAILY_LIMIT, setDynamicGeminiConfig } from './apiUtils';
 
 // Screens
@@ -92,13 +92,11 @@ function MainApp() {
   });
   const [prevScreen, setPrevScreen] = useState<any>('HOME');
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const [pendingScreen, setPendingScreen] = useState<string | null>(null);
-
   const setScreen = (val: any) => {
-    const restrictedScreens = ['BIBLE', 'MASTERY', 'EVAL', 'BATTLE', 'PROFILE', 'CONVERSATION_LIST', 'MY_PHRASES'];
-    // Cannot access restricted screens without login
-    if (restrictedScreens.includes(val) && !firebaseUser) {
-      setPendingScreen(val);
+    const restrictedScreens = ['STUDY_LEVEL', 'QUIZ', 'EVAL', 'REVIEW', 'STORE', 'STATS', 'PROFILE', 'MASTERY', 'STUDY', 'ARCADE', 'MINIGAME', 'MY_PHRASES', 'AI_REPORT', 'CONVERSATION_LIST', 'CONVERSATION', 'BATTLE', 'LEVEL_TEST', 'LIVE_CHAT', 'ADMIN'];
+    
+    // Check if user is a guest (no userInfo or no uid/email)
+    if (restrictedScreens.includes(val) && (!userInfo || (!userInfo.uid && !userInfo.email))) {
       setShowLoginPrompt(true);
       return;
     }
@@ -820,6 +818,7 @@ function MainApp() {
         {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} onWatchAd={handleWatchAdForQuota} />}
         {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} onSave={handleApiKeySave} />}
         {showReview && <ReviewPrompt lang={settings.lang} onClose={() => setShowReview(false)} onNavigateFeedback={() => setScreen('FEEDBACK')} isPremium={isPremium} />}
+        <LoginPromptModal isOpen={showLoginPrompt} onClose={() => setShowLoginPrompt(false)} onLogin={() => { setShowLoginPrompt(false); _setScreen('LOGIN'); }} lang={settings.lang} />
       </div>
     );
   }
@@ -857,12 +856,7 @@ function MainApp() {
         {showReview && <ReviewPrompt lang={settings.lang} onClose={() => setShowReview(false)} onNavigateFeedback={() => setScreen('FEEDBACK')} isPremium={isPremium} />}
         {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} onWatchAd={handleWatchAdForQuota} />}
         {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} onSave={handleApiKeySave} />}
-        {showLoginPrompt && (
-          <LoginRequireModal 
-            onCancel={() => setShowLoginPrompt(false)} 
-            onLogin={() => { setShowLoginPrompt(false); _setScreen('LOGIN'); }} 
-          />
-        )}
+        <LoginPromptModal isOpen={showLoginPrompt} onClose={() => setShowLoginPrompt(false)} onLogin={() => { setShowLoginPrompt(false); _setScreen('LOGIN'); }} lang={settings.lang} />
       </div>
     );
   }
@@ -898,12 +892,7 @@ function MainApp() {
       {showReview && <ReviewPrompt lang={settings.lang} onClose={() => setShowReview(false)} onNavigateFeedback={() => setScreen('FEEDBACK')} isPremium={isPremium} />}
       {showQuotaModal && <AiQuotaModal settings={settings} onClose={() => setShowQuotaModal(false)} onGoPremium={() => { setShowQuotaModal(false); setShowPaywall(true); }} onEnterKey={() => { setShowQuotaModal(false); setShowApiModal(true); }} onPressGuide={() => { setShowQuotaModal(false); setShowApiModal(true); }} onWatchAd={handleWatchAdForQuota} />}
       {showApiModal && <ApiKeyModal settings={settings} onClose={() => setShowApiModal(false)} isPremium={isPremium} onSave={handleApiKeySave} />}
-      {showLoginPrompt && (
-        <LoginRequireModal 
-          onCancel={() => setShowLoginPrompt(false)} 
-          onLogin={() => { setShowLoginPrompt(false); _setScreen('LOGIN'); }} 
-        />
-      )}
+      <LoginPromptModal isOpen={showLoginPrompt} onClose={() => setShowLoginPrompt(false)} onLogin={() => { setShowLoginPrompt(false); _setScreen('LOGIN'); }} lang={settings.lang} />
     </div>
   );
 }
