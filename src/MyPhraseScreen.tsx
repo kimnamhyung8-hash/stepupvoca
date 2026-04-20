@@ -305,31 +305,31 @@ Required Response JSON Format (Return ONLY valid JSON):
     return (
         <div className="screen bg-[#F8FAFC] h-[100svh] overflow-hidden flex flex-col select-none">
             {/* 헤더 */}
-            <header className="flex items-center justify-between px-5 pb-3 sticky top-0 bg-white/95 backdrop-blur-xl z-30 border-b border-slate-100/60" style={{ paddingTop: 'calc(0.6rem + var(--safe-area-top))' }}>
+            <header className="flex items-center justify-between gap-2 px-5 pb-3 sticky top-0 bg-white/95 backdrop-blur-xl z-30 border-b border-slate-100/60" style={{ paddingTop: 'calc(0.6rem + var(--safe-area-top))' }}>
                 <button
                     onClick={() => setScreen('HOME')}
-                    className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center active:scale-90 transition"
+                    className="w-10 h-10 shrink-0 rounded-2xl bg-slate-100 flex items-center justify-center active:scale-90 transition"
                 >
                     <ChevronLeft size={20} className="text-slate-600" />
                 </button>
-                <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center shadow-md rotate-3">
-                        <BookOpen size={14} className="text-white" />
+                <div className="flex flex-1 items-center gap-2 justify-center min-w-0 pr-1">
+                    <div className="w-7 h-7 shrink-0 bg-orange-500 rounded-lg flex items-center justify-center shadow-md rotate-3">
+                        <BookOpen size={14} className="text-white shrink-0" />
                     </div>
-                    <h1 className="text-xl font-black text-slate-900 italic uppercase tracking-tight">
+                    <h1 className="text-[17px] md:text-xl font-black text-slate-900 italic uppercase tracking-tight truncate">
                         {t('phrase_bible_title')}
                     </h1>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex shrink-0 items-center justify-end">
                     <button
                         onClick={() => {
                             if (!isAutoPlaying) setAutoPlayIndex(0);
                             setIsAutoPlaying(p => !p);
                         }}
-                        className={`px-4 h-10 rounded-[18px] flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all ${isAutoPlaying ? 'bg-indigo-600 text-white shadow-indigo-200 shadow-md animate-pulse' : 'bg-slate-50 border border-slate-200/60 text-slate-600 hover:bg-slate-100'}`}
+                        className={`px-3 md:px-4 h-10 rounded-[18px] flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all ${isAutoPlaying ? 'bg-indigo-600 text-white shadow-indigo-200 shadow-md animate-pulse' : 'bg-slate-50 border border-slate-200/60 text-slate-600 hover:bg-slate-100'}`}
                     >
-                        {isAutoPlaying ? <PauseCircle size={18} /> : <PlayCircle size={18} />}
-                        <span className="text-[12px] font-black tracking-tight">
+                        {isAutoPlaying ? <PauseCircle size={16} /> : <PlayCircle size={16} />}
+                        <span className="text-[11px] md:text-[12px] font-black tracking-tight whitespace-nowrap">
                             {isAutoPlaying 
                                 ? (lang === 'ko' ? '재생 정지' : 'Stop Play')
                                 : (lang === 'ko' ? '무한 반복' : 'Auto Play')}
