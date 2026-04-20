@@ -255,7 +255,10 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
             const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                body: JSON.stringify({ 
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { responseMimeType: "application/json" }
+                })
             });
 
             if (!res.ok) throw new Error("API Request Failed");

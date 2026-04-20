@@ -288,7 +288,10 @@ export const AiReportScreen = ({
             let response = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                body: JSON.stringify({ 
+                    contents: [{ parts: [{ text: promptText }] }],
+                    generationConfig: { responseMimeType: "application/json" }
+                })
             });
 
             if (!response.ok) {
@@ -296,7 +299,10 @@ export const AiReportScreen = ({
                 response = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                    body: JSON.stringify({ 
+                        contents: [{ parts: [{ text: promptText }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
                 });
             }
 
