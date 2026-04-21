@@ -285,13 +285,24 @@ export const AiReportScreen = ({
         }
 
         try {
-            let response = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+            let response = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${HIGH_PERFORMANCE_MODEL}:generateContent?key=${activeKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     contents: [{ parts: [{ text: promptText }] }]
                 })
             });
+
+            if (!response.ok) {
+                console.warn(`[AI Report] API Error (${response.status}) on ${HIGH_PERFORMANCE_MODEL}. Falling back to ${LIGHTWEIGHT_MODEL}...`);
+                response = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        contents: [{ parts: [{ text: promptText }] }]
+                    })
+                });
+            }
 
             if (!response.ok) {
                 throw new Error(await response.text());
