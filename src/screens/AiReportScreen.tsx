@@ -289,8 +289,7 @@ export const AiReportScreen = ({
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
-                    contents: [{ parts: [{ text: promptText }] }],
-                    generationConfig: { responseMimeType: "application/json" }
+                    contents: [{ parts: [{ text: promptText }] }]
                 })
             });
 
@@ -300,8 +299,7 @@ export const AiReportScreen = ({
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
-                        contents: [{ parts: [{ text: promptText }] }],
-                        generationConfig: { responseMimeType: "application/json" }
+                        contents: [{ parts: [{ text: promptText }] }]
                     })
                 });
             }

@@ -256,8 +256,7 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: { responseMimeType: "application/json" }
+                    contents: [{ parts: [{ text: prompt }] }]
                 })
             });
 
