@@ -28,8 +28,8 @@ export const decryptApiKey = (encrypted: string) => {
 // ─── [NEW] HYBRID AI CONFIGURATION ──────────────────────────────────────────
 // GitHub의 구글 보안 스캐너(Leaked 봇)를 속이기 위해 토큰을 Base64로 감싸서(난독화) 방어합니다.
 export let SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q0JVRm13b3JQMmZ0amxEdklFb0o5YWs0b1lYamVCbzBj") : "";
-export let HIGH_PERFORMANCE_MODEL = "gemini-3-flash-preview";  
-export let LIGHTWEIGHT_MODEL = "gemini-3.1-flash-lite-preview"; 
+export let HIGH_PERFORMANCE_MODEL = "gemini-3-flash-preview";
+export let LIGHTWEIGHT_MODEL = "gemini-3.1-flash-lite-preview";
 export let DEFAULT_AI_MODEL = LIGHTWEIGHT_MODEL;
 export let AI_DAILY_LIMIT = 100; // 초기 유저 모객 이벤트: 1000명 돌파 전까지 100회 제공
 
@@ -71,27 +71,29 @@ export const getActiveApiKey = (userSavedKey: string | null, isPremium: boolean,
  * 503/429/500 과부하 에러 시, 안정적인 gemini-1.5-flash 모델로 즉시 우회합니다.
  * Body는 JSON.stringify된 문자열이므로 재사용 시 손실이 없습니다.
  */
-export const fetchGemini = async (url: string, init: RequestInit): Promise<Response> => {
-    let response = await fetch(url, init);
-    const maxRetries = 3;
-    const baseDelay = 1000;
+export const fetchGemini = async (url: string, init: RequestInit, maxRetries = 1) => {
+    let response: Response = {} as Response;
+    const baseDelay = 500; // 대기 시간 단축 (0.5초)
 
-    for (let i = 0; i < maxRetries; i++) {
+    for (let i = 0; i <= maxRetries; i++) {
+        response = await fetch(url, init);
         if (response.ok) break;
-        // 503(High Demand), 429(Rate Limit), 500(Internal Error), or 404(Model doesn't exist)
+        
+        // 503(과부하), 429(속도제한) 발생시 불필요한 이중 fetch 제거 및 대기시간 최적화
         if (response.status === 503 || response.status === 429 || response.status >= 500 || response.status === 404) {
             console.warn(`[AI Retrying] ${response.status} Error. Attempt ${i + 1} of ${maxRetries}...`);
-            await new Promise(resolve => setTimeout(resolve, baseDelay * Math.pow(2, i))); // 1s, 2s, 4s
-            response = await fetch(url, init);
+            if (i < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, baseDelay)); // 불필요한 기하급수적 대기시간(1s->2s->4s) 제거
+            }
         } else {
-            break; // Other errors (like 400 Bad Request) don't need retry
+            break; // 400 등 명백한 요청 에러는 즉시 중단
         }
     }
 
-    // If it STILL fails after all retries, force a fallback to gemini-2.5-flash-lite (most stable/always available)
+    // 재시도 후에도 실패하면 즉시 가장 안정적인 2.5 flash 모델로 우회 (Wait time Zero)
     if (!response.ok && (response.status === 503 || response.status === 429 || response.status >= 500 || response.status === 404)) {
-        console.warn(`[AI Final Fallback] All retries failed. Falling back to gemini-2.5-flash-lite...`);
-        const fallbackUrl = url.replace(/\/models\/gemini-[^:]+:/, '/models/gemini-2.5-flash-lite:');
+        console.warn(`[AI Final Fallback] Rate limited or Down. Instantly using fallback model...`);
+        const fallbackUrl = url.replace(/\/models\/gemini-[^:]+:/, '/models/gemini-2.5-flash:');
         response = await fetch(fallbackUrl, init);
     }
     
@@ -124,9 +126,9 @@ export const checkAiCache = async (cacheKey: string): Promise<any | null> => {
                 else if (data.createdAt.toMillis) createdAtMs = data.createdAt.toMillis();
                 else if (data.createdAt instanceof Date) createdAtMs = data.createdAt.getTime();
             }
-            
+
             const daysDiff = (now - createdAtMs) / (1000 * 60 * 60 * 24);
-            
+
             // Lazy TTL check: Only return if it's less than 30 days old
             if (daysDiff <= 30) {
                 console.log(`[AI Cache Hit] ⚡ Reusing Firebase data for: ${cacheKey}`);
