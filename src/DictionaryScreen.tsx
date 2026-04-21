@@ -4,7 +4,7 @@ import { PcAdSlot } from './components/PcComponents';
 import { playNaturalTTS } from './utils/ttsUtils';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { t } from './i18n';
-import { getActiveApiKey, LIGHTWEIGHT_MODEL, fetchGemini, checkAiCache, saveAiCache } from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL, fetchGemini, checkAiCache, saveAiCache, parseFlexibleJson } from './apiUtils';
 
 
 // 국기 이모지 맵 (외부 CDN 의존 제거 — 오프라인 대응)
@@ -155,7 +155,7 @@ Return ONLY in PURE JSON format (no markdown):
             const jsonPart = textContent.match(/\{[\s\S]*\}/)?.[0];
             if (!jsonPart) throw new Error('AI returned a non-JSON response.');
             
-            const parsedResult = JSON.parse(jsonPart);
+            const parsedResult = parseFlexibleJson(jsonPart);
             await saveAiCache(cacheKey, parsedResult);
             setResult(parsedResult);
         } catch (err: any) {

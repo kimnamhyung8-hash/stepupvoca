@@ -157,3 +157,21 @@ export const saveAiCache = async (cacheKey: string, payload: any) => {
         console.warn("[AI Cache Error] Failed to save cache:", e);
     }
 };
+
+/**
+ * [NEW] Robust JSON Parser for handling experimental AI models that sometimes drop quotes around keys
+ * Fixes: "Expected double-quoted property name in JSON"
+ */
+export const parseFlexibleJson = (jsonString: string): any => {
+    try {
+        return JSON.parse(jsonString);
+    } catch (err: any) {
+        try {
+            // Attempt to rescue unquoted keys (e.g., { key: "value" } -> { "key": "value" })
+            const fixedJson = jsonString.replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":');
+            return JSON.parse(fixedJson);
+        } catch (rescueErr) {
+            throw err; // throw original error if rescue fails
+        }
+    }
+};

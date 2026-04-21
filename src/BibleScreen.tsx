@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Capacitor } from '@capacitor/core';
-import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini, checkAiCache, saveAiCache} from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini, checkAiCache, saveAiCache, parseFlexibleJson } from './apiUtils';
 import { ChevronDown, BookOpen, Volume2, X, RefreshCw, Sparkles } from 'lucide-react';
 import { play20sFemaleTTS } from './utils/ttsUtils';
 import { showAdIfFree } from './admob';
@@ -269,7 +269,7 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
 
             if (!jsonPart) throw new Error("Invalid AI response");
 
-            const parsedResult = JSON.parse(jsonPart);
+            const parsedResult = parseFlexibleJson(jsonPart);
             await saveAiCache(cacheKey, parsedResult);
             setWordDetails(parsedResult);
         } catch (err: any) {

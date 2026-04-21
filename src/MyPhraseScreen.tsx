@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from './apiUtils';
+import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini, parseFlexibleJson } from './apiUtils';
 import { t as globalT } from './i18n';
 import {
     ChevronLeft, Plus, Trash2, Volume2, Sparkles, BookOpen,
@@ -272,7 +272,7 @@ Required Response JSON Format (Return ONLY valid JSON):
             const jsonPart = textContent.match(/\{[\s\S]*\}/)?.[0];
             if (!jsonPart) throw new Error('Invalid AI format');
             
-            const result = JSON.parse(jsonPart);
+            const result = parseFlexibleJson(jsonPart);
             if (!result.nativeTranslation) result.nativeTranslation = t('translation_error');
             setTranslated(result);
         } catch (e: any) {
