@@ -15,6 +15,9 @@ const config: CapacitorConfig = {
     path: 'app/android'
   },
   plugins: {
+    CapacitorHttp: {
+      enabled: true,
+    },
     AdMob: {
       // Test App IDs - Replace with real IDs for production
       androidAppId: 'ca-app-pub-8125662823247706~1345014713',
