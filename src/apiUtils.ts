@@ -28,7 +28,7 @@ export const decryptApiKey = (encrypted: string) => {
 // ─── [NEW] HYBRID AI CONFIGURATION ──────────────────────────────────────────
 // GitHub의 구글 보안 스캐너(Leaked 봇)를 속이기 위해 토큰을 Base64로 감싸서(난독화) 방어합니다.
 export let SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q0JVRm13b3JQMmZ0amxEdklFb0o5YWs0b1lYamVCbzBj") : "";
-export let HIGH_PERFORMANCE_MODEL = "gemini-3-flash-preview";
+export let HIGH_PERFORMANCE_MODEL = "gemini-3.1-flash-preview";
 export let LIGHTWEIGHT_MODEL = "gemini-3.1-flash-lite-preview";
 export let DEFAULT_AI_MODEL = LIGHTWEIGHT_MODEL;
 export let AI_DAILY_LIMIT = 100; // 초기 유저 모객 이벤트: 1000명 돌파 전까지 100회 제공
@@ -71,30 +71,34 @@ export const getActiveApiKey = (userSavedKey: string | null, isPremium: boolean,
  * 503/429/500 과부하 에러 시, 안정적인 gemini-1.5-flash 모델로 즉시 우회합니다.
  * Body는 JSON.stringify된 문자열이므로 재사용 시 손실이 없습니다.
  */
-export const fetchGemini = async (url: string, init: RequestInit, maxRetries = 1) => {
+export const fetchGemini = async (url: string, init: RequestInit) => {
     let response: Response = {} as Response;
-    const baseDelay = 500; // 대기 시간 단축 (0.5초)
+    
+    // 유저 요청에 따른 전역 3단계 필수 체크 순서
+    const AI_SEQUENCE = [
+        "gemini-3.1-flash-lite-preview",
+        "gemini-3.1-flash-preview",
+        "gemini-2.5-flash-lite"
+    ];
 
-    for (let i = 0; i <= maxRetries; i++) {
-        response = await fetch(url, init);
-        if (response.ok) break;
+    for (const model of AI_SEQUENCE) {
+        // URL에 들어있는 기존 모델을 덮어쓰고 현재 순서의 모델로 치환
+        const targetUrl = url.replace(/\/models\/gemini-[^:]+:/, `/models/${model}:`);
         
-        // 503(과부하), 429(속도제한) 발생시 불필요한 이중 fetch 제거 및 대기시간 최적화
-        if (response.status === 503 || response.status === 429 || response.status >= 500 || response.status === 404) {
-            console.warn(`[AI Retrying] ${response.status} Error. Attempt ${i + 1} of ${maxRetries}...`);
-            if (i < maxRetries) {
-                await new Promise(resolve => setTimeout(resolve, baseDelay)); // 불필요한 기하급수적 대기시간(1s->2s->4s) 제거
-            }
-        } else {
-            break; // 400 등 명백한 요청 에러는 즉시 중단
+        response = await fetch(targetUrl, init);
+        
+        // 성공 응답 시 즉시 반환
+        if (response.ok) {
+            break;
         }
-    }
 
-    // 재시도 후에도 실패하면 즉시 가장 안정적인 2.5 flash 모델로 우회 (Wait time Zero)
-    if (!response.ok && (response.status === 503 || response.status === 429 || response.status >= 500 || response.status === 404)) {
-        console.warn(`[AI Final Fallback] Rate limited or Down. Instantly using fallback model...`);
-        const fallbackUrl = url.replace(/\/models\/gemini-[^:]+:/, '/models/gemini-2.5-flash:');
-        response = await fetch(fallbackUrl, init);
+        // 400 에러(잘못된 양식 제출 등)의 경우 재시도가 무의미
+        if (response.status === 400) {
+            console.warn(`[AI Fallback] Unrecoverable 400 Bad Request on ${model}.`);
+            break;
+        }
+
+        console.warn(`[AI Fallback Sequence] Model ${model} returned ${response.status}. Trying next...`);
     }
     
     return response;
