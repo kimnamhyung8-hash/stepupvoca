@@ -11,7 +11,6 @@ import {
     RefreshCw,
     Gift,
     Check,
-    Ban,
     Diamond,
     BookOpen,
     Star
@@ -169,10 +168,6 @@ export const StoreScreen: React.FC<StoreScreenProps> = ({
             if (productId.includes('premium')) {
                 setIsPremium(true);
                 alert(t(lang, 'premium_activated'));
-            } else if (productId.includes('remove_ads')) {
-                // If we had a specific state for ads, we'd set it here. 
-                // Currently, Premium includes 'No Ads', but this standalone purchase works too.
-                alert(t(lang, 'ad_complete'));
             } else {
                 const added = getPointsForProduct(productId);
                 if (added > 0) {
@@ -501,20 +496,6 @@ export const StoreScreen: React.FC<StoreScreenProps> = ({
                                         <div className="text-xl font-black text-indigo-500 italic group-hover:text-indigo-600 transition-colors tracking-tighter pr-2">+500P</div>
                                     </div>
                                 )}
-
-                                {/* 2. Remove Ads (Lifetime) */}
-                                <div className="bg-[#0F1721] p-5 rounded-[36px] flex items-center justify-between shadow-lg">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center border border-red-500/10">
-                                            <Ban size={36} className="text-red-500" />
-                                        </div>
-                                        <div>
-                                            <h4 className="text-white text-[18px] font-black leading-tight">{t(lang, 'remove_ads_title')}</h4>
-                                            <p className="text-slate-400 text-xs font-bold mt-0.5">{t(lang, 'remove_ads_desc')}</p>
-                                        </div>
-                                    </div>
-                                    <button onClick={() => handleRecharge(PRODUCTS.AD_REMOVE)} className="bg-[#1E293B] px-6 py-3 rounded-2xl text-white font-black text-lg shadow-lg active:scale-90 transition-all font-mono border border-white/5">{getPrice(PRODUCTS.AD_REMOVE, '₩14,000')}</button>
-                                </div>
 
 
                             </div>

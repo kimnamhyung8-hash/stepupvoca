@@ -21,9 +21,6 @@ export const PRODUCTS = {
     // Subscriptions
     PREMIUM_MONTHLY: 'vocaquest_premium_monthly',
     PREMIUM_YEARLY: 'vocaquest_premium_yearly',
-
-    // Non-consumables
-    AD_REMOVE: 'vocaquest_remove_ads',
 };
 
 export interface ProductInfo {
@@ -92,21 +89,20 @@ export const getProducts = async (lang: string = 'ko'): Promise<ProductInfo[]> =
     if (!isBillingReady || !Purchases) {
         // Return mock products for web testing localized by language
         const mockPrices: Record<string, Record<string, string>> = {
-            'ko': { p1000: '₩1,100', monthly: '₩3,300', yearly: '₩19,900', ad: '₩14,000' },
-            'ja': { p1000: '¥100', monthly: '¥300', yearly: '¥1,900', ad: '¥1,400' },
-            'en': { p1000: '$0.99', monthly: '$2.99', yearly: '$19.99', ad: '$9.99' },
-            'zh': { p1000: '¥7.00', monthly: '¥21.00', yearly: '¥138.00', ad: '¥98.00' },
-            'tw': { p1000: '$33', monthly: '$100', yearly: '$600', ad: '$450' },
-            'vi': { p1000: '25.000₫', monthly: '75.000₫', yearly: '450.000₫', ad: '350.000₫' }
+            'ko': { p1000: '₩1,100', monthly: '₩3,300', yearly: '₩19,900' },
+            'ja': { p1000: '¥100', monthly: '¥300', yearly: '¥1,900' },
+            'en': { p1000: '$0.99', monthly: '$2.99', yearly: '$19.99' },
+            'zh': { p1000: '¥7.00', monthly: '¥21.00', yearly: '¥138.00' },
+            'tw': { p1000: '$33', monthly: '$100', yearly: '$600' },
+            'vi': { p1000: '25.000₫', monthly: '75.000₫', yearly: '450.000₫' }
         };
 
         const p = mockPrices[lang] || mockPrices['en'];
 
         return [
             { id: PRODUCTS.POINTS_1000, title: '1,000 Points', price: p.p1000, description: '1,000 VocaQuest Points' },
-            { id: PRODUCTS.PREMIUM_MONTHLY, title: 'Premium Monthly', price: p.monthly, description: 'Ad-free + AI Reports + All Levels' },
-            { id: PRODUCTS.PREMIUM_YEARLY, title: 'Premium Yearly', price: p.yearly, description: 'Ad-free + AI Reports + All Levels (Save 44%)' },
-            { id: PRODUCTS.AD_REMOVE, title: 'Remove Ads', price: p.ad, description: 'Enjoy ad-free learning for 1 year' },
+            { id: PRODUCTS.PREMIUM_MONTHLY, title: 'Premium Monthly', price: p.monthly, description: 'Premium AI Reports + All Levels' },
+            { id: PRODUCTS.PREMIUM_YEARLY, title: 'Premium Yearly', price: p.yearly, description: 'Premium AI Reports + All Levels (Save 44%)' },
         ];
     }
 

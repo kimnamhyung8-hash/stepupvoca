@@ -35,7 +35,7 @@ import { PaywallPopup } from './components/PaywallPopup';
 import { WidgetInstallPopup } from './components/WidgetInstallPopup';
 import { DailyGuidePopup } from './components/DailyGuidePopup';
 
-import { initAdMob, grantAdFreePass } from './admob';
+import { initAdMob } from './admob';
 import { initBilling, isPremiumUser } from './billing';
 import { initBGM, playMainBGM, pauseMainBGM, setBgmVolume } from './bgm';
 import { incrementLaunchCount, shouldShowReview } from './review';
@@ -571,7 +571,7 @@ function MainApp() {
   const handleActivityDone = async () => {
     const data = await recordActivity(); setStreak(data.streak); setStreakMax(data.streakMax); setTodayDone(true);
     if (data.isNewStreakDay && data.streak % 7 === 0) {
-      alert(t(settings.lang, 'streak_7day_reward')); setUserPoints((prev: any) => prev + 500); grantAdFreePass(24);
+      alert(t(settings.lang, 'streak_7day_reward')); setUserPoints((prev: any) => prev + 500);
     }
     if (isPremium && new Date().getDate() === 1) {
       alert(t(settings.lang, 'premium_monthly_reward')); setUserPoints((prev: any) => prev + 1000);

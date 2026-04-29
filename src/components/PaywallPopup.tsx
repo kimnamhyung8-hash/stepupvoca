@@ -42,7 +42,7 @@ export const PaywallPopup: React.FC<PaywallPopupProps> = ({
 
     const benefits = [
         { icon: <Zap className="text-amber-500" />, title: lang === 'ko' ? "무제한 AI 학습" : "Unlimited AI Study", desc: lang === 'ko' ? "일일 AI 사용 제한이 완전히 해제됩니다." : "No daily limits on AI features." },
-        { icon: <ShieldCheck className="text-emerald-500" />, title: lang === 'ko' ? "광고 제거" : "No More Ads", desc: lang === 'ko' ? "쾌적한 학습을 위해 모든 광고를 제거합니다." : "Remove all distracting banner & interstitial ads." },
+        { icon: <ShieldCheck className="text-emerald-500" />, title: lang === 'ko' ? "쾌적한 학습 환경" : "Distraction-Free Learning", desc: lang === 'ko' ? "PRO 회원은 최적화된 학습 환경을 누릴 수 있습니다." : "PRO members enjoy a clean, focused learning experience." },
         { icon: <Sparkles className="text-purple-500" />, title: lang === 'ko' ? "AI 프리미엄 보고서" : "Premium AI Reports", desc: lang === 'ko' ? "나의 학습 약점을 AI가 정밀 분석해줍니다." : "Get deep insights into your learning weaknesses." },
         { icon: <MessageSquare className="text-blue-500" />, title: lang === 'ko' ? "전용 커뮤니티" : "Exclusive Benefits", desc: lang === 'ko' ? "매년 추가되는 모든 프리미엄 기능을 누리세요." : "Enjoy all upcoming premium features first." }
     ];
