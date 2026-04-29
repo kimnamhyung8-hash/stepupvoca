@@ -266,41 +266,22 @@ export const isAdMobAvailable = (): boolean => {
     return isAdMobReady;
 };
 
-// --- AD-FREE PASS SYSTEM ---
-// Users can get ad-free time by watching rewarded ads or as a streak reward.
-
-export const getAdFreeUntil = (): number => {
-    const until = localStorage.getItem('vq_ad_free_until');
-    return until ? parseInt(until, 10) : 0;
-};
+// --- AD-FREE LOGIC ---
+// Only Premium users are ad-free. Temporary passes are removed for AdMob compliance.
 
 export const isAdFreeActive = (): boolean => {
-    // Premium users are always ad-free
-    if (localStorage.getItem('vq_premium') === 'true') return true;
-
-    // Check if temporary ad-free pass is active
-    const until = getAdFreeUntil();
-    return Date.now() < until;
-};
-
-export const grantAdFreePass = (hours: number) => {
-    const currentUntil = getAdFreeUntil();
-    const startTime = Math.max(Date.now(), currentUntil);
-    const newUntil = startTime + (hours * 60 * 60 * 1000);
-    localStorage.setItem('vq_ad_free_until', newUntil.toString());
-
-    // Dispatch event to update UI (like removing banner padding)
-    window.dispatchEvent(new Event('vocaquest_state_changed'));
+    // Only Premium users enjoy an ad-free environment
+    return localStorage.getItem('vq_premium') === 'true';
 };
 
 export const showAdIfFree = async (): Promise<boolean> => {
-    // 1. Check if user has any form of ad-free status (Premium or Pass)
+    // 1. Check if user is Premium
     if (isAdFreeActive()) {
-        console.log('[AdMob] Ad-free active, skipping');
+        console.log('[AdMob] Premium user, skipping auto-ad');
         return true;
     }
 
-    // 2. Check cooldown timer
+    // 2. Check cooldown timer (5 minutes between interstitial ads)
     const AD_COOLDOWN_MS = 5 * 60 * 1000; 
     const lastAdTimeStr = localStorage.getItem('vq_last_ad_time');
     const lastAdTime = lastAdTimeStr ? parseInt(lastAdTimeStr, 10) : 0;
@@ -312,7 +293,7 @@ export const showAdIfFree = async (): Promise<boolean> => {
         return true;
     }
 
-    // 3. Update timer BEFORE showing to prevent double triggers during animations/transitions
+    // 3. Update timer BEFORE showing
     localStorage.setItem('vq_last_ad_time', Date.now().toString());
 
     // 4. Show ad
