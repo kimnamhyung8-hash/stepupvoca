@@ -68,6 +68,43 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
     const skinData = skins[equippedSkin] || skins.default;
 
+    const handleDeleteAccount = async () => {
+        if (!firebaseUser) return;
+
+        const confirmed = window.confirm(
+            `${t(lang, 'delete_account_confirm')}\n\n${t(lang, 'delete_account_warning')}`
+        );
+
+        if (!confirmed) return;
+
+        try {
+            setIsLoggingOut(true); 
+
+            // 1. Delete data from Firestore
+            const { db } = await import('../firebase');
+            const { doc, deleteDoc } = await import('firebase/firestore');
+            await deleteDoc(doc(db, 'users', firebaseUser.uid));
+
+            // 2. Delete Auth account
+            const { deleteUser } = await import('firebase/auth');
+            await deleteUser(firebaseUser);
+
+            alert(t(lang, 'delete_account_success'));
+            setScreen('LOGIN');
+        } catch (error: any) {
+            console.error("Delete Account Error", error);
+            if (error.code === 'auth/requires-recent-login') {
+                alert(t(lang, 'reauthenticate_required'));
+                await auth.signOut();
+                setScreen('LOGIN');
+            } else {
+                alert(t(lang, 'delete_account_failed'));
+            }
+        } finally {
+            setIsLoggingOut(false);
+        }
+    };
+
     const handleLogout = async () => {
         if (!firebaseUser) {
             setScreen('LOGIN');
@@ -279,6 +316,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
                                 </span>
                                 <ChevronRight size={18} className={isLoggingOut ? "animate-pulse" : (firebaseUser ? "text-red-200" : "text-indigo-200")} />
                             </button>
+                            {firebaseUser && (
+                                <button 
+                                    onClick={handleDeleteAccount}
+                                    disabled={isLoggingOut}
+                                    className="w-full flex justify-between items-center p-5 hover:bg-slate-50 transition-all group"
+                                >
+                                    <span className="text-slate-400 font-bold">{t(lang, "delete_account")}</span>
+                                    <ChevronRight size={18} className="text-slate-200" />
+                                </button>
+                            )}
                         </div>
                     </section>
 
