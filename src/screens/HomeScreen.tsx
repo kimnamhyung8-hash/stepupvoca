@@ -15,6 +15,7 @@ import { Capacitor } from '@capacitor/core';
 import { showRewardedInterstitialAd } from '../admob';
 import { PurposeSelectionModal } from '../components/PurposeSelectionModal';
 import { LearningHomeView, TravelHomeView, BusinessHomeView, CommHomeView, TestingHomeView } from '../components/home/HomeViews';
+import { AiEngineSetupCard } from '../components/home/AiEngineSetupCard';
 
 interface HomeScreenProps {
     settings: { lang?: string;[key: string]: unknown };
@@ -215,6 +216,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                         {t(lang, 'home_stats_label', { collected: collectedWords, weak: unmemorizedWords })}
                     </p>
                 </div>
+
+                <AiEngineSetupCard lang={lang} />
 
                 <div className="space-y-5 border-t border-slate-100 pt-6 mt-6">
                     {/* Dynamic Purpose View */}

@@ -177,6 +177,10 @@ export const playMainBGM = (style: BGMMode = 'HAPPY') => {
         bgmAudio.volume = currentVolume;
     }
 
+    // 사용자 상호작용 전이면 플래그만 설정하고 대기 (iOS 자동재생 정책 대응)
+    // 오디오 엘리먼트는 위에서 미리 생성하여 프리로드가 진행되도록 함
+    if (!userInteracted) return;
+
     // Stop existing
     currentSequencer?.stop();
     bgmAudio?.pause();

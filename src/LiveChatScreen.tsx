@@ -9,6 +9,7 @@ import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { getBestVoiceIndex, TEEN_GIRL_PROFILES } from './utils/ttsUtils';
 import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from './apiUtils';
+import { aiDispatcher } from './services/ai/dispatcher';
 import {
     searchUserByNickname,
     getChatLobbyUsers,
@@ -1672,6 +1673,29 @@ Always respond in this EXACT JSON format (no markdown, no preamble):
                 ...conversationHistory.current
             ];
 
+            // 온디바이스 AI 우선 시도
+            if (aiDispatcher.isOnDeviceReady) {
+                try {
+                    console.log('[LiveChat] 온디바이스 추론 시도...');
+                    const onDeviceResult = await aiDispatcher.generate(userEnglishText, systemPrompt);
+                    const parsed = safeParseJson(onDeviceResult.content);
+                    if (parsed && parsed.en) {
+                        conversationHistory.current.push({ role: 'model', parts: [{ text: onDeviceResult.content }] });
+                        if (conversationHistory.current.length > 20) conversationHistory.current = conversationHistory.current.slice(-20);
+                        setManualSuggestion(parsed.suggestion || null);
+                        setManualSuggestionNative(parsed.suggestionNative || null);
+                        const aiMsg: any = { id: `ai_${Date.now()}`, senderId: 'ai_bot', senderName: 'VocaBot', text: parsed.en, translatedEn: parsed.en, localNative: parsed.nat || '', showNative: false, createdAt: new Date() };
+                        setMessages(prev => [...prev, aiMsg]);
+                        console.log('[LiveChat] ✅ 온디바이스 응답 성공');
+                        setIsAiTyping(false);
+                        return;
+                    }
+                } catch (e) {
+                    console.warn('[LiveChat] 온디바이스 실패, 클라우드로 폴백:', e);
+                }
+            }
+
+            // --- 기존 클라우드 코드 (그대로 유지) ---
             const res = await fetchGemini(
                 `https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${activeKey}`,
                 {

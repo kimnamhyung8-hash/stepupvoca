@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Capacitor } from '@capacitor/core';
 import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini, checkAiCache, saveAiCache, parseFlexibleJson } from './apiUtils';
+import { aiDispatcher } from './services/ai/dispatcher';
 import { ChevronDown, BookOpen, Volume2, X, RefreshCw, Sparkles } from 'lucide-react';
 import { play20sFemaleTTS } from './utils/ttsUtils';
 import { showAdIfFree } from './admob';
@@ -252,6 +253,28 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
                  return;
             }
 
+            // 온디바이스 AI 우선 시도
+            if (aiDispatcher.isOnDeviceReady) {
+                try {
+                    console.log('[Bible] 온디바이스 추론 시도...');
+                    const onDeviceResult = await aiDispatcher.generate(prompt);
+                    const jsonPart = onDeviceResult.content.match(/\{[\s\S]*\}/)?.[0];
+                    if (jsonPart) {
+                        const parsedResult = parseFlexibleJson(jsonPart);
+                        if (parsedResult.nuance || parsedResult.examples) {
+                            await saveAiCache(cacheKey, parsedResult);
+                            setWordDetails(parsedResult);
+                            setIsLoadingDetails(false);
+                            console.log('[Bible] ✅ 온디바이스 응답 성공');
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('[Bible] 온디바이스 실패, 클라우드로 폴백:', e);
+                }
+            }
+
+            // --- 기존 클라우드 코드 (그대로 유지) ---
             const res = await fetchGemini(`https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { getActiveApiKey, LIGHTWEIGHT_MODEL , fetchGemini} from './apiUtils';
+import { aiDispatcher } from './services/ai/dispatcher';
 import {
     X, Send, ChevronRight, Volume2, Eye, RotateCcw, Mic, Lightbulb, ChevronDown, Trophy, BookOpen, Bot, ShieldCheck, Globe, EyeOff, Sparkles, Plus
 } from 'lucide-react';
@@ -612,6 +613,51 @@ export function ConversationScreen({ settings, setScreen, activeScenario, convLe
         }`;
 
         try {
+            // 온디바이스 AI 우선 시도 (모델이 다운로드되어 있고 준비된 경우에만)
+            if (aiDispatcher.isOnDeviceReady) {
+                try {
+                    console.log('[Conv] 온디바이스 추론 시도...');
+                    const onDeviceResult = await aiDispatcher.generate(
+                        _promptText || history.map(m => `[${m.role}] ${m.text}`).join('\n'),
+                        systemInstruction
+                    );
+                    // 온디바이스 응답을 JSON으로 파싱 시도
+                    let parsed: any = {};
+                    try { parsed = JSON.parse(onDeviceResult.content); } catch { 
+                        const jsonMatch = onDeviceResult.content.match(/\{[\s\S]*\}/);
+                        if (jsonMatch) parsed = JSON.parse(jsonMatch[0]);
+                    }
+                    if (parsed.ai_text || parsed.ai) {
+                        const aiText = parsed.ai_text || parsed.ai || parsed.text || "That's interesting!";
+                        const newMsg: ChatMsg = {
+                            role: 'model', text: aiText,
+                            translation: parsed.translation || parsed.trans || "",
+                            explanation: parsed.explanation || "",
+                            recommendedSentence: parsed.recommended_sentence || ""
+                        };
+                        if (parsed.user_correction) {
+                            setMessages(prev => {
+                                const next = [...prev.filter(m => m.text !== "...")];
+                                for (let i = next.length - 1; i >= 0; i--) {
+                                    if (next[i].role === 'user') {
+                                        next[i] = { ...next[i], translation: parsed.user_original_trans || next[i].translation || "", correctedText: parsed.user_correction, correctedTrans: parsed.correction_trans || "" };
+                                        break;
+                                    }
+                                }
+                                return [...next, newMsg];
+                            });
+                        } else {
+                            setMessages(prev => [...prev.filter(m => m.text !== "..."), newMsg]);
+                        }
+                        if (autoSpeak) playTTS(aiText);
+                        console.log('[Conv] ✅ 온디바이스 응답 성공');
+                        return; // 온디바이스 성공 시 클라우드 호출 건너뜀
+                    }
+                } catch (onDeviceErr) {
+                    console.warn('[Conv] 온디바이스 실패, 클라우드로 폴백:', onDeviceErr);
+                }
+            }
+            // --- 기존 클라우드 코드 (아래 그대로 유지) ---
             let normalizedHistory = history.map(m => ({
                 role: m.role === 'user' ? 'user' : 'model',
                 parts: [{ text: (typeof m.text === 'string' ? m.text : (m.parts?.[0]?.text || "")) }]

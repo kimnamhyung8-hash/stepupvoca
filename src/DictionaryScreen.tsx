@@ -5,6 +5,7 @@ import { playNaturalTTS } from './utils/ttsUtils';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { t } from './i18n';
 import { getActiveApiKey, LIGHTWEIGHT_MODEL, fetchGemini, checkAiCache, saveAiCache, parseFlexibleJson } from './apiUtils';
+import { aiDispatcher } from './services/ai/dispatcher';
 
 
 // 국기 이모지 맵 (외부 CDN 의존 제거 — 오프라인 대응)
@@ -149,6 +150,28 @@ Return ONLY in PURE JSON format (no markdown):
                 return;
             }
 
+            // 온디바이스 AI 우선 시도
+            if (aiDispatcher.isOnDeviceReady) {
+                try {
+                    console.log('[Dict] 온디바이스 추론 시도...');
+                    const onDeviceResult = await aiDispatcher.generate(prompt);
+                    const jsonPart = onDeviceResult.content.match(/\{[\s\S]*\}/)?.[0];
+                    if (jsonPart) {
+                        const parsedResult = parseFlexibleJson(jsonPart);
+                        if (parsedResult.word) {
+                            await saveAiCache(cacheKey, parsedResult);
+                            setResult(parsedResult);
+                            setIsLoading(false);
+                            console.log('[Dict] ✅ 온디바이스 응답 성공');
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('[Dict] 온디바이스 실패, 클라우드로 폴백:', e);
+                }
+            }
+
+            // --- 기존 클라우드 코드 (그대로 유지) ---
             const data = await callGemini(prompt, activeKey);
             const textContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
             const jsonPart = textContent.match(/\{[\s\S]*\}/)?.[0];
