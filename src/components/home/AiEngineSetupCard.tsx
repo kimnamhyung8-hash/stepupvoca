@@ -2,7 +2,7 @@
 // 홈화면 온디바이스 AI 엔진 다운로드/상태 카드
 
 import React, { useState, useEffect } from 'react';
-import { Cpu, Download, CheckCircle2, Loader2, Trash2 } from 'lucide-react';
+import { Cpu, Download, CheckCircle2, Loader2 } from 'lucide-react';
 import { Capacitor } from '@capacitor/core';
 import { ModelManager } from '../../services/ai/modelManager';
 import { aiDispatcher } from '../../services/ai/dispatcher';
@@ -12,53 +12,56 @@ interface Props {
 }
 
 export const AiEngineSetupCard: React.FC<Props> = ({ lang }) => {
-  const [status, setStatus] = useState<'checking' | 'not_downloaded' | 'downloading' | 'ready' | 'error'>('checking');
+  const [status, setStatus] = useState<'checking' | 'not_downloaded' | 'downloading' | 'ready' | 'error' | 'unsupported'>('checking');
   const [progress, setProgress] = useState(0);
+  const [errorMsg, setErrorMsg] = useState('');
 
   // 웹에서는 온디바이스 AI가 작동하지 않으므로 카드를 숨김
-  if (Capacitor.getPlatform() === 'web') return null;
+  if (!Capacitor.isNativePlatform()) return null;
 
   useEffect(() => {
     checkStatus();
   }, []);
 
   const checkStatus = async () => {
+    const manager = ModelManager.getInstance();
+    if (!manager.isSupported) {
+      setStatus('unsupported');
+      return;
+    }
+
     try {
-      const manager = ModelManager.getInstance();
-      const exists = await manager.isModelPresent();
-      if (exists) {
-        // 모델이 있으면 디스패처 초기화 시도
-        await aiDispatcher.init();
-        setStatus(aiDispatcher.isOnDeviceReady ? 'ready' : 'not_downloaded');
-      } else {
-        setStatus('not_downloaded');
+      // Apple Intelligence 또는 다운로드된 모델이 있는지 체크
+      await aiDispatcher.init();
+      if (aiDispatcher.isOnDeviceReady) {
+        setStatus('ready');
+        return;
       }
     } catch {
-      setStatus('not_downloaded');
+      // 초기화 실패 시 다운로드 필요
     }
+
+    setStatus('not_downloaded');
   };
 
   const handleDownload = async () => {
     setStatus('downloading');
     setProgress(0);
+    setErrorMsg('');
     try {
       await ModelManager.getInstance().downloadModel((p) => setProgress(p));
       await aiDispatcher.init();
-      setStatus('ready');
-    } catch (e) {
+      setStatus(aiDispatcher.isOnDeviceReady ? 'ready' : 'error');
+    } catch (e: any) {
       console.error('[AiSetup] 다운로드 실패:', e);
+      setErrorMsg(e?.message || 'Unknown error');
       setStatus('error');
     }
   };
 
-  const handleDelete = async () => {
-    await ModelManager.getInstance().deleteModel();
-    setStatus('not_downloaded');
-  };
-
   const isKo = lang === 'ko';
 
-  if (status === 'checking') return null;
+  if (status === 'checking' || status === 'unsupported') return null;
 
   return (
     <div style={{
@@ -79,8 +82,8 @@ export const AiEngineSetupCard: React.FC<Props> = ({ lang }) => {
         <>
           <p style={{ fontSize: '12px', color: '#94a3b8', marginBottom: '12px', lineHeight: '1.5' }}>
             {isKo
-              ? 'Gemma 2B 모델을 다운로드하면 오프라인에서도 AI와 대화할 수 있습니다. (약 1.2GB)'
-              : 'Download Gemma 2B to chat with AI offline. (~1.2GB)'}
+              ? 'AI 모델을 다운로드하면 오프라인에서도 AI와 대화할 수 있습니다. (약 200MB)'
+              : 'Download AI model to chat offline. (~200MB)'}
           </p>
           <button
             onClick={handleDownload}
@@ -120,26 +123,19 @@ export const AiEngineSetupCard: React.FC<Props> = ({ lang }) => {
       )}
 
       {status === 'ready' && (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <CheckCircle2 size={16} style={{ color: '#4ade80' }} />
-            <span style={{ fontSize: '13px', color: '#4ade80', fontWeight: 600 }}>
-              {isKo ? '온디바이스 AI 활성화됨' : 'On-Device AI Active'}
-            </span>
-          </div>
-          <button onClick={handleDelete} style={{
-            background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer',
-            padding: '4px',
-          }}>
-            <Trash2 size={14} />
-          </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <CheckCircle2 size={16} style={{ color: '#4ade80' }} />
+          <span style={{ fontSize: '13px', color: '#4ade80', fontWeight: 600 }}>
+            {isKo ? '온디바이스 AI 활성화됨' : 'On-Device AI Active'}
+          </span>
         </div>
       )}
 
       {status === 'error' && (
         <div>
           <p style={{ fontSize: '12px', color: '#f87171', marginBottom: '8px' }}>
-            {isKo ? '다운로드에 실패했습니다. 다시 시도해 주세요.' : 'Download failed. Please try again.'}
+            {isKo ? '설정에 실패했습니다. 다시 시도해 주세요.' : 'Setup failed. Please try again.'}
+            {errorMsg && <span style={{ display: 'block', fontSize: '10px', color: '#94a3b8', marginTop: '4px' }}>{errorMsg}</span>}
           </p>
           <button onClick={handleDownload} style={{
             padding: '8px 14px', borderRadius: '8px',
