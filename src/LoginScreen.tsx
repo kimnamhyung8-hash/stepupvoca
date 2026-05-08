@@ -20,7 +20,12 @@ export function LoginScreen({ settings, setScreen }: any) {
             if (isNative) {
                 console.log("Native Firebase Login starting...");
                 try {
-                    const result = await FirebaseAuthentication.signInWithGoogle();
+                    // Android: skipNativeAuth: true → native Firebase Android SDK 서명 검증 우회
+                    // iOS: skipNativeAuth: false (기본값) → native iOS Firebase SDK로 올바른 Google 로그인 처리
+                    const isAndroid = platform === 'android';
+                    const result = await FirebaseAuthentication.signInWithGoogle(
+                        isAndroid ? { skipNativeAuth: true } : {}
+                    );
                     console.log("Native Firebase Login result received:", result);
 
                     if (!result || !result.credential || !result.credential.idToken) {

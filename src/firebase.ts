@@ -17,8 +17,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const isNative = typeof window !== 'undefined' && Capacitor && Capacitor.isNativePlatform();
 
+// indexedDB를 우선 사용 (Android WebView 안정성 향상), localStorage를 fallback으로 유지
+// native 환경에서는 popupRedirectResolver 불필요
 const authOptions: any = {
-  persistence: isNative ? [browserLocalPersistence] : [browserLocalPersistence, indexedDBLocalPersistence],
+  persistence: [indexedDBLocalPersistence, browserLocalPersistence],
 };
 if (!isNative) {
   authOptions.popupRedirectResolver = browserPopupRedirectResolver;
