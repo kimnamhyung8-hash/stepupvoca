@@ -157,15 +157,26 @@ export const AiEngineSetupCard: React.FC<Props> = ({ lang }) => {
       {status === 'error' && (
         <div>
           <p style={{ fontSize: '12px', color: '#f87171', marginBottom: '8px' }}>
-            {isKo ? '설정에 실패했습니다. 다시 시도해 주세요.' : 'Setup failed. Please try again.'}
+            {isKo ? '설정에 실패했습니다. 모델 파일이 손상되었을 수 있습니다.' : 'Setup failed. Model file might be corrupted.'}
             {errorMsg && <span style={{ display: 'block', fontSize: '10px', color: '#94a3b8', marginTop: '4px' }}>{errorMsg}</span>}
           </p>
-          <button onClick={handleDownload} style={{
-            padding: '8px 14px', borderRadius: '8px',
-            background: '#7c3aed', color: '#fff', border: 'none',
-            fontSize: '12px', cursor: 'pointer',
-          }}>
-            {isKo ? '재시도' : 'Retry'}
+          <button 
+            onClick={async () => {
+              // 강제 초기화 로직
+              localStorage.removeItem('vq_llm_model_path');
+              const manager = ModelManager.getInstance();
+              (manager as any)._modelPath = null;
+              setStatus('checking');
+              checkStatus();
+            }} 
+            style={{
+              padding: '8px 14px', borderRadius: '8px',
+              background: '#ef4444', color: '#fff', border: 'none',
+              fontSize: '12px', cursor: 'pointer', width: '100%',
+              marginBottom: '8px'
+            }}
+          >
+            {isKo ? '강제 초기화 후 다시 다운로드' : 'Force Reset & Redownload'}
           </button>
         </div>
       )}
