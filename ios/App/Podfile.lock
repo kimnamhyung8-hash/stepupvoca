@@ -1,0 +1,186 @@
+PODS:
+  - Capacitor (8.1.0):
+    - CapacitorCordova
+  - CapacitorApp (8.0.1):
+    - Capacitor
+  - CapacitorCommunityAdmob (8.0.0):
+    - Capacitor
+    - Google-Mobile-Ads-SDK (~> 12.14)
+    - GoogleUserMessagingPlatform (~> 3.1)
+  - CapacitorCommunityInAppReview (8.0.0):
+    - Capacitor
+  - CapacitorCommunityKeepAwake (8.0.0):
+    - Capacitor
+  - CapacitorCommunitySpeechRecognition (7.0.1):
+    - Capacitor
+  - CapacitorCommunityTextToSpeech (8.0.0):
+    - Capacitor
+  - CapacitorCordova (8.1.0)
+  - CapacitorFilesystem (8.1.2):
+    - Capacitor
+    - IONFilesystemLib (~> 1.1.1)
+  - CapacitorFirebaseAuthentication (8.2.0):
+    - Capacitor
+    - CapacitorFirebaseAuthentication/Lite (= 8.2.0)
+    - FirebaseAuth (~> 12.7.0)
+  - CapacitorFirebaseAuthentication/Lite (8.2.0):
+    - Capacitor
+    - FirebaseAuth (~> 12.7.0)
+  - CapacitorLocalNotifications (8.0.1):
+    - Capacitor
+  - CapgoCapacitorLlm (8.0.11):
+    - Capacitor
+    - MediaPipeTasksGenAI
+    - MediaPipeTasksGenAIC
+  - FirebaseAppCheckInterop (12.7.0)
+  - FirebaseAuth (12.7.0):
+    - FirebaseAppCheckInterop (~> 12.7.0)
+    - FirebaseAuthInterop (~> 12.7.0)
+    - FirebaseCore (~> 12.7.0)
+    - FirebaseCoreExtension (~> 12.7.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GTMSessionFetcher/Core (< 6.0, >= 3.4)
+    - RecaptchaInterop (~> 101.0)
+  - FirebaseAuthInterop (12.7.0)
+  - FirebaseCore (12.7.0):
+    - FirebaseCoreInternal (~> 12.7.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/Logger (~> 8.1)
+  - FirebaseCoreExtension (12.7.0):
+    - FirebaseCore (~> 12.7.0)
+  - FirebaseCoreInternal (12.7.0):
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+  - Google-Mobile-Ads-SDK (12.14.0):
+    - GoogleUserMessagingPlatform (>= 1.1)
+  - GoogleUserMessagingPlatform (3.1.0)
+  - GoogleUtilities/AppDelegateSwizzler (8.1.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Environment (8.1.0):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Logger (8.1.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Network (8.1.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Privacy
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (8.1.0)":
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (8.1.0)
+  - GoogleUtilities/Reachability (8.1.0):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GTMSessionFetcher/Core (5.2.0)
+  - IONFilesystemLib (1.1.2)
+  - MediaPipeTasksGenAI (0.10.35):
+    - MediaPipeTasksGenAIC (= 0.10.35)
+  - MediaPipeTasksGenAIC (0.10.35)
+  - PurchasesHybridCommon (17.41.1):
+    - RevenueCat (= 5.59.2)
+  - RecaptchaInterop (101.0.0)
+  - RevenueCat (5.59.2)
+  - RevenuecatPurchasesCapacitor (12.2.1):
+    - Capacitor
+    - PurchasesHybridCommon (= 17.41.1)
+
+DEPENDENCIES:
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
+  - "CapacitorCommunityAdmob (from `../../node_modules/@capacitor-community/admob`)"
+  - "CapacitorCommunityInAppReview (from `../../node_modules/@capacitor-community/in-app-review`)"
+  - "CapacitorCommunityKeepAwake (from `../../node_modules/@capacitor-community/keep-awake`)"
+  - "CapacitorCommunitySpeechRecognition (from `../../node_modules/@capacitor-community/speech-recognition`)"
+  - "CapacitorCommunityTextToSpeech (from `../../node_modules/@capacitor-community/text-to-speech`)"
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorFilesystem (from `../../node_modules/@capacitor/filesystem`)"
+  - "CapacitorFirebaseAuthentication (from `../../node_modules/@capacitor-firebase/authentication`)"
+  - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
+  - "CapgoCapacitorLlm (from `../../node_modules/@capgo/capacitor-llm`)"
+  - "RevenuecatPurchasesCapacitor (from `../../node_modules/@revenuecat/purchases-capacitor`)"
+
+SPEC REPOS:
+  trunk:
+    - FirebaseAppCheckInterop
+    - FirebaseAuth
+    - FirebaseAuthInterop
+    - FirebaseCore
+    - FirebaseCoreExtension
+    - FirebaseCoreInternal
+    - Google-Mobile-Ads-SDK
+    - GoogleUserMessagingPlatform
+    - GoogleUtilities
+    - GTMSessionFetcher
+    - IONFilesystemLib
+    - MediaPipeTasksGenAI
+    - MediaPipeTasksGenAIC
+    - PurchasesHybridCommon
+    - RecaptchaInterop
+    - RevenueCat
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorApp:
+    :path: "../../node_modules/@capacitor/app"
+  CapacitorCommunityAdmob:
+    :path: "../../node_modules/@capacitor-community/admob"
+  CapacitorCommunityInAppReview:
+    :path: "../../node_modules/@capacitor-community/in-app-review"
+  CapacitorCommunityKeepAwake:
+    :path: "../../node_modules/@capacitor-community/keep-awake"
+  CapacitorCommunitySpeechRecognition:
+    :path: "../../node_modules/@capacitor-community/speech-recognition"
+  CapacitorCommunityTextToSpeech:
+    :path: "../../node_modules/@capacitor-community/text-to-speech"
+  CapacitorCordova:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorFilesystem:
+    :path: "../../node_modules/@capacitor/filesystem"
+  CapacitorFirebaseAuthentication:
+    :path: "../../node_modules/@capacitor-firebase/authentication"
+  CapacitorLocalNotifications:
+    :path: "../../node_modules/@capacitor/local-notifications"
+  CapgoCapacitorLlm:
+    :path: "../../node_modules/@capgo/capacitor-llm"
+  RevenuecatPurchasesCapacitor:
+    :path: "../../node_modules/@revenuecat/purchases-capacitor"
+
+SPEC CHECKSUMS:
+  Capacitor: 830fc6ff88e99bb5ba48350f02c01ab01ba3b2b8
+  CapacitorApp: fcd990168c3249d2c5a7ae94920a031d05789e73
+  CapacitorCommunityAdmob: 9239319646c5bc41481068d8e79d4facc1b5b65e
+  CapacitorCommunityInAppReview: 2a4296ea3e7e4799a87340bd1161c173bd22f3bd
+  CapacitorCommunityKeepAwake: 2dffdfe2c56a49b15bef37da2e1a7bf5a8675989
+  CapacitorCommunitySpeechRecognition: b133f6f6ba84316639fc2fd1760a6d7ab99fb23b
+  CapacitorCommunityTextToSpeech: 6b670df24de86c5de1c718b4411c77b548ea974a
+  CapacitorCordova: e8b76fd95fc1e157775abc484c59cc0de464095d
+  CapacitorFilesystem: 7d3e3df84be4f0d999a5d6baa23aeb30c2de6450
+  CapacitorFirebaseAuthentication: 047c4fc0ebe1b197050cc6c3a5e5c35d68e48ee9
+  CapacitorLocalNotifications: e5b78d679f9b6fb22a08bfc1b951fc3f8bd8da11
+  CapgoCapacitorLlm: a8ad7d13e32217b9a4d5fd026bd98747794c8ca1
+  FirebaseAppCheckInterop: d58366471f1dadf2ed998b15f85c658458a10142
+  FirebaseAuth: 88beaef7c688a2950541552b6dd195d22137c41a
+  FirebaseAuthInterop: deb2638881b5d98c88c4371dd0de65b6110f217b
+  FirebaseCore: c7b57863ce0859281a66d16ca36d665c45d332b5
+  FirebaseCoreExtension: 731a5744970bcd73ad95ab2a2b8a1f46353e86dd
+  FirebaseCoreInternal: 571a2dd8c975410966199623351db3a3265c874d
+  Google-Mobile-Ads-SDK: 4534fd2dfcd3f705c5485a6633c5188d03d4eed2
+  GoogleUserMessagingPlatform: befe603da6501006420c206222acd449bba45a9c
+  GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
+  GTMSessionFetcher: 904bdd2a82c635bcd6f44edf94cc8775c5d1d6e6
+  IONFilesystemLib: 21a63377696b2d8fab5632ecfb7d2ac67bddb68a
+  MediaPipeTasksGenAI: e311d919ab79b2e615e381b65ad271b2c2617312
+  MediaPipeTasksGenAIC: fee4ffd93e57fd2022287bcce0340b3c68b537be
+  PurchasesHybridCommon: 8eb130ab98f8dab600dea932a2599dee79304bb5
+  RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
+  RevenueCat: f352b3661288080bd8bf30bbb96e331940e73c88
+  RevenuecatPurchasesCapacitor: 8205fbf790275caa76d97c33035f4fdb5f213400
+
+PODFILE CHECKSUM: 2e8b3ce6ddc03363c02469fe59c500e6f153f0db
+
+COCOAPODS: 1.16.2
