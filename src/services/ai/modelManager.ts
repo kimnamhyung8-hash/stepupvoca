@@ -36,11 +36,6 @@ export class ModelManager {
   async isModelDownloaded(): Promise<boolean> {
     if (!this.isSupported) return false;
     
-    // iOS는 Apple Intelligence(내장 언어팩)를 사용하므로 다운로드 과정 생략
-    if (Capacitor.getPlatform() === 'ios') {
-      return true;
-    }
-
     // 실제 파일이 Documents 폴더에 존재하는지 '무조건' 먼저 확인합니다.
     try {
       const stat = await Filesystem.stat({
@@ -115,12 +110,7 @@ export class ModelManager {
     if (!this.isSupported) return;
 
     try {
-      let modelPath = this._modelPath || localStorage.getItem('vq_llm_model_path');
-
-      // iOS의 경우 우선적으로 Apple Intelligence(시스템 내장 모델) 사용 시도
-      if (Capacitor.getPlatform() === 'ios') {
-        modelPath = 'Apple Intelligence';
-      }
+      const modelPath = this._modelPath || localStorage.getItem('vq_llm_model_path');
 
       if (modelPath) {
         await CapgoLLM.setModel({
