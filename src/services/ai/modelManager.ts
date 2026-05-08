@@ -6,7 +6,7 @@ import { CapgoLLM } from '@capgo/capacitor-llm';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 
 // 모델 다운로드 URL (HuggingFace - Gemma3 270M, 경량 모델)
-const MODEL_URL = 'https://huggingface.co/litert-community/gemma-3-270m-it/resolve/main/gemma-3-270m-it-int4.task';
+const MODEL_URL = 'https://firebasestorage.googleapis.com/v0/b/vocaquest-7ebea.firebasestorage.app/o/gemma-3-270m-it-int8.task?alt=media&token=70fd18e2-6b2e-474f-a57e-7e9698b5e79c';
 const MODEL_FILENAME = 'gemma-3-270m-it-int8.task';
 
 export class ModelManager {
@@ -35,14 +35,14 @@ export class ModelManager {
 
   async isModelDownloaded(): Promise<boolean> {
     if (!this.isSupported) return false;
-    
+
     // 실제 파일이 Documents 폴더에 존재하는지 '무조건' 먼저 확인합니다.
     try {
       const stat = await Filesystem.stat({
         path: MODEL_FILENAME,
         directory: Directory.Documents
       });
-      
+
       // 용량 체크: 1MB(1048576 bytes) 이하인 경우 제대로 된 모델 파일이 아님!
       // (예: 허깅페이스 권한 에러로 인해 받아진 140 byte짜리 HTML 파일)
       if (stat.size < 1048576) {
@@ -54,12 +54,12 @@ export class ModelManager {
         path: MODEL_FILENAME,
         directory: Directory.Documents
       });
-      
+
       // iOS의 경우 'file://' 접두사가 필요할 수 있음
       const finalPath = Capacitor.getPlatform() === 'ios' ? uri.uri.replace('file://', '') : uri.uri;
       this._modelPath = finalPath;
       localStorage.setItem('vq_llm_model_path', finalPath);
-      
+
       return true;
     } catch (err) {
       console.log('[ModelManager] 모델 파일이 없거나 유효하지 않음:', err);
@@ -68,7 +68,7 @@ export class ModelManager {
       this._modelPath = null;
       try {
         await Filesystem.deleteFile({ path: MODEL_FILENAME, directory: Directory.Documents });
-      } catch (e) {}
+      } catch (e) { }
       return false;
     }
   }
