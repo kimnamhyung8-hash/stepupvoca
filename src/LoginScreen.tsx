@@ -20,11 +20,11 @@ export function LoginScreen({ settings, setScreen }: any) {
             if (isNative) {
                 console.log("Native Firebase Login starting...");
                 try {
-                    // Android: skipNativeAuth: true → native Firebase Android SDK 서명 검증 우회
-                    // iOS: skipNativeAuth: false (기본값) → native iOS Firebase SDK로 올바른 Google 로그인 처리
-                    const isAndroid = platform === 'android';
+                    // iOS/Android 모두 skipNativeAuth: true로 강제 설정
+                    // → native Firebase SDK 2차 서명 단계를 건너뛰고 idToken만 받아 JS SDK로 처리
+                    // (native Firebase SDK의 Auth.auth().signIn()이 무한대기하는 버그 우회)
                     const result = await FirebaseAuthentication.signInWithGoogle(
-                        isAndroid ? { skipNativeAuth: true } : {}
+                        { skipNativeAuth: true }
                     );
                     console.log("Native Firebase Login result received:", result);
 
