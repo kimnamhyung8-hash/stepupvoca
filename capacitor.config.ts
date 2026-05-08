@@ -15,7 +15,7 @@ const config: CapacitorConfig = {
     dependencyManager: 'cocoapods'
   },
   android: {
-    path: 'app/android'
+    path: 'android'
   },
   plugins: {
     CapacitorHttp: {
