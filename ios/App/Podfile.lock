@@ -29,10 +29,10 @@ PODS:
   - CapacitorFilesystem (8.1.2):
     - Capacitor
     - IONFilesystemLib (~> 1.1.1)
-  - CapacitorFirebaseAuthentication/Google (8.2.0):
+  - CapacitorFirebaseAuthentication (8.2.0):
     - Capacitor
+    - CapacitorFirebaseAuthentication/Lite (= 8.2.0)
     - FirebaseAuth (~> 12.7.0)
-    - GoogleSignIn (= 9.0.0)
   - CapacitorFirebaseAuthentication/Lite (8.2.0):
     - Capacitor
     - FirebaseAuth (~> 12.7.0)
@@ -120,10 +120,10 @@ DEPENDENCIES:
   - "CapacitorCommunityTextToSpeech (from `../../node_modules/@capacitor-community/text-to-speech`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorFilesystem (from `../../node_modules/@capacitor/filesystem`)"
-  - "CapacitorFirebaseAuthentication/Google (from `../../node_modules/@capacitor-firebase/authentication`)"
-  - "CapacitorFirebaseAuthentication/Lite (from `../../node_modules/@capacitor-firebase/authentication`)"
+  - "CapacitorFirebaseAuthentication (from `../../node_modules/@capacitor-firebase/authentication`)"
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
   - "CapgoCapacitorLlm (from `../../node_modules/@capgo/capacitor-llm`)"
+  - GoogleSignIn (= 9.0.0)
   - "RevenuecatPurchasesCapacitor (from `../../node_modules/@revenuecat/purchases-capacitor`)"
 
 SPEC REPOS:
@@ -214,6 +214,6 @@ SPEC CHECKSUMS:
   RevenueCat: f352b3661288080bd8bf30bbb96e331940e73c88
   RevenuecatPurchasesCapacitor: 8205fbf790275caa76d97c33035f4fdb5f213400
 
-PODFILE CHECKSUM: 6a725df72beffe1b7d629b01a3e970b7f4e023f5
+PODFILE CHECKSUM: 64c60e19f74013e06c2a21326ab4ffac8879be1b
 
 COCOAPODS: 1.16.2
