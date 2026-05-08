@@ -1,4 +1,14 @@
 PODS:
+  - AppAuth (2.0.0):
+    - AppAuth/Core (= 2.0.0)
+    - AppAuth/ExternalUserAgent (= 2.0.0)
+  - AppAuth/Core (2.0.0)
+  - AppAuth/ExternalUserAgent (2.0.0):
+    - AppAuth/Core
+  - AppCheckCore (11.2.0):
+    - GoogleUtilities/Environment (~> 8.0)
+    - GoogleUtilities/UserDefaults (~> 8.0)
+    - PromisesObjC (~> 2.4)
   - Capacitor (8.1.0):
     - CapacitorCordova
   - CapacitorApp (8.0.1):
@@ -19,10 +29,10 @@ PODS:
   - CapacitorFilesystem (8.1.2):
     - Capacitor
     - IONFilesystemLib (~> 1.1.1)
-  - CapacitorFirebaseAuthentication (8.2.0):
+  - CapacitorFirebaseAuthentication/Google (8.2.0):
     - Capacitor
-    - CapacitorFirebaseAuthentication/Lite (= 8.2.0)
     - FirebaseAuth (~> 12.7.0)
+    - GoogleSignIn (= 9.0.0)
   - CapacitorFirebaseAuthentication/Lite (8.2.0):
     - Capacitor
     - FirebaseAuth (~> 12.7.0)
@@ -53,6 +63,11 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
   - Google-Mobile-Ads-SDK (12.14.0):
     - GoogleUserMessagingPlatform (>= 1.1)
+  - GoogleSignIn (9.0.0):
+    - AppAuth (~> 2.0)
+    - AppCheckCore (~> 11.0)
+    - GTMAppAuth (~> 5.0)
+    - GTMSessionFetcher/Core (~> 3.3)
   - GoogleUserMessagingPlatform (3.1.0)
   - GoogleUtilities/AppDelegateSwizzler (8.1.0):
     - GoogleUtilities/Environment
@@ -75,11 +90,18 @@ PODS:
   - GoogleUtilities/Reachability (8.1.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - GTMSessionFetcher/Core (5.2.0)
+  - GoogleUtilities/UserDefaults (8.1.0):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GTMAppAuth (5.0.0):
+    - AppAuth/Core (~> 2.0)
+    - GTMSessionFetcher/Core (< 4.0, >= 3.3)
+  - GTMSessionFetcher/Core (3.5.0)
   - IONFilesystemLib (1.1.2)
   - MediaPipeTasksGenAI (0.10.35):
     - MediaPipeTasksGenAIC (= 0.10.35)
   - MediaPipeTasksGenAIC (0.10.35)
+  - PromisesObjC (2.4.0)
   - PurchasesHybridCommon (17.41.1):
     - RevenueCat (= 5.59.2)
   - RecaptchaInterop (101.0.0)
@@ -98,13 +120,16 @@ DEPENDENCIES:
   - "CapacitorCommunityTextToSpeech (from `../../node_modules/@capacitor-community/text-to-speech`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorFilesystem (from `../../node_modules/@capacitor/filesystem`)"
-  - "CapacitorFirebaseAuthentication (from `../../node_modules/@capacitor-firebase/authentication`)"
+  - "CapacitorFirebaseAuthentication/Google (from `../../node_modules/@capacitor-firebase/authentication`)"
+  - "CapacitorFirebaseAuthentication/Lite (from `../../node_modules/@capacitor-firebase/authentication`)"
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
   - "CapgoCapacitorLlm (from `../../node_modules/@capgo/capacitor-llm`)"
   - "RevenuecatPurchasesCapacitor (from `../../node_modules/@revenuecat/purchases-capacitor`)"
 
 SPEC REPOS:
   trunk:
+    - AppAuth
+    - AppCheckCore
     - FirebaseAppCheckInterop
     - FirebaseAuth
     - FirebaseAuthInterop
@@ -112,12 +137,15 @@ SPEC REPOS:
     - FirebaseCoreExtension
     - FirebaseCoreInternal
     - Google-Mobile-Ads-SDK
+    - GoogleSignIn
     - GoogleUserMessagingPlatform
     - GoogleUtilities
+    - GTMAppAuth
     - GTMSessionFetcher
     - IONFilesystemLib
     - MediaPipeTasksGenAI
     - MediaPipeTasksGenAIC
+    - PromisesObjC
     - PurchasesHybridCommon
     - RecaptchaInterop
     - RevenueCat
@@ -151,6 +179,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@revenuecat/purchases-capacitor"
 
 SPEC CHECKSUMS:
+  AppAuth: 1c1a8afa7e12f2ec3a294d9882dfa5ab7d3cb063
+  AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
   Capacitor: 830fc6ff88e99bb5ba48350f02c01ab01ba3b2b8
   CapacitorApp: fcd990168c3249d2c5a7ae94920a031d05789e73
   CapacitorCommunityAdmob: 9239319646c5bc41481068d8e79d4facc1b5b65e
@@ -170,17 +200,20 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: 731a5744970bcd73ad95ab2a2b8a1f46353e86dd
   FirebaseCoreInternal: 571a2dd8c975410966199623351db3a3265c874d
   Google-Mobile-Ads-SDK: 4534fd2dfcd3f705c5485a6633c5188d03d4eed2
+  GoogleSignIn: c7f09cfbc85a1abf69187be091997c317cc33b77
   GoogleUserMessagingPlatform: befe603da6501006420c206222acd449bba45a9c
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
-  GTMSessionFetcher: 904bdd2a82c635bcd6f44edf94cc8775c5d1d6e6
+  GTMAppAuth: 217a876b249c3c585a54fd6f73e6b58c4f5c4238
+  GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   IONFilesystemLib: 21a63377696b2d8fab5632ecfb7d2ac67bddb68a
   MediaPipeTasksGenAI: e311d919ab79b2e615e381b65ad271b2c2617312
   MediaPipeTasksGenAIC: fee4ffd93e57fd2022287bcce0340b3c68b537be
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PurchasesHybridCommon: 8eb130ab98f8dab600dea932a2599dee79304bb5
   RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
   RevenueCat: f352b3661288080bd8bf30bbb96e331940e73c88
   RevenuecatPurchasesCapacitor: 8205fbf790275caa76d97c33035f4fdb5f213400
 
-PODFILE CHECKSUM: 9eb0d463197de88728a948a477bac740ede5e5e8
+PODFILE CHECKSUM: 6a725df72beffe1b7d629b01a3e970b7f4e023f5
 
 COCOAPODS: 1.16.2
