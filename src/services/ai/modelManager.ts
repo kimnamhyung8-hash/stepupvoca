@@ -14,7 +14,9 @@ export class ModelManager {
   private _progress = 0;
   private _modelPath: string | null = null;
 
-  private constructor() {}
+  private constructor() {
+    this._modelPath = localStorage.getItem('vq_llm_model_path');
+  }
 
   static getInstance(): ModelManager {
     if (!ModelManager.instance) ModelManager.instance = new ModelManager();
@@ -34,7 +36,7 @@ export class ModelManager {
     if (!this.isSupported) return false;
     try {
       const { readiness } = await CapgoLLM.getReadiness();
-      return readiness === 'ready' || readiness === 'available';
+      return readiness === 'ready' || readiness === 'available' || !!this._modelPath;
     } catch {
       return false;
     }
@@ -46,7 +48,6 @@ export class ModelManager {
     this._progress = 0;
 
     try {
-      // 다운로드 진행률 리스너
       const progressListener = await CapgoLLM.addListener('downloadProgress', (event: any) => {
         this._progress = Math.round(event.progress);
         onProgress?.(this._progress);
@@ -60,12 +61,11 @@ export class ModelManager {
       });
 
       this._modelPath = result.path;
+      localStorage.setItem('vq_llm_model_path', result.path);
       this._progress = 100;
       onProgress?.(100);
 
-      // 리스너 정리
       await progressListener.remove();
-
       console.log('[ModelManager] ✅ 모델 다운로드 완료:', result.path);
     } catch (err) {
       console.error('[ModelManager] 다운로드 실패:', err);
@@ -79,28 +79,17 @@ export class ModelManager {
     if (!this.isSupported) return;
 
     try {
-      const platform = Capacitor.getPlatform();
+      const modelPath = this._modelPath || localStorage.getItem('vq_llm_model_path');
 
-      if (platform === 'ios') {
-        // iOS: Apple Intelligence 시스템 모델 먼저 시도
-        try {
-          await CapgoLLM.setModel({ path: 'Apple Intelligence' });
-          console.log('[ModelManager] ✅ Apple Intelligence 모델 로드 성공');
-          return;
-        } catch {
-          console.log('[ModelManager] Apple Intelligence 불가, 다운로드 모델 시도...');
-        }
-      }
-
-      // 다운로드된 모델 경로로 로드
-      if (this._modelPath) {
+      if (modelPath) {
         await CapgoLLM.setModel({
-          path: this._modelPath,
+          path: modelPath,
           maxTokens: 512,
           topk: 40,
           temperature: 0.8,
         });
-        console.log('[ModelManager] ✅ 다운로드 모델 로드 성공');
+        this._modelPath = modelPath;
+        console.log('[ModelManager] ✅ 온디바이스 모델 로드 성공:', modelPath);
       } else {
         throw new Error('MODEL_NOT_DOWNLOADED');
       }
