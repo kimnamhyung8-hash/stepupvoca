@@ -9,7 +9,7 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 const MODEL_URL = 'https://firebasestorage.googleapis.com/v0/b/vocaquest-7ebea.firebasestorage.app/o/gemma-3-270m-it-int8.task?alt=media&token=70fd18e2-6b2e-474f-a57e-7e9698b5e79c';
 const MODEL_FILENAME = 'gemma-3-270m-it-int8.task';
 // 안드로이드용 추가 설정 파일 (.litertlm) URL (iOS는 사용 안 함)
-const COMPANION_URL = '여기에_litertlm_파일의_다운로드_URL을_붙여넣으세요';
+const COMPANION_URL = 'https://firebasestorage.googleapis.com/v0/b/vocaquest-7ebea.firebasestorage.app/o/gemma-3-270m-it-int8.litertlm?alt=media&token=f063df90-8f74-422f-9355-23956aff6aff';
 
 export class ModelManager {
   private static instance: ModelManager;
