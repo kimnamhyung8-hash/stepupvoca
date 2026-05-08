@@ -18,28 +18,28 @@ export function LoginScreen({ settings, setScreen }: any) {
         setIsLoading(true);
         try {
             if (isNative) {
-                console.log("Native Firebase Login starting...");
+                console.log(`Native Firebase Login starting... platform=${platform}`);
                 try {
-                    // iOS/Android 모두 skipNativeAuth: true로 강제 설정
-                    // → native Firebase SDK 2차 서명 단계를 건너뛰고 idToken만 받아 JS SDK로 처리
-                    // (native Firebase SDK의 Auth.auth().signIn()이 무한대기하는 버그 우회)
-                    const result = await FirebaseAuthentication.signInWithGoogle(
+                    const signInWithGooglePromise = FirebaseAuthentication.signInWithGoogle(
                         { skipNativeAuth: true }
                     );
-                    console.log("Native Firebase Login result received:", result);
+                    const signInTimeout = new Promise<never>((_, reject) =>
+                        setTimeout(() => reject(new Error("Google Sign-In timed out (60s). 구글 로그인 창이 열렸다면 로그인을 완료해주세요.")), 60000)
+                    );
+                    const result = await Promise.race([signInWithGooglePromise, signInTimeout]);
+                    console.log("Native Firebase Login result received:", JSON.stringify(result).substring(0, 200));
 
                     if (!result || !result.credential || !result.credential.idToken) {
-                        alert("구글 인증 정보(Token)가 누락되었습니다. 에러 리포트: " + JSON.stringify(result).substring(0, 100));
+                        alert("구글 인증 정보(Token)가 누락되었습니다.\n결과: " + JSON.stringify(result).substring(0, 150));
                         setIsLoading(false);
                         return;
                     }
 
-                    // accessToken이 undefined일 경우 웹 SDK가 뻗는 증상을 방지하기 위해 idToken만 명시적 전달
                     const credential = GoogleAuthProvider.credential(result.credential.idToken);
                     console.log("[LoginScreen] Calling signInWithCredential with idToken...");
                     
                     const signInPromise = signInWithCredential(auth, credential);
-                    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("signInWithCredential timed out after 10 seconds")), 10000));
+                    const timeoutPromise = new Promise<never>((_, reject) => setTimeout(() => reject(new Error("signInWithCredential timed out after 15 seconds")), 15000));
                     
                     await Promise.race([signInPromise, timeoutPromise]);
                     console.log("[LoginScreen] signInWithCredential success!");
@@ -47,12 +47,12 @@ export function LoginScreen({ settings, setScreen }: any) {
                     setScreen('HOME');
                 } catch (err: any) {
                     setIsLoading(false);
-                    console.error("[LoginScreen] FirebaseAuthentication plugin error or Hang:", err);
+                    console.error("[LoginScreen] Google login error:", err?.message, err?.code, err);
                     const errMsg = String(err.message || '').toLowerCase();
                     if (errMsg.includes('canceled') || errMsg.includes('cancelled') || String(err.code) === '12501') {
                         return;
                     }
-                    alert(`구글 로그인 오류: ${err.message || '알 수 없는 오류'}`);
+                    alert(`구글 로그인 오류:\n${err.message || '알 수 없는 오류'}\n코드: ${err.code || 'none'}`);
                 }
             } else {
                 console.log("Web Login starting...");
