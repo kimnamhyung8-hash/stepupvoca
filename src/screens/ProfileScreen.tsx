@@ -124,24 +124,38 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             // Give a small delay for sync to start/complete and show the message
             await new Promise(r => setTimeout(r, 1500));
 
-            // 2. Mark user as offline in Firestore
-            const userM = await import('../userService');
-            await userM.setUserOffline(firebaseUser.uid);
-
-            const isNative = typeof (window as any).Capacitor !== 'undefined' && (window as any).Capacitor.getPlatform() !== 'web';
-            
-            // 3. Native Google plugin Sign Out
-            if (isNative) {
+            // Create a logout promise with all steps
+            const performLogout = async () => {
+                // 2. Mark user as offline in Firestore
                 try {
-                    const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication');
-                    await FirebaseAuthentication.signOut();
-                } catch (e) {
-                    console.warn('Native Google sign out failed', e);
-                }
-            }
+                    const userM = await import('../userService');
+                    await userM.setUserOffline(firebaseUser.uid);
+                } catch (e) { console.warn("Offline sync failed", e); }
 
-            // 4. Firebase Sign Out
-            await auth.signOut();
+                const isNative = typeof (window as any).Capacitor !== 'undefined' && (window as any).Capacitor.getPlatform() !== 'web';
+                
+                // 3. Native Google plugin Sign Out
+                if (isNative) {
+                    try {
+                        const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication');
+                        await FirebaseAuthentication.signOut();
+                    } catch (e) {
+                        console.warn('Native Google sign out failed', e);
+                    }
+                }
+
+                // 4. Firebase Sign Out
+                await auth.signOut();
+            };
+
+            // Race the logout against a 5-second timeout
+            const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("LOGOUT_TIMEOUT")), 5000));
+            
+            try {
+                await Promise.race([performLogout(), timeout]);
+            } catch (e) {
+                console.warn("Logout timed out or failed, forcing redirect", e);
+            }
             
             // 5. Always redirect to LOGIN screen
             setScreen('LOGIN');
