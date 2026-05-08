@@ -38,11 +38,17 @@ export class ModelManager {
     
     // 실제 파일이 Documents 폴더에 존재하는지 '무조건' 먼저 확인합니다.
     try {
-      await Filesystem.stat({
+      const stat = await Filesystem.stat({
         path: MODEL_FILENAME,
         directory: Directory.Documents
       });
       
+      // 용량 체크: 1MB(1048576 bytes) 이하인 경우 제대로 된 모델 파일이 아님!
+      // (예: 허깅페이스 권한 에러로 인해 받아진 140 byte짜리 HTML 파일)
+      if (stat.size < 1048576) {
+        throw new Error('FILE_TOO_SMALL');
+      }
+
       // 파일이 존재하면 경로 업데이트
       const uri = await Filesystem.getUri({
         path: MODEL_FILENAME,
@@ -56,10 +62,13 @@ export class ModelManager {
       
       return true;
     } catch (err) {
-      console.log('[ModelManager] 모델 파일이 없거나 접근 불가:', err);
+      console.log('[ModelManager] 모델 파일이 없거나 유효하지 않음:', err);
       // 파일이 없으면 저장된 경로 정보 확실하게 삭제 (이전 앱 찌꺼기 방지)
       localStorage.removeItem('vq_llm_model_path');
       this._modelPath = null;
+      try {
+        await Filesystem.deleteFile({ path: MODEL_FILENAME, directory: Directory.Documents });
+      } catch (e) {}
       return false;
     }
   }
@@ -121,6 +130,14 @@ export class ModelManager {
       if (err?.message?.includes('NOT_FOUND') || err?.message?.includes('No such file')) {
         localStorage.removeItem('vq_llm_model_path');
         this._modelPath = null;
+        try {
+          await Filesystem.deleteFile({
+            path: MODEL_FILENAME,
+            directory: Directory.Documents
+          });
+        } catch (e) {
+          console.log('[ModelManager] 찌꺼기 파일 삭제 실패:', e);
+        }
       }
       throw err;
     }
