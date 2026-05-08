@@ -8,6 +8,8 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 // 모델 다운로드 URL (HuggingFace - Gemma3 270M, 경량 모델)
 const MODEL_URL = 'https://firebasestorage.googleapis.com/v0/b/vocaquest-7ebea.firebasestorage.app/o/gemma-3-270m-it-int8.task?alt=media&token=70fd18e2-6b2e-474f-a57e-7e9698b5e79c';
 const MODEL_FILENAME = 'gemma-3-270m-it-int8.task';
+// 안드로이드용 추가 설정 파일 (.litertlm) URL (iOS는 사용 안 함)
+const COMPANION_URL = '여기에_litertlm_파일의_다운로드_URL을_붙여넣으세요';
 
 export class ModelManager {
   private static instance: ModelManager;
@@ -89,6 +91,7 @@ export class ModelManager {
       const result = await CapgoLLM.downloadModel({
         url: MODEL_URL,
         filename: MODEL_FILENAME,
+        ...(Capacitor.getPlatform() === 'android' ? { companionUrl: COMPANION_URL } : {})
       });
 
       this._modelPath = result.path;
