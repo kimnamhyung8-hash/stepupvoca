@@ -34,7 +34,9 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3949256099942544~1458002511</string>
+	<string>ca-app-pub-8125662823247706~6554814026</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>개인화된 광고 제공 및 서비스 최적화를 위해 기기 식별 정보를 사용합니다. (Used to provide personalized ads and optimize service.)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

@@ -1,669 +1,391 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -workspace ios/App/App.xcworkspace -scheme App -destination generic/platform=iOS build
 
-> Configure project :app
-WARNING: The option setting 'android.usesSdkInManifest.disallowed=false' is deprecated.
-The current default is 'true'.
-It will be removed in version 10.0 of the Android Gradle plugin.
-WARNING: The option setting 'android.sdk.defaultTargetSdkToCompileSdkIfUnset=false' is deprecated.
-The current default is 'true'.
-It will be removed in version 10.0 of the Android Gradle plugin.
-WARNING: The option setting 'android.enableAppCompileTimeRClass=false' is deprecated.
-The current default is 'true'.
-It will be removed in version 10.0 of the Android Gradle plugin.
-WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
-The current default is 'true'.
-It will be removed in version 10.0 of the Android Gradle plugin.
-WARNING: The option setting 'android.newDsl=false' is deprecated.
-The current default is 'true'.
-It will be removed in version 10.0 of the Android Gradle plugin.
-WARNING: The option setting 'android.r8.optimizedResourceShrinking=false' is deprecated.
-The current default is 'true'.
-It will be removed in version 10.0 of the Android Gradle plugin.
-WARNING: The option setting 'android.defaults.buildfeatures.resvalues=true' is deprecated.
-The current default is 'false'.
-It will be removed in version 10.0 of the Android Gradle plugin.
-WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+ComputePackagePrebuildTargetDependencyGraph
 
-> Configure project :capacitor-android
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+Prepare packages
 
-> Configure project :capacitor-app
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+CreateBuildRequest
 
-> Configure project :capacitor-community-admob
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+SendProjectDescription
 
-> Configure project :capacitor-community-in-app-review
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+CreateBuildOperation
 
-> Configure project :capacitor-community-speech-recognition
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (43 targets)
+    Target 'App' in project 'App'
+        ➜ Implicit dependency on target 'Pods-App' in project 'Pods' via file 'Pods_App.framework' in build phase 'Link Binary'
+        ➜ Implicit dependency on target 'Capacitor' in project 'Pods' via options '-framework Capacitor' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorApp' in project 'Pods' via options '-framework CapacitorApp' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorCommunityAdmob' in project 'Pods' via options '-framework CapacitorCommunityAdmob' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorCommunityInAppReview' in project 'Pods' via options '-framework CapacitorCommunityInAppReview' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorCommunityKeepAwake' in project 'Pods' via options '-framework CapacitorCommunityKeepAwake' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorCommunitySpeechRecognition' in project 'Pods' via options '-framework CapacitorCommunitySpeechRecognition' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorCommunityTextToSpeech' in project 'Pods' via options '-framework CapacitorCommunityTextToSpeech' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorFilesystem' in project 'Pods' via options '-framework CapacitorFilesystem' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorFirebaseAuthentication' in project 'Pods' via options '-framework CapacitorFirebaseAuthentication' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorLocalNotifications' in project 'Pods' via options '-framework CapacitorLocalNotifications' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapgoCapacitorLlm' in project 'Pods' via options '-framework CapgoCapacitorLlm' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'CapacitorCordova' in project 'Pods' via options '-framework Cordova' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseAppCheckInterop' in project 'Pods' via options '-framework FirebaseAppCheckInterop' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseAuth' in project 'Pods' via options '-framework FirebaseAuth' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseAuthInterop' in project 'Pods' via options '-framework FirebaseAuthInterop' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCore' in project 'Pods' via options '-framework FirebaseCore' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCoreExtension' in project 'Pods' via options '-framework FirebaseCoreExtension' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'FirebaseCoreInternal' in project 'Pods' via options '-framework FirebaseCoreInternal' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'GTMSessionFetcher' in project 'Pods' via options '-framework GTMSessionFetcher' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'GoogleUtilities' in project 'Pods' via options '-framework GoogleUtilities' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'Google-Mobile-Ads-SDK' in project 'Pods' via options '-framework Google_Mobile_Ads_SDK' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'PurchasesHybridCommon' in project 'Pods' via options '-framework PurchasesHybridCommon' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'RecaptchaInterop' in project 'Pods' via options '-framework RecaptchaInterop' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'RevenueCat' in project 'Pods' via options '-framework RevenueCat' in build setting 'OTHER_LDFLAGS'
+        ➜ Implicit dependency on target 'RevenuecatPurchasesCapacitor' in project 'Pods' via options '-framework RevenuecatPurchasesCapacitor' in build setting 'OTHER_LDFLAGS'
+    Target 'Pods-App' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorApp' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorCommunityAdmob' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorCommunityInAppReview' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorCommunityKeepAwake' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorCommunitySpeechRecognition' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorCommunityTextToSpeech' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorCordova' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorFilesystem' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorFirebaseAuthentication' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorLocalNotifications' in project 'Pods'
+        ➜ Explicit dependency on target 'CapgoCapacitorLlm' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseAppCheckInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseAuth' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseAuthInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreExtension' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreInternal' in project 'Pods'
+        ➜ Explicit dependency on target 'GTMSessionFetcher' in project 'Pods'
+        ➜ Explicit dependency on target 'Google-Mobile-Ads-SDK' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'IONFilesystemLib' in project 'Pods'
+        ➜ Explicit dependency on target 'MediaPipeTasksGenAI' in project 'Pods'
+        ➜ Explicit dependency on target 'MediaPipeTasksGenAIC' in project 'Pods'
+        ➜ Explicit dependency on target 'PurchasesHybridCommon' in project 'Pods'
+        ➜ Explicit dependency on target 'RecaptchaInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'RevenueCat' in project 'Pods'
+        ➜ Explicit dependency on target 'RevenuecatPurchasesCapacitor' in project 'Pods'
+    Target 'RevenuecatPurchasesCapacitor' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+        ➜ Explicit dependency on target 'PurchasesHybridCommon' in project 'Pods'
+    Target 'PurchasesHybridCommon' in project 'Pods'
+        ➜ Explicit dependency on target 'PurchasesHybridCommon-PurchasesHybridCommon' in project 'Pods'
+        ➜ Explicit dependency on target 'RevenueCat' in project 'Pods'
+    Target 'RevenueCat' in project 'Pods'
+        ➜ Explicit dependency on target 'RevenueCat-RevenueCat' in project 'Pods'
+    Target 'RevenueCat-RevenueCat' in project 'Pods' (no dependencies)
+    Target 'PurchasesHybridCommon-PurchasesHybridCommon' in project 'Pods' (no dependencies)
+    Target 'CapgoCapacitorLlm' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+        ➜ Explicit dependency on target 'MediaPipeTasksGenAI' in project 'Pods'
+        ➜ Explicit dependency on target 'MediaPipeTasksGenAIC' in project 'Pods'
+    Target 'MediaPipeTasksGenAI' in project 'Pods'
+        ➜ Explicit dependency on target 'MediaPipeTasksGenAIC' in project 'Pods'
+    Target 'MediaPipeTasksGenAIC' in project 'Pods' (no dependencies)
+    Target 'CapacitorLocalNotifications' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+    Target 'CapacitorFirebaseAuthentication' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseAuth' in project 'Pods'
+    Target 'FirebaseAuth' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseAppCheckInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseAuth-FirebaseAuth_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseAuthInterop' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreExtension' in project 'Pods'
+        ➜ Explicit dependency on target 'GTMSessionFetcher' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'RecaptchaInterop' in project 'Pods'
+    Target 'RecaptchaInterop' in project 'Pods' (no dependencies)
+    Target 'GTMSessionFetcher' in project 'Pods'
+        ➜ Explicit dependency on target 'GTMSessionFetcher-GTMSessionFetcher_Core_Privacy' in project 'Pods'
+    Target 'GTMSessionFetcher-GTMSessionFetcher_Core_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCoreExtension' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreExtension-FirebaseCoreExtension_Privacy' in project 'Pods'
+    Target 'FirebaseCoreExtension-FirebaseCoreExtension_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCore' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCore-FirebaseCore_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreInternal' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+    Target 'FirebaseCoreInternal' in project 'Pods'
+        ➜ Explicit dependency on target 'FirebaseCoreInternal-FirebaseCoreInternal_Privacy' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities' in project 'Pods'
+    Target 'GoogleUtilities' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUtilities-GoogleUtilities_Privacy' in project 'Pods'
+    Target 'GoogleUtilities-GoogleUtilities_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCoreInternal-FirebaseCoreInternal_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseCore-FirebaseCore_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseAuthInterop' in project 'Pods' (no dependencies)
+    Target 'FirebaseAuth-FirebaseAuth_Privacy' in project 'Pods' (no dependencies)
+    Target 'FirebaseAppCheckInterop' in project 'Pods' (no dependencies)
+    Target 'CapacitorFilesystem' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+        ➜ Explicit dependency on target 'IONFilesystemLib' in project 'Pods'
+    Target 'IONFilesystemLib' in project 'Pods' (no dependencies)
+    Target 'CapacitorCommunityTextToSpeech' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+    Target 'CapacitorCommunitySpeechRecognition' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+    Target 'CapacitorCommunityKeepAwake' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+    Target 'CapacitorCommunityInAppReview' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+    Target 'CapacitorCommunityAdmob' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+        ➜ Explicit dependency on target 'Google-Mobile-Ads-SDK' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform' in project 'Pods'
+    Target 'Google-Mobile-Ads-SDK' in project 'Pods'
+        ➜ Explicit dependency on target 'Google-Mobile-Ads-SDK-GoogleMobileAdsResources' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform' in project 'Pods'
+    Target 'GoogleUserMessagingPlatform' in project 'Pods'
+        ➜ Explicit dependency on target 'GoogleUserMessagingPlatform-UserMessagingPlatformResources' in project 'Pods'
+    Target 'GoogleUserMessagingPlatform-UserMessagingPlatformResources' in project 'Pods' (no dependencies)
+    Target 'Google-Mobile-Ads-SDK-GoogleMobileAdsResources' in project 'Pods' (no dependencies)
+    Target 'CapacitorApp' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor' in project 'Pods'
+    Target 'Capacitor' in project 'Pods'
+        ➜ Explicit dependency on target 'Capacitor-Capacitor' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorCordova' in project 'Pods'
+    Target 'CapacitorCordova' in project 'Pods'
+        ➜ Explicit dependency on target 'CapacitorCordova-CapacitorCordova' in project 'Pods'
+    Target 'CapacitorCordova-CapacitorCordova' in project 'Pods' (no dependencies)
+    Target 'Capacitor-Capacitor' in project 'Pods' (no dependencies)
 
-> Configure project :capacitor-community-text-to-speech
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+GatherProvisioningInputs
 
-> Configure project :capacitor-cordova-android-plugins
-WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+CreateBuildDescription
 
-> Configure project :capacitor-filesystem
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk -x c -c /dev/null
 
-> Configure project :capacitor-local-notifications
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk -x c -c /dev/null
 
-> Configure project :codetrix-studio-capacitor-google-auth
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk -x objective-c -c /dev/null
 
-> Configure project :revenuecat-purchases-capacitor
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
-WARNING: The property android.dependency.excludeLibraryComponentsFromConstraints improves project import performance for very large projects. It should be enabled to improve performance.
-To suppress this warning, add android.generateSyncIssueWhenLibraryConstraintsAreEnabled=false to gradle.properties
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
 
-> Task :app:preBuild UP-TO-DATE
-> Task :app:preReleaseBuild UP-TO-DATE
-> Task :capacitor-android:preBuild UP-TO-DATE
-> Task :capacitor-android:preReleaseBuild UP-TO-DATE
-> Task :capacitor-android:processReleaseNavigationResources UP-TO-DATE
-> Task :capacitor-app:preBuild UP-TO-DATE
-> Task :capacitor-app:preReleaseBuild UP-TO-DATE
-> Task :capacitor-app:processReleaseNavigationResources UP-TO-DATE
-> Task :capacitor-community-admob:preBuild UP-TO-DATE
-> Task :capacitor-community-admob:preReleaseBuild UP-TO-DATE
-> Task :capacitor-community-admob:processReleaseNavigationResources UP-TO-DATE
-> Task :capacitor-community-in-app-review:preBuild UP-TO-DATE
-> Task :capacitor-community-in-app-review:preReleaseBuild UP-TO-DATE
-> Task :capacitor-community-in-app-review:processReleaseNavigationResources UP-TO-DATE
-> Task :capacitor-community-speech-recognition:preBuild UP-TO-DATE
-> Task :capacitor-community-speech-recognition:preReleaseBuild UP-TO-DATE
-> Task :capacitor-community-speech-recognition:processReleaseNavigationResources UP-TO-DATE
-> Task :capacitor-community-text-to-speech:preBuild UP-TO-DATE
-> Task :capacitor-community-text-to-speech:preReleaseBuild UP-TO-DATE
-> Task :capacitor-community-text-to-speech:processReleaseNavigationResources UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:preBuild UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:preReleaseBuild UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:processReleaseNavigationResources UP-TO-DATE
-> Task :capacitor-filesystem:preBuild UP-TO-DATE
-> Task :capacitor-filesystem:preReleaseBuild UP-TO-DATE
-> Task :capacitor-filesystem:processReleaseNavigationResources UP-TO-DATE
-> Task :capacitor-local-notifications:preBuild UP-TO-DATE
-> Task :capacitor-local-notifications:preReleaseBuild UP-TO-DATE
-> Task :capacitor-local-notifications:processReleaseNavigationResources UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:preBuild UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:preReleaseBuild UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:processReleaseNavigationResources UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:preBuild UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:preReleaseBuild UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:processReleaseNavigationResources UP-TO-DATE
-> Task :app:processReleaseNavigationResources UP-TO-DATE
-> Task :app:compileReleaseNavigationResources UP-TO-DATE
-> Task :app:generateReleaseResValues UP-TO-DATE
-> Task :app:processReleaseGoogleServices UP-TO-DATE
-> Task :capacitor-android:generateReleaseResValues UP-TO-DATE
-> Task :capacitor-android:generateReleaseResources UP-TO-DATE
-> Task :capacitor-android:packageReleaseResources UP-TO-DATE
-> Task :capacitor-app:generateReleaseResValues UP-TO-DATE
-> Task :capacitor-app:generateReleaseResources UP-TO-DATE
-> Task :capacitor-app:packageReleaseResources UP-TO-DATE
-> Task :capacitor-community-admob:generateReleaseResValues UP-TO-DATE
-> Task :capacitor-community-admob:generateReleaseResources UP-TO-DATE
-> Task :capacitor-community-admob:packageReleaseResources UP-TO-DATE
-> Task :capacitor-community-in-app-review:generateReleaseResValues UP-TO-DATE
-> Task :capacitor-community-in-app-review:generateReleaseResources UP-TO-DATE
-> Task :capacitor-community-in-app-review:packageReleaseResources UP-TO-DATE
-> Task :capacitor-community-speech-recognition:generateReleaseResValues UP-TO-DATE
-> Task :capacitor-community-speech-recognition:generateReleaseResources UP-TO-DATE
-> Task :capacitor-community-speech-recognition:packageReleaseResources UP-TO-DATE
-> Task :capacitor-community-text-to-speech:generateReleaseResValues UP-TO-DATE
-> Task :capacitor-community-text-to-speech:generateReleaseResources UP-TO-DATE
-> Task :capacitor-community-text-to-speech:packageReleaseResources UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:generateReleaseResValues UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:generateReleaseResources UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:packageReleaseResources UP-TO-DATE
-> Task :capacitor-filesystem:generateReleaseResValues UP-TO-DATE
-> Task :capacitor-filesystem:generateReleaseResources UP-TO-DATE
-> Task :capacitor-filesystem:packageReleaseResources UP-TO-DATE
-> Task :capacitor-local-notifications:generateReleaseResValues UP-TO-DATE
-> Task :capacitor-local-notifications:generateReleaseResources UP-TO-DATE
-> Task :capacitor-local-notifications:packageReleaseResources UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:generateReleaseResValues UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:generateReleaseResources UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:packageReleaseResources UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:generateReleaseResValues UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:generateReleaseResources UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:packageReleaseResources UP-TO-DATE
-> Task :app:mapReleaseSourceSetPaths UP-TO-DATE
-> Task :app:generateReleaseResources UP-TO-DATE
-> Task :app:mergeReleaseResources UP-TO-DATE
-> Task :app:createReleaseCompatibleScreenManifests UP-TO-DATE
-> Task :app:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-android:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-android:processReleaseManifest UP-TO-DATE
-> Task :capacitor-app:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-app:processReleaseManifest UP-TO-DATE
-> Task :capacitor-community-admob:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-community-admob:processReleaseManifest UP-TO-DATE
-> Task :capacitor-community-in-app-review:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-community-in-app-review:processReleaseManifest UP-TO-DATE
-> Task :capacitor-community-speech-recognition:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-community-speech-recognition:processReleaseManifest UP-TO-DATE
-> Task :capacitor-community-text-to-speech:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-community-text-to-speech:processReleaseManifest UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:processReleaseManifest UP-TO-DATE
-> Task :capacitor-filesystem:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-filesystem:processReleaseManifest UP-TO-DATE
-> Task :capacitor-local-notifications:extractDeepLinksRelease UP-TO-DATE
-> Task :capacitor-local-notifications:processReleaseManifest UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:extractDeepLinksRelease UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:processReleaseManifest UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:extractDeepLinksRelease UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:processReleaseManifest UP-TO-DATE
-> Task :app:processReleaseMainManifest UP-TO-DATE
-> Task :app:processReleaseManifest UP-TO-DATE
-> Task :app:processApplicationManifestReleaseForBundle UP-TO-DATE
-> Task :capacitor-android:writeReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-app:writeReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-community-admob:writeReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-community-in-app-review:writeReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-community-speech-recognition:writeReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-community-text-to-speech:writeReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:writeReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-filesystem:writeReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-local-notifications:writeReleaseAarMetadata UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:writeReleaseAarMetadata UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:writeReleaseAarMetadata UP-TO-DATE
-> Task :app:checkReleaseAarMetadata UP-TO-DATE
-> Task :app:packageReleaseResources UP-TO-DATE
-> Task :app:parseReleaseLocalResources UP-TO-DATE
-> Task :app:processReleaseManifestForPackage UP-TO-DATE
-> Task :capacitor-android:compileReleaseLibraryResources UP-TO-DATE
-> Task :capacitor-android:parseReleaseLocalResources UP-TO-DATE
-> Task :capacitor-android:generateReleaseRFile UP-TO-DATE
-> Task :capacitor-app:compileReleaseLibraryResources UP-TO-DATE
-> Task :capacitor-app:parseReleaseLocalResources UP-TO-DATE
-> Task :capacitor-app:generateReleaseRFile UP-TO-DATE
-> Task :capacitor-community-admob:compileReleaseLibraryResources UP-TO-DATE
-> Task :capacitor-community-admob:parseReleaseLocalResources UP-TO-DATE
-> Task :capacitor-community-admob:generateReleaseRFile UP-TO-DATE
-> Task :capacitor-community-in-app-review:compileReleaseLibraryResources UP-TO-DATE
-> Task :capacitor-community-in-app-review:parseReleaseLocalResources UP-TO-DATE
-> Task :capacitor-community-in-app-review:generateReleaseRFile UP-TO-DATE
-> Task :capacitor-community-speech-recognition:compileReleaseLibraryResources UP-TO-DATE
-> Task :capacitor-community-speech-recognition:parseReleaseLocalResources UP-TO-DATE
-> Task :capacitor-community-speech-recognition:generateReleaseRFile UP-TO-DATE
-> Task :capacitor-community-text-to-speech:compileReleaseLibraryResources UP-TO-DATE
-> Task :capacitor-community-text-to-speech:parseReleaseLocalResources UP-TO-DATE
-> Task :capacitor-community-text-to-speech:generateReleaseRFile UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:compileReleaseLibraryResources UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:parseReleaseLocalResources UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:generateReleaseRFile UP-TO-DATE
-> Task :capacitor-filesystem:compileReleaseLibraryResources UP-TO-DATE
-> Task :capacitor-filesystem:parseReleaseLocalResources UP-TO-DATE
-> Task :capacitor-filesystem:generateReleaseRFile UP-TO-DATE
-> Task :capacitor-local-notifications:compileReleaseLibraryResources UP-TO-DATE
-> Task :capacitor-local-notifications:parseReleaseLocalResources UP-TO-DATE
-> Task :capacitor-local-notifications:generateReleaseRFile UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:compileReleaseLibraryResources UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:parseReleaseLocalResources UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:generateReleaseRFile UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:compileReleaseLibraryResources UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:parseReleaseLocalResources UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:generateReleaseRFile UP-TO-DATE
-> Task :app:processReleaseResources UP-TO-DATE
-> Task :app:bundleReleaseResources UP-TO-DATE
-> Task :app:extractReleaseVersionControlInfo UP-TO-DATE
-> Task :capacitor-android:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-android:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :capacitor-android:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :capacitor-community-admob:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :capacitor-community-admob:compileReleaseKotlin UP-TO-DATE
-> Task :capacitor-community-admob:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-community-admob:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :capacitor-community-admob:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :capacitor-community-in-app-review:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-community-in-app-review:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :capacitor-community-in-app-review:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :capacitor-community-speech-recognition:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-community-speech-recognition:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :capacitor-community-speech-recognition:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :capacitor-community-text-to-speech:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-community-text-to-speech:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :capacitor-community-text-to-speech:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :capacitor-app:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-app:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :capacitor-app:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :capacitor-filesystem:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :capacitor-filesystem:compileReleaseKotlin UP-TO-DATE
-> Task :capacitor-filesystem:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-filesystem:compileReleaseJavaWithJavac NO-SOURCE
-> Task :capacitor-filesystem:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :capacitor-local-notifications:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-local-notifications:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :capacitor-local-notifications:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:javaPreCompileRelease UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :revenuecat-purchases-capacitor:compileReleaseKotlin UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:javaPreCompileRelease UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:compileReleaseJavaWithJavac NO-SOURCE
-> Task :revenuecat-purchases-capacitor:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :capacitor-android:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:compileReleaseJavaWithJavac NO-SOURCE
-> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToDirRelease UP-TO-DATE
-> Task :app:checkReleaseDuplicateClasses UP-TO-DATE
-> Task :app:javaPreCompileRelease UP-TO-DATE
-> Task :capacitor-app:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :capacitor-community-admob:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :capacitor-community-in-app-review:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :capacitor-community-speech-recognition:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :capacitor-community-text-to-speech:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :capacitor-filesystem:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :capacitor-local-notifications:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:bundleLibCompileToJarRelease UP-TO-DATE
-> Task :app:compileReleaseJavaWithJavac UP-TO-DATE
-> Task :app:dexBuilderRelease UP-TO-DATE
-> Task :app:desugarReleaseFileDependencies UP-TO-DATE
-> Task :app:mergeReleaseStartupProfile UP-TO-DATE
-> Task :app:mergeExtDexRelease UP-TO-DATE
-> Task :app:mergeDexRelease UP-TO-DATE
-> Task :app:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-android:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-android:mergeReleaseAssets UP-TO-DATE
-> Task :capacitor-app:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-app:mergeReleaseAssets UP-TO-DATE
-> Task :capacitor-community-admob:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-community-admob:mergeReleaseAssets UP-TO-DATE
-> Task :capacitor-community-in-app-review:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-community-in-app-review:mergeReleaseAssets UP-TO-DATE
-> Task :capacitor-community-speech-recognition:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-community-speech-recognition:mergeReleaseAssets UP-TO-DATE
-> Task :capacitor-community-text-to-speech:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-community-text-to-speech:mergeReleaseAssets UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:mergeReleaseAssets UP-TO-DATE
-> Task :capacitor-filesystem:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-filesystem:mergeReleaseAssets UP-TO-DATE
-> Task :capacitor-local-notifications:generateReleaseAssets UP-TO-DATE
-> Task :capacitor-local-notifications:mergeReleaseAssets UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:generateReleaseAssets UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:mergeReleaseAssets UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:generateReleaseAssets UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:mergeReleaseAssets UP-TO-DATE
-> Task :app:mergeReleaseAssets UP-TO-DATE
-> Task :capacitor-community-admob:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :capacitor-community-in-app-review:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :capacitor-community-speech-recognition:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :capacitor-community-text-to-speech:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :capacitor-app:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :capacitor-filesystem:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :capacitor-local-notifications:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :capacitor-android:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToJarRelease UP-TO-DATE
-> Task :app:processReleaseJavaRes NO-SOURCE
-> Task :app:mergeReleaseGlobalSynthetics UP-TO-DATE
-> Task :capacitor-android:processReleaseJavaRes NO-SOURCE
-> Task :capacitor-app:processReleaseJavaRes NO-SOURCE
-> Task :capacitor-community-admob:processReleaseJavaRes UP-TO-DATE
-> Task :capacitor-community-in-app-review:processReleaseJavaRes NO-SOURCE
-> Task :capacitor-community-speech-recognition:processReleaseJavaRes NO-SOURCE
-> Task :capacitor-community-text-to-speech:processReleaseJavaRes NO-SOURCE
-> Task :capacitor-cordova-android-plugins:processReleaseJavaRes NO-SOURCE
-> Task :capacitor-filesystem:processReleaseJavaRes UP-TO-DATE
-> Task :capacitor-local-notifications:processReleaseJavaRes NO-SOURCE
-> Task :codetrix-studio-capacitor-google-auth:processReleaseJavaRes NO-SOURCE
-> Task :revenuecat-purchases-capacitor:processReleaseJavaRes UP-TO-DATE
-> Task :app:mergeReleaseJavaResource UP-TO-DATE
-> Task :app:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-android:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-android:mergeReleaseNativeLibs NO-SOURCE
-> Task :capacitor-android:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :capacitor-app:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-app:mergeReleaseNativeLibs NO-SOURCE
-> Task :capacitor-app:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :capacitor-community-admob:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-community-admob:mergeReleaseNativeLibs NO-SOURCE
-> Task :capacitor-community-admob:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :capacitor-community-in-app-review:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-community-in-app-review:mergeReleaseNativeLibs NO-SOURCE
-> Task :capacitor-community-in-app-review:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :capacitor-community-speech-recognition:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-community-speech-recognition:mergeReleaseNativeLibs NO-SOURCE
-> Task :capacitor-community-speech-recognition:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :capacitor-community-text-to-speech:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-community-text-to-speech:mergeReleaseNativeLibs NO-SOURCE
-> Task :capacitor-community-text-to-speech:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:mergeReleaseNativeLibs NO-SOURCE
-> Task :capacitor-cordova-android-plugins:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :capacitor-filesystem:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-filesystem:mergeReleaseNativeLibs NO-SOURCE
-> Task :capacitor-filesystem:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :capacitor-local-notifications:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :capacitor-local-notifications:mergeReleaseNativeLibs NO-SOURCE
-> Task :capacitor-local-notifications:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:mergeReleaseNativeLibs NO-SOURCE
-> Task :codetrix-studio-capacitor-google-auth:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:mergeReleaseJniLibFolders UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:mergeReleaseNativeLibs NO-SOURCE
-> Task :revenuecat-purchases-capacitor:copyReleaseJniLibsProjectOnly UP-TO-DATE
-> Task :app:mergeReleaseNativeLibs NO-SOURCE
-> Task :app:stripReleaseDebugSymbols NO-SOURCE
-> Task :app:writeReleaseAppMetadata UP-TO-DATE
-> Task :app:buildReleasePreBundle UP-TO-DATE
-> Task :capacitor-android:prepareReleaseArtProfile UP-TO-DATE
-> Task :capacitor-app:prepareReleaseArtProfile UP-TO-DATE
-> Task :capacitor-community-admob:prepareReleaseArtProfile UP-TO-DATE
-> Task :capacitor-community-in-app-review:prepareReleaseArtProfile UP-TO-DATE
-> Task :capacitor-community-speech-recognition:prepareReleaseArtProfile UP-TO-DATE
-> Task :capacitor-community-text-to-speech:prepareReleaseArtProfile UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:prepareReleaseArtProfile UP-TO-DATE
-> Task :capacitor-filesystem:prepareReleaseArtProfile UP-TO-DATE
-> Task :capacitor-local-notifications:prepareReleaseArtProfile UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:prepareReleaseArtProfile UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:prepareReleaseArtProfile UP-TO-DATE
-> Task :app:mergeReleaseArtProfile UP-TO-DATE
-> Task :app:compileReleaseArtProfile UP-TO-DATE
-> Task :app:collectReleaseDependencies UP-TO-DATE
-> Task :app:configureReleaseDependencies UP-TO-DATE
-> Task :app:extractReleaseNativeSymbolTables NO-SOURCE
-> Task :app:extractProguardFiles UP-TO-DATE
-> Task :capacitor-android:createFullJarRelease UP-TO-DATE
-> Task :capacitor-android:extractProguardFiles UP-TO-DATE
-> Task :capacitor-android:generateReleaseLintModel UP-TO-DATE
-> Task :capacitor-android:prepareLintJarForPublish UP-TO-DATE
-> Task :capacitor-app:createFullJarRelease UP-TO-DATE
-> Task :capacitor-app:extractProguardFiles UP-TO-DATE
-> Task :capacitor-app:generateReleaseLintModel UP-TO-DATE
-> Task :capacitor-app:prepareLintJarForPublish UP-TO-DATE
-> Task :capacitor-community-admob:createFullJarRelease UP-TO-DATE
-> Task :capacitor-community-admob:extractProguardFiles UP-TO-DATE
-> Task :capacitor-community-admob:generateReleaseLintModel UP-TO-DATE
-> Task :capacitor-community-admob:prepareLintJarForPublish UP-TO-DATE
-> Task :capacitor-community-in-app-review:createFullJarRelease UP-TO-DATE
-> Task :capacitor-community-in-app-review:extractProguardFiles UP-TO-DATE
-> Task :capacitor-community-in-app-review:generateReleaseLintModel UP-TO-DATE
-> Task :capacitor-community-in-app-review:prepareLintJarForPublish UP-TO-DATE
-> Task :capacitor-community-speech-recognition:createFullJarRelease UP-TO-DATE
-> Task :capacitor-community-speech-recognition:extractProguardFiles UP-TO-DATE
-> Task :capacitor-community-speech-recognition:generateReleaseLintModel UP-TO-DATE
-> Task :capacitor-community-speech-recognition:prepareLintJarForPublish UP-TO-DATE
-> Task :capacitor-community-text-to-speech:createFullJarRelease UP-TO-DATE
-> Task :capacitor-community-text-to-speech:extractProguardFiles UP-TO-DATE
-> Task :capacitor-community-text-to-speech:generateReleaseLintModel UP-TO-DATE
-> Task :capacitor-community-text-to-speech:prepareLintJarForPublish UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:createFullJarRelease UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:extractProguardFiles UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:generateReleaseLintModel UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:prepareLintJarForPublish UP-TO-DATE
-> Task :capacitor-filesystem:createFullJarRelease UP-TO-DATE
-> Task :capacitor-filesystem:extractProguardFiles UP-TO-DATE
-> Task :capacitor-filesystem:generateReleaseLintModel UP-TO-DATE
-> Task :capacitor-filesystem:prepareLintJarForPublish UP-TO-DATE
-> Task :capacitor-local-notifications:createFullJarRelease UP-TO-DATE
-> Task :capacitor-local-notifications:extractProguardFiles UP-TO-DATE
-> Task :capacitor-local-notifications:generateReleaseLintModel UP-TO-DATE
-> Task :capacitor-local-notifications:prepareLintJarForPublish UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:createFullJarRelease UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:extractProguardFiles UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:generateReleaseLintModel UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:prepareLintJarForPublish UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:createFullJarRelease UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:extractProguardFiles UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:generateReleaseLintModel UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:prepareLintJarForPublish UP-TO-DATE
-> Task :app:generateReleaseLintVitalReportModel UP-TO-DATE
-> Task :capacitor-community-admob:checkReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-community-admob:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-community-admob:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :capacitor-community-admob:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :capacitor-community-admob:extractReleaseAnnotations UP-TO-DATE
-> Task :capacitor-community-admob:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :capacitor-community-admob:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :capacitor-community-admob:mergeReleaseJavaResource UP-TO-DATE
-> Task :capacitor-community-admob:syncReleaseLibJars UP-TO-DATE
-> Task :capacitor-community-admob:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :capacitor-community-in-app-review:checkReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-community-in-app-review:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-community-in-app-review:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :capacitor-community-in-app-review:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :capacitor-community-in-app-review:extractReleaseAnnotations UP-TO-DATE
-> Task :capacitor-community-in-app-review:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :capacitor-community-in-app-review:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :capacitor-community-in-app-review:mergeReleaseJavaResource UP-TO-DATE
-> Task :capacitor-community-in-app-review:syncReleaseLibJars UP-TO-DATE
-> Task :capacitor-community-in-app-review:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :capacitor-community-speech-recognition:checkReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-community-speech-recognition:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-community-speech-recognition:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :capacitor-community-speech-recognition:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :capacitor-community-speech-recognition:extractReleaseAnnotations UP-TO-DATE
-> Task :capacitor-community-speech-recognition:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :capacitor-community-speech-recognition:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :capacitor-community-speech-recognition:mergeReleaseJavaResource UP-TO-DATE
-> Task :capacitor-community-speech-recognition:syncReleaseLibJars UP-TO-DATE
-> Task :capacitor-community-speech-recognition:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :capacitor-community-text-to-speech:checkReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-community-text-to-speech:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-community-text-to-speech:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :capacitor-community-text-to-speech:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :capacitor-community-text-to-speech:extractReleaseAnnotations UP-TO-DATE
-> Task :capacitor-community-text-to-speech:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :capacitor-community-text-to-speech:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :capacitor-community-text-to-speech:mergeReleaseJavaResource UP-TO-DATE
-> Task :capacitor-community-text-to-speech:syncReleaseLibJars UP-TO-DATE
-> Task :capacitor-community-text-to-speech:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :capacitor-app:checkReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-app:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-app:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :capacitor-app:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :capacitor-app:extractReleaseAnnotations UP-TO-DATE
-> Task :capacitor-app:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :capacitor-app:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :capacitor-app:mergeReleaseJavaResource UP-TO-DATE
-> Task :capacitor-app:syncReleaseLibJars UP-TO-DATE
-> Task :capacitor-app:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :capacitor-filesystem:checkReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-filesystem:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-filesystem:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :capacitor-filesystem:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :capacitor-filesystem:extractReleaseAnnotations UP-TO-DATE
-> Task :capacitor-filesystem:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :capacitor-filesystem:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :capacitor-filesystem:mergeReleaseJavaResource UP-TO-DATE
-> Task :capacitor-filesystem:syncReleaseLibJars UP-TO-DATE
-> Task :capacitor-filesystem:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :capacitor-local-notifications:checkReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-local-notifications:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-local-notifications:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :capacitor-local-notifications:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :capacitor-local-notifications:extractReleaseAnnotations UP-TO-DATE
-> Task :capacitor-local-notifications:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :capacitor-local-notifications:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :capacitor-local-notifications:mergeReleaseJavaResource UP-TO-DATE
-> Task :capacitor-local-notifications:syncReleaseLibJars UP-TO-DATE
-> Task :capacitor-local-notifications:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:checkReleaseAarMetadata UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:stripReleaseDebugSymbols NO-SOURCE
-> Task :codetrix-studio-capacitor-google-auth:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:extractReleaseAnnotations UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:mergeReleaseJavaResource UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:syncReleaseLibJars UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:checkReleaseAarMetadata UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:stripReleaseDebugSymbols NO-SOURCE
-> Task :revenuecat-purchases-capacitor:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:extractReleaseAnnotations UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:mergeReleaseJavaResource UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:syncReleaseLibJars UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :capacitor-android:checkReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-android:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-android:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :capacitor-android:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :capacitor-android:extractReleaseAnnotations UP-TO-DATE
-> Task :capacitor-android:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :capacitor-android:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :capacitor-android:mergeReleaseJavaResource UP-TO-DATE
-> Task :capacitor-android:syncReleaseLibJars UP-TO-DATE
-> Task :capacitor-android:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:checkReleaseAarMetadata UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-cordova-android-plugins:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:extractDeepLinksForAarRelease UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:extractReleaseAnnotations UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:mergeReleaseGeneratedProguardFiles UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:mergeReleaseConsumerProguardFiles UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:mergeReleaseJavaResource UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:syncReleaseLibJars UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:bundleReleaseLocalLintAar UP-TO-DATE
-> Task :capacitor-android:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-android:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :capacitor-app:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-app:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :capacitor-community-admob:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-community-admob:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :capacitor-community-in-app-review:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-community-in-app-review:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :capacitor-community-speech-recognition:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-community-speech-recognition:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :capacitor-community-text-to-speech:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-community-text-to-speech:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :capacitor-filesystem:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-filesystem:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :capacitor-local-notifications:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-local-notifications:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:writeReleaseLintModelMetadata UP-TO-DATE
-> Task :app:lintVitalAnalyzeRelease UP-TO-DATE
-> Task :capacitor-android:generateReleaseLintVitalModel UP-TO-DATE
-> Task :capacitor-app:generateReleaseLintVitalModel UP-TO-DATE
-> Task :capacitor-community-admob:generateReleaseLintVitalModel UP-TO-DATE
-> Task :capacitor-community-in-app-review:generateReleaseLintVitalModel UP-TO-DATE
-> Task :capacitor-community-speech-recognition:generateReleaseLintVitalModel UP-TO-DATE
-> Task :capacitor-community-text-to-speech:generateReleaseLintVitalModel UP-TO-DATE
-> Task :capacitor-cordova-android-plugins:generateReleaseLintVitalModel UP-TO-DATE
-> Task :capacitor-filesystem:generateReleaseLintVitalModel UP-TO-DATE
-> Task :capacitor-local-notifications:generateReleaseLintVitalModel UP-TO-DATE
-> Task :codetrix-studio-capacitor-google-auth:generateReleaseLintVitalModel UP-TO-DATE
-> Task :revenuecat-purchases-capacitor:generateReleaseLintVitalModel UP-TO-DATE
-> Task :app:lintVitalReportRelease UP-TO-DATE
-> Task :app:lintVitalRelease
-> Task :app:parseReleaseIntegrityConfig UP-TO-DATE
-> Task :app:packageReleaseBundle UP-TO-DATE
-> Task :app:validateSigningRelease UP-TO-DATE
-> Task :app:signReleaseBundle UP-TO-DATE
-> Task :app:produceReleaseBundleIdeListingFile UP-TO-DATE
-> Task :app:createReleaseBundleListingFileRedirect UP-TO-DATE
-> Task :app:bundleRelease UP-TO-DATE
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool -V
 
-[Incubating] Problems report is available at: file:///D:/antigravity/stepupvoca/app/android/build/reports/problems/problems-report.html
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/macbook/Desktop/VocaQuest/ios/App/App/Assets.xcassets
 
-Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --version --output-format xml1
 
-You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
 
-For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
 
-BUILD SUCCESSFUL in 3s
-436 actionable tasks: 1 executed, 435 up-to-date
-Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.2.1/userguide/configuration_cache_enabling.html
+Build description signature: bfbdb0256008def2986ad13842f13e38
+Build description path: /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/XCBuildData/bfbdb0256008def2986ad13842f13e38.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk /Users/macbook/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphoneos26.4-23E252-68a138bb55de9ba35ce6c8c40d12849e.sdkstatcache
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk -o /Users/macbook/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphoneos26.4-23E252-68a138bb55de9ba35ce6c8c40d12849e.sdkstatcache
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUserMessagingPlatform/UserMessagingPlatformResources.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GoogleUserMessagingPlatform/ResourceBundle-UserMessagingPlatformResources-GoogleUserMessagingPlatform-Info.plist (in target 'GoogleUserMessagingPlatform-UserMessagingPlatformResources' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GoogleUserMessagingPlatform/ResourceBundle-UserMessagingPlatformResources-GoogleUserMessagingPlatform-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUserMessagingPlatform/UserMessagingPlatformResources.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Google-Mobile-Ads-SDK/GoogleMobileAdsResources.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Google-Mobile-Ads-SDK/ResourceBundle-GoogleMobileAdsResources-Google-Mobile-Ads-SDK-Info.plist (in target 'Google-Mobile-Ads-SDK-GoogleMobileAdsResources' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Google-Mobile-Ads-SDK/ResourceBundle-GoogleMobileAdsResources-Google-Mobile-Ads-SDK-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Google-Mobile-Ads-SDK/GoogleMobileAdsResources.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Capacitor/Capacitor.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Capacitor/ResourceBundle-Capacitor-Capacitor-Info.plist (in target 'Capacitor-Capacitor' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Capacitor/ResourceBundle-Capacitor-Capacitor-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Capacitor/Capacitor.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCordova/CapacitorCordova.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCordova/ResourceBundle-CapacitorCordova-CapacitorCordova-Info.plist (in target 'CapacitorCordova-CapacitorCordova' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCordova/ResourceBundle-CapacitorCordova-CapacitorCordova-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCordova/CapacitorCordova.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCordova/Cordova.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCordova/CapacitorCordova-Info.plist (in target 'CapacitorCordova' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCordova/CapacitorCordova-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCordova/Cordova.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Capacitor/Capacitor.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Capacitor/Capacitor-Info.plist (in target 'Capacitor' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Capacitor/Capacitor-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Capacitor/Capacitor.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorApp/CapacitorApp.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorApp/CapacitorApp-Info.plist (in target 'CapacitorApp' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorApp/CapacitorApp-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorApp/CapacitorApp.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Google-Mobile-Ads-SDK/Google_Mobile_Ads_SDK.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Google-Mobile-Ads-SDK/Google-Mobile-Ads-SDK-Info.plist (in target 'Google-Mobile-Ads-SDK' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Google-Mobile-Ads-SDK/Google-Mobile-Ads-SDK-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Google-Mobile-Ads-SDK/Google_Mobile_Ads_SDK.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityAdmob/CapacitorCommunityAdmob.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunityAdmob/CapacitorCommunityAdmob-Info.plist (in target 'CapacitorCommunityAdmob' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunityAdmob/CapacitorCommunityAdmob-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityAdmob/CapacitorCommunityAdmob.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityInAppReview/CapacitorCommunityInAppReview.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunityInAppReview/CapacitorCommunityInAppReview-Info.plist (in target 'CapacitorCommunityInAppReview' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunityInAppReview/CapacitorCommunityInAppReview-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityInAppReview/CapacitorCommunityInAppReview.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityKeepAwake/CapacitorCommunityKeepAwake.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunityKeepAwake/CapacitorCommunityKeepAwake-Info.plist (in target 'CapacitorCommunityKeepAwake' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunityKeepAwake/CapacitorCommunityKeepAwake-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityKeepAwake/CapacitorCommunityKeepAwake.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunitySpeechRecognition/CapacitorCommunitySpeechRecognition.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunitySpeechRecognition/CapacitorCommunitySpeechRecognition-Info.plist (in target 'CapacitorCommunitySpeechRecognition' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunitySpeechRecognition/CapacitorCommunitySpeechRecognition-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunitySpeechRecognition/CapacitorCommunitySpeechRecognition.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityTextToSpeech/CapacitorCommunityTextToSpeech.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunityTextToSpeech/CapacitorCommunityTextToSpeech-Info.plist (in target 'CapacitorCommunityTextToSpeech' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorCommunityTextToSpeech/CapacitorCommunityTextToSpeech-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityTextToSpeech/CapacitorCommunityTextToSpeech.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFilesystem/CapacitorFilesystem.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorFilesystem/CapacitorFilesystem-Info.plist (in target 'CapacitorFilesystem' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorFilesystem/CapacitorFilesystem-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFilesystem/CapacitorFilesystem.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAppCheckInterop/FirebaseAppCheckInterop.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseAppCheckInterop/FirebaseAppCheckInterop-Info.plist (in target 'FirebaseAppCheckInterop' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseAppCheckInterop/FirebaseAppCheckInterop-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAppCheckInterop/FirebaseAppCheckInterop.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuth/FirebaseAuth_Privacy.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseAuth/ResourceBundle-FirebaseAuth_Privacy-FirebaseAuth-Info.plist (in target 'FirebaseAuth-FirebaseAuth_Privacy' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseAuth/ResourceBundle-FirebaseAuth_Privacy-FirebaseAuth-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuth/FirebaseAuth_Privacy.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuthInterop/FirebaseAuthInterop.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseAuthInterop/FirebaseAuthInterop-Info.plist (in target 'FirebaseAuthInterop' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseAuthInterop/FirebaseAuthInterop-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuthInterop/FirebaseAuthInterop.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCore/FirebaseCore_Privacy.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCore/ResourceBundle-FirebaseCore_Privacy-FirebaseCore-Info.plist (in target 'FirebaseCore-FirebaseCore_Privacy' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCore/ResourceBundle-FirebaseCore_Privacy-FirebaseCore-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCore/FirebaseCore_Privacy.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreInternal/FirebaseCoreInternal_Privacy.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCoreInternal/ResourceBundle-FirebaseCoreInternal_Privacy-FirebaseCoreInternal-Info.plist (in target 'FirebaseCoreInternal-FirebaseCoreInternal_Privacy' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCoreInternal/ResourceBundle-FirebaseCoreInternal_Privacy-FirebaseCoreInternal-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreInternal/FirebaseCoreInternal_Privacy.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUtilities/GoogleUtilities_Privacy.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GoogleUtilities/ResourceBundle-GoogleUtilities_Privacy-GoogleUtilities-Info.plist (in target 'GoogleUtilities-GoogleUtilities_Privacy' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GoogleUtilities/ResourceBundle-GoogleUtilities_Privacy-GoogleUtilities-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUtilities/GoogleUtilities_Privacy.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUtilities/GoogleUtilities.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GoogleUtilities/GoogleUtilities-Info.plist (in target 'GoogleUtilities' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GoogleUtilities/GoogleUtilities-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUtilities/GoogleUtilities.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreInternal/FirebaseCoreInternal.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCoreInternal/FirebaseCoreInternal-Info.plist (in target 'FirebaseCoreInternal' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCoreInternal/FirebaseCoreInternal-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreInternal/FirebaseCoreInternal.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCore/FirebaseCore.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCore/FirebaseCore-Info.plist (in target 'FirebaseCore' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCore/FirebaseCore-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCore/FirebaseCore.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreExtension/FirebaseCoreExtension_Privacy.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCoreExtension/ResourceBundle-FirebaseCoreExtension_Privacy-FirebaseCoreExtension-Info.plist (in target 'FirebaseCoreExtension-FirebaseCoreExtension_Privacy' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCoreExtension/ResourceBundle-FirebaseCoreExtension_Privacy-FirebaseCoreExtension-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreExtension/FirebaseCoreExtension_Privacy.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreExtension/FirebaseCoreExtension.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCoreExtension/FirebaseCoreExtension-Info.plist (in target 'FirebaseCoreExtension' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseCoreExtension/FirebaseCoreExtension-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreExtension/FirebaseCoreExtension.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GTMSessionFetcher/GTMSessionFetcher_Core_Privacy.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GTMSessionFetcher/ResourceBundle-GTMSessionFetcher_Core_Privacy-GTMSessionFetcher-Info.plist (in target 'GTMSessionFetcher-GTMSessionFetcher_Core_Privacy' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GTMSessionFetcher/ResourceBundle-GTMSessionFetcher_Core_Privacy-GTMSessionFetcher-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GTMSessionFetcher/GTMSessionFetcher_Core_Privacy.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GTMSessionFetcher/GTMSessionFetcher.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GTMSessionFetcher/GTMSessionFetcher-Info.plist (in target 'GTMSessionFetcher' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/GTMSessionFetcher/GTMSessionFetcher-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GTMSessionFetcher/GTMSessionFetcher.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RecaptchaInterop/RecaptchaInterop.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/RecaptchaInterop/RecaptchaInterop-Info.plist (in target 'RecaptchaInterop' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/RecaptchaInterop/RecaptchaInterop-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RecaptchaInterop/RecaptchaInterop.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuth/FirebaseAuth.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseAuth/FirebaseAuth-Info.plist (in target 'FirebaseAuth' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/FirebaseAuth/FirebaseAuth-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuth/FirebaseAuth.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFirebaseAuthentication/CapacitorFirebaseAuthentication.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorFirebaseAuthentication/CapacitorFirebaseAuthentication-Info.plist (in target 'CapacitorFirebaseAuthentication' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorFirebaseAuthentication/CapacitorFirebaseAuthentication-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFirebaseAuthentication/CapacitorFirebaseAuthentication.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorLocalNotifications/CapacitorLocalNotifications.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorLocalNotifications/CapacitorLocalNotifications-Info.plist (in target 'CapacitorLocalNotifications' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapacitorLocalNotifications/CapacitorLocalNotifications-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorLocalNotifications/CapacitorLocalNotifications.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapgoCapacitorLlm/CapgoCapacitorLlm.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapgoCapacitorLlm/CapgoCapacitorLlm-Info.plist (in target 'CapgoCapacitorLlm' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/CapgoCapacitorLlm/CapgoCapacitorLlm-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapgoCapacitorLlm/CapgoCapacitorLlm.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/PurchasesHybridCommon/PurchasesHybridCommon.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/PurchasesHybridCommon/ResourceBundle-PurchasesHybridCommon-PurchasesHybridCommon-Info.plist (in target 'PurchasesHybridCommon-PurchasesHybridCommon' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/PurchasesHybridCommon/ResourceBundle-PurchasesHybridCommon-PurchasesHybridCommon-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/PurchasesHybridCommon/PurchasesHybridCommon.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenueCat/RevenueCat.bundle/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/RevenueCat/ResourceBundle-RevenueCat-RevenueCat-Info.plist (in target 'RevenueCat-RevenueCat' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/RevenueCat/ResourceBundle-RevenueCat-RevenueCat-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenueCat/RevenueCat.bundle/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenueCat/RevenueCat.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/RevenueCat/RevenueCat-Info.plist (in target 'RevenueCat' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/RevenueCat/RevenueCat-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenueCat/RevenueCat.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/PurchasesHybridCommon/PurchasesHybridCommon.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/PurchasesHybridCommon/PurchasesHybridCommon-Info.plist (in target 'PurchasesHybridCommon' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/PurchasesHybridCommon/PurchasesHybridCommon-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/PurchasesHybridCommon/PurchasesHybridCommon.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenuecatPurchasesCapacitor/RevenuecatPurchasesCapacitor.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/RevenuecatPurchasesCapacitor/RevenuecatPurchasesCapacitor-Info.plist (in target 'RevenuecatPurchasesCapacitor' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/RevenuecatPurchasesCapacitor/RevenuecatPurchasesCapacitor-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenuecatPurchasesCapacitor/RevenuecatPurchasesCapacitor.framework/Info.plist
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Pods_App.framework/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Pods-App/Pods-App-Info.plist (in target 'Pods-App' from project 'Pods')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App/Pods
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/Pods/Target\ Support\ Files/Pods-App/Pods-App-Info.plist -producttype com.apple.product-type.framework -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Pods_App.framework/Info.plist
+
+Ld /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App.debug.dylib normal (in target 'App' from project 'App')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios15.0 -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk -O0 -L/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -L/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk/usr/lib/swift -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk/usr/lib/swift -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Capacitor -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorApp -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityAdmob -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityInAppReview -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityKeepAwake -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunitySpeechRecognition -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityTextToSpeech -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCordova -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFilesystem -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFirebaseAuthentication -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorLocalNotifications -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapgoCapacitorLlm -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAppCheckInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuth -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuthInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCore -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreExtension -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreInternal -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GTMSessionFetcher -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Google-Mobile-Ads-SDK -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUtilities -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/PurchasesHybridCommon -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RecaptchaInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenueCat -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenuecatPurchasesCapacitor -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/GoogleUserMessagingPlatform/Frameworks/Release -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/IONFilesystemLib -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/MediaPipeTasksGenAI/frameworks -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/MediaPipeTasksGenAIC/frameworks -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/Google-Mobile-Ads-SDK -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/GoogleUserMessagingPlatform -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/IONFilesystemLib -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/MediaPipeTasksGenAI -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/MediaPipeTasksGenAIC -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Capacitor -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorApp -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityAdmob -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityInAppReview -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityKeepAwake -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunitySpeechRecognition -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityTextToSpeech -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCordova -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFilesystem -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFirebaseAuthentication -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorLocalNotifications -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapgoCapacitorLlm -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAppCheckInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuth -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuthInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCore -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreExtension -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreInternal -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GTMSessionFetcher -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Google-Mobile-Ads-SDK -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUtilities -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/PurchasesHybridCommon -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RecaptchaInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenueCat -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenuecatPurchasesCapacitor -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/GoogleUserMessagingPlatform/Frameworks/Release -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/IONFilesystemLib -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/MediaPipeTasksGenAI/frameworks -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/MediaPipeTasksGenAIC/frameworks -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/Google-Mobile-Ads-SDK -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/GoogleUserMessagingPlatform -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/IONFilesystemLib -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/MediaPipeTasksGenAI -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/MediaPipeTasksGenAIC -filelist /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Objects-normal/arm64/App.LinkFileList -install_name @rpath/App.debug.dylib -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Objects-normal/arm64/App_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -dependency_info -Xlinker /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Objects-normal/arm64/App_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Objects-normal/arm64/App.swiftmodule @/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Objects-normal/arm64/App-linker-args.resp -ObjC -ObjC -lc++ -lsqlite3 -lz -framework AVFoundation -framework Accelerate -framework AudioToolbox -framework CFNetwork -framework Capacitor -framework CapacitorApp -framework CapacitorCommunityAdmob -framework CapacitorCommunityInAppReview -framework CapacitorCommunityKeepAwake -framework CapacitorCommunitySpeechRecognition -framework CapacitorCommunityTextToSpeech -framework CapacitorFilesystem -framework CapacitorFirebaseAuthentication -framework CapacitorLocalNotifications -framework CapgoCapacitorLlm -framework Cordova -framework CoreGraphics -framework CoreMedia -framework CoreTelephony -framework CoreVideo -framework FirebaseAppCheckInterop -framework FirebaseAuth -framework FirebaseAuthInterop -framework FirebaseCore -framework FirebaseCoreExtension -framework FirebaseCoreInternal -framework Foundation -framework GTMSessionFetcher -framework GoogleMobileAds -framework GoogleUtilities -framework Google_Mobile_Ads_SDK -framework IONFilesystemLib -framework JavaScriptCore -framework MediaPipeTasksGenAI -framework MediaPipeTasksGenAIC -framework MediaPlayer -framework MessageUI -framework Metal -framework MobileCoreServices -framework Network -framework OpenGLES -framework PurchasesHybridCommon -framework QuartzCore -framework RecaptchaInterop -framework RevenueCat -framework RevenuecatPurchasesCapacitor -framework SafariServices -framework Security -framework StoreKit -framework SystemConfiguration -framework UIKit -framework UserMessagingPlatform -framework WebKit -weak_framework AdSupport -weak_framework JavaScriptCore -weak_framework SafariServices -weak_framework WebKit -force_load /Users/macbook/Desktop/VocaQuest/ios/App/Pods/MediaPipeTasksGenAIC/frameworks/genai_libraries/libMediaPipeTasksGenAIC_device.a -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -framework Pods_App -Xlinker -no_adhoc_codesign -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App.debug.dylib
+
+ConstructStubExecutorLinkFileList /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/App-ExecutorLinkFileList-normal-arm64.txt (in target 'App' from project 'App')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    construct-stub-executor-link-file-list /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/App-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'App' from project 'App')
+
+Ld /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App normal (in target 'App' from project 'App')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios15.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk -O0 -L/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk/usr/lib/swift -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk/usr/lib/swift -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Capacitor -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorApp -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityAdmob -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityInAppReview -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityKeepAwake -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunitySpeechRecognition -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityTextToSpeech -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCordova -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFilesystem -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFirebaseAuthentication -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorLocalNotifications -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapgoCapacitorLlm -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAppCheckInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuth -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuthInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCore -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreExtension -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreInternal -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GTMSessionFetcher -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Google-Mobile-Ads-SDK -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUtilities -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/PurchasesHybridCommon -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RecaptchaInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenueCat -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenuecatPurchasesCapacitor -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/GoogleUserMessagingPlatform/Frameworks/Release -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/IONFilesystemLib -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/MediaPipeTasksGenAI/frameworks -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/MediaPipeTasksGenAIC/frameworks -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/Google-Mobile-Ads-SDK -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/GoogleUserMessagingPlatform -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/IONFilesystemLib -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/MediaPipeTasksGenAI -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/MediaPipeTasksGenAIC -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Capacitor -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorApp -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityAdmob -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityInAppReview -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityKeepAwake -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunitySpeechRecognition -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCommunityTextToSpeech -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorCordova -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFilesystem -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorFirebaseAuthentication -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapacitorLocalNotifications -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/CapgoCapacitorLlm -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAppCheckInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuth -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseAuthInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCore -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreExtension -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/FirebaseCoreInternal -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GTMSessionFetcher -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Google-Mobile-Ads-SDK -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/GoogleUtilities -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/PurchasesHybridCommon -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RecaptchaInterop -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenueCat -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/RevenuecatPurchasesCapacitor -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/GoogleUserMessagingPlatform/Frameworks/Release -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/IONFilesystemLib -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/MediaPipeTasksGenAI/frameworks -F/Users/macbook/Desktop/VocaQuest/ios/App/Pods/MediaPipeTasksGenAIC/frameworks -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/Google-Mobile-Ads-SDK -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/GoogleUserMessagingPlatform -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/IONFilesystemLib -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/MediaPipeTasksGenAI -F/Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/MediaPipeTasksGenAIC -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -rpath -Xlinker @loader_path/Frameworks -rdynamic -Xlinker -no_deduplicate -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/App-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/App-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/App-ExecutorLinkFileList-normal-arm64.txt /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App.debug.dylib -Xlinker -no_adhoc_codesign -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App
+
+ExtractAppIntentsMetadata (in target 'App' from project 'App')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name App --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.4.sdk --xcode-version 17E202 --platform-family iOS --deployment-target 15.0 --bundle-identifier com.stepup.vocaquest --output /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app --target-triple arm64-apple-ios15.0 --binary-file /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App --dependency-file /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Objects-normal/arm64/App_dependency_info.dat --stringsdata-file /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Objects-normal/arm64/App.SwiftFileList --metadata-file-list /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/App.DependencyMetadataFileList --static-metadata-file-list /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/App.DependencyStaticMetadataFileList --swift-const-vals-list /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Objects-normal/arm64/App.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-05-08 23:53:49.708 appintentsmetadataprocessor[53926:4723092] Starting appintentsmetadataprocessor export
+2026-05-08 23:53:49.711 appintentsmetadataprocessor[53926:4723092] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+
+ProcessInfoPlistFile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/Info.plist /Users/macbook/Desktop/VocaQuest/ios/App/App/Info.plist (in target 'App' from project 'App')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    builtin-infoPlistUtility /Users/macbook/Desktop/VocaQuest/ios/App/App/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -additionalcontentfile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Base.lproj/LaunchScreen-SBPartialInfo.plist -additionalcontentfile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/Base.lproj/Main-SBPartialInfo.plist -additionalcontentfile /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/assetcatalog_generated_info.plist -requiredArchitecture arm64 -o /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/Info.plist
+
+CopySwiftLibs /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app (in target 'App' from project 'App')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    builtin-swiftStdLibTool --copy --verbose --sign F2C1EEBB81C43A6D04F6403627B3FD60ED90BB17 --scan-executable /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App.debug.dylib --scan-folder /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/Frameworks --scan-folder /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/PlugIns --scan-folder /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/SystemExtensions --scan-folder /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/Extensions --scan-folder /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/Pods_App.framework --platform iphoneos --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+
+CodeSign /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App.debug.dylib (in target 'App' from project 'App')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    
+    Signing Identity:     "Apple Development: Namhyung Kim (369KU8Q993)"
+    Provisioning Profile: "iOS Team Provisioning Profile: com.stepup.vocaquest"
+                          (ef20236d-8b9f-413d-bdc1-3b65f8a7ee59)
+    
+    /usr/bin/codesign --force --sign F2C1EEBB81C43A6D04F6403627B3FD60ED90BB17 --timestamp\=none --generate-entitlement-der /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app/App.debug.dylib
+
+CodeSign /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app (in target 'App' from project 'App')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    
+    Signing Identity:     "Apple Development: Namhyung Kim (369KU8Q993)"
+    Provisioning Profile: "iOS Team Provisioning Profile: com.stepup.vocaquest"
+                          (ef20236d-8b9f-413d-bdc1-3b65f8a7ee59)
+    
+    /usr/bin/codesign --force --sign F2C1EEBB81C43A6D04F6403627B3FD60ED90BB17 --entitlements /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Intermediates.noindex/App.build/Debug-iphoneos/App.build/App.app.xcent --timestamp\=none --generate-entitlement-der /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app
+
+Validate /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app (in target 'App' from project 'App')
+    cd /Users/macbook/Desktop/VocaQuest/ios/App
+    builtin-validationUtility /Users/macbook/Library/Developer/Xcode/DerivedData/App-gzalvxllxmuexmepxnnrgltzjarj/Build/Products/Debug-iphoneos/App.app -shallow-bundle -infoplist-subpath Info.plist
+
+** BUILD SUCCEEDED **
+
