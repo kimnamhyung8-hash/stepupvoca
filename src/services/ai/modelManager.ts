@@ -3,6 +3,7 @@
 
 import { Capacitor } from '@capacitor/core';
 import { CapgoLLM } from '@capgo/capacitor-llm';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 // 모델 다운로드 URL (HuggingFace - Gemma3 270M, 경량 모델)
 const MODEL_URL = 'https://huggingface.co/litert-community/gemma-3-270m-it/resolve/main/gemma-3-270m-it-int4.task';
@@ -34,16 +35,32 @@ export class ModelManager {
 
   async isModelDownloaded(): Promise<boolean> {
     if (!this.isSupported) return false;
+    
+    // 실제 파일이 Documents 폴더에 존재하는지 '무조건' 먼저 확인합니다.
     try {
-      const { readiness } = await CapgoLLM.getReadiness();
-      return (
-        readiness === 'ready' || 
-        readiness === 'available' || 
-        !!this._modelPath || 
-        !!localStorage.getItem('vq_llm_model_path')
-      );
-    } catch {
-      return !!this._modelPath || !!localStorage.getItem('vq_llm_model_path');
+      await Filesystem.stat({
+        path: MODEL_FILENAME,
+        directory: Directory.Documents
+      });
+      
+      // 파일이 존재하면 경로 업데이트
+      const uri = await Filesystem.getUri({
+        path: MODEL_FILENAME,
+        directory: Directory.Documents
+      });
+      
+      // iOS의 경우 'file://' 접두사가 필요할 수 있음
+      const finalPath = Capacitor.getPlatform() === 'ios' ? uri.uri.replace('file://', '') : uri.uri;
+      this._modelPath = finalPath;
+      localStorage.setItem('vq_llm_model_path', finalPath);
+      
+      return true;
+    } catch (err) {
+      console.log('[ModelManager] 모델 파일이 없거나 접근 불가:', err);
+      // 파일이 없으면 저장된 경로 정보 확실하게 삭제 (이전 앱 찌꺼기 방지)
+      localStorage.removeItem('vq_llm_model_path');
+      this._modelPath = null;
+      return false;
     }
   }
 
@@ -98,8 +115,13 @@ export class ModelManager {
       } else {
         throw new Error('MODEL_NOT_DOWNLOADED');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('[ModelManager] 모델 로드 실패:', err);
+      // 로드 실패 시 만약 파일 없음 오류라면 기존 경로가 꼬인 것이므로 삭제
+      if (err?.message?.includes('NOT_FOUND') || err?.message?.includes('No such file')) {
+        localStorage.removeItem('vq_llm_model_path');
+        this._modelPath = null;
+      }
       throw err;
     }
   }
