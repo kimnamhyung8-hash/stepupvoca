@@ -7,7 +7,7 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 
 // 모델 다운로드 URL (HuggingFace - Gemma3 270M, 경량 모델)
 const MODEL_URL = 'https://huggingface.co/litert-community/gemma-3-270m-it/resolve/main/gemma-3-270m-it-int4.task';
-const MODEL_FILENAME = 'gemma-3-270m-it-int4.task';
+const MODEL_FILENAME = 'gemma-3-270m-it-int8.task';
 
 export class ModelManager {
   private static instance: ModelManager;
