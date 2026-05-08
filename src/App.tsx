@@ -495,17 +495,20 @@ function MainApp() {
   useEffect(() => { 
     localStorage.setItem('vq_premium', isPremium ? 'true' : 'false'); 
     
-    // 상태 변경 시 즉각 광고 가리기/보이기 적용 (Race Condition 방어)
+    // [정책 준수] 광고 노출 필터링: 프리미엄이 아니면서 '안전한' 화면일 때만 배너 노출
+    const unsafeScreens = ['SPLASH', 'LOGIN', 'ONBOARDING', 'LEVEL_TEST'];
+    const isSafeScreen = !unsafeScreens.includes(screen);
+    
     if (typeof window !== 'undefined' && (window as any).Capacitor && (window as any).Capacitor.getPlatform() !== 'web') {
       import('./admob').then(m => {
-        if (isPremium) {
+        if (isPremium || !isSafeScreen) {
            m.hideBannerAd();
         } else {
            m.showBannerAd();
         }
       }).catch(e => console.warn('AdMob load error:', e));
     }
-  }, [isPremium]);
+  }, [isPremium, screen]);
 
   const incrementAiUsage = (type: 'general' | 'report' = 'general') => {
     const hasUserKey = !!localStorage.getItem('vq_gemini_key');
@@ -550,13 +553,7 @@ function MainApp() {
       
       const isAdMobReady = await initAdMob();
       if (isAdMobReady) {
-        const m = await import('./admob');
-        // 초기화 시점 로딩 보장 (useEffect가 먼저 불리고 무시되는 현상 방지)
-        if (premium || localStorage.getItem('vq_premium') === 'true') {
-            m.hideBannerAd();
-        } else {
-            m.showBannerAd();
-        }
+        console.log('[AdMob] Ready. Banner will be controlled by screen state.');
       }
     };
     initializeApp();

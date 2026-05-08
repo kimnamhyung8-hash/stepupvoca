@@ -21,7 +21,7 @@ const config: CapacitorConfig = {
     AdMob: {
       // Test App IDs - Replace with real IDs for production
       androidAppId: 'ca-app-pub-8125662823247706~1345014713',
-      iosAppId: 'ca-app-pub-3940256099942544~1458002511',
+      iosAppId: 'ca-app-pub-8125662823247706~6554814026',
     },
     GoogleAuth: {
       scopes: ['profile', 'email'],
