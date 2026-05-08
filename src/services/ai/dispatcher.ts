@@ -8,18 +8,18 @@ import type { AIResponse } from './types';
 class AIDispatcher {
   private onDevice = new OnDeviceEngine();
   private cloud = new CloudEngine();
-  private _initialized = false;
 
   /** 온디바이스 엔진 초기화 시도 (실패해도 클라우드로 폴백 가능) */
   async init(): Promise<void> {
-    if (this._initialized) return;
+    // 이미 준비되었다면 다시 초기화할 필요 없음
+    if (this.onDevice.isReady()) return;
+
     try {
       await this.onDevice.init();
       console.log('[Dispatcher] 온디바이스 엔진 활성화');
     } catch (e) {
       console.warn('[Dispatcher] 온디바이스 사용 불가, 클라우드 모드로 동작:', e);
     }
-    this._initialized = true;
   }
 
   get isOnDeviceReady(): boolean {

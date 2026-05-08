@@ -31,29 +31,52 @@ export const AiEngineSetupCard: React.FC<Props> = ({ lang }) => {
     }
 
     try {
-      // Apple Intelligence 또는 다운로드된 모델이 있는지 체크
+      // 1. 이미 준비되었는지 확인
       await aiDispatcher.init();
       if (aiDispatcher.isOnDeviceReady) {
         setStatus('ready');
         return;
       }
-    } catch {
-      // 초기화 실패 시 다운로드 필요
+
+      // 2. 준비는 안 되었지만 모델 파일은 있는지 확인
+      const isDownloaded = await manager.isModelDownloaded();
+      if (isDownloaded) {
+        // 파일은 있는데 초기화가 안 된 경우 -> 에러 상태로 표시하여 재시도 유도
+        setStatus('error');
+        return;
+      }
+    } catch (e) {
+      console.warn('[AiSetup] 상태 체크 중 오류:', e);
     }
 
     setStatus('not_downloaded');
   };
 
   const handleDownload = async () => {
+    const manager = ModelManager.getInstance();
     setStatus('downloading');
     setProgress(0);
     setErrorMsg('');
+    
     try {
-      await ModelManager.getInstance().downloadModel((p) => setProgress(p));
-      await aiDispatcher.init();
+      // 1. 파일이 없는 경우에만 다운로드 시도
+      const isDownloaded = await manager.isModelDownloaded();
+      if (!isDownloaded) {
+        await manager.downloadModel((p) => setProgress(p));
+      } else {
+        setProgress(100);
+      }
+
+      // 2. 엔진 초기화 (최대 3회 재시도)
+      for (let i = 0; i < 3; i++) {
+        await aiDispatcher.init();
+        if (aiDispatcher.isOnDeviceReady) break;
+        await new Promise(r => setTimeout(r, 1000)); // 1초 대기
+      }
+
       setStatus(aiDispatcher.isOnDeviceReady ? 'ready' : 'error');
     } catch (e: any) {
-      console.error('[AiSetup] 다운로드 실패:', e);
+      console.error('[AiSetup] 설정 실패:', e);
       setErrorMsg(e?.message || 'Unknown error');
       setStatus('error');
     }

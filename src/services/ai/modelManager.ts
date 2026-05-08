@@ -32,13 +32,18 @@ export class ModelManager {
     return Capacitor.isNativePlatform();
   }
 
-  async isModelPresent(): Promise<boolean> {
+  async isModelDownloaded(): Promise<boolean> {
     if (!this.isSupported) return false;
     try {
       const { readiness } = await CapgoLLM.getReadiness();
-      return readiness === 'ready' || readiness === 'available' || !!this._modelPath;
+      return (
+        readiness === 'ready' || 
+        readiness === 'available' || 
+        !!this._modelPath || 
+        !!localStorage.getItem('vq_llm_model_path')
+      );
     } catch {
-      return false;
+      return !!this._modelPath || !!localStorage.getItem('vq_llm_model_path');
     }
   }
 
