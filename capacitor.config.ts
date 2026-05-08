@@ -26,12 +26,6 @@ const config: CapacitorConfig = {
       androidAppId: 'ca-app-pub-8125662823247706~1345014713',
       iosAppId: 'ca-app-pub-8125662823247706~6554814026',
     },
-    GoogleAuth: {
-      scopes: ['profile', 'email'],
-      serverClientId: '806999527929-reao0rmomija5d2m738ligum2r2gvu46.apps.googleusercontent.com',
-      iosClientId: '806999527929-h7t4ftee1gdud4d2hqichsgpkkrk2d0v.apps.googleusercontent.com',
-      forceCodeForRefreshToken: true,
-    },
     FirebaseAuthentication: {
       skipNativeAuth: true,
       providers: ["google.com", "apple.com"],
