@@ -200,7 +200,52 @@ VitePWA({
 
 ---
 
-## 8. 주의사항
+## 8. Android 로그아웃 무한 대기 (로그아웃 중... 스피너 stuck)
+
+### 증상
+- 프로필 화면에서 로그아웃 버튼 클릭 후 "로그아웃 중..." 스피너가 사라지지 않음
+- Android 기기에서만 발생 (iOS/웹은 정상)
+
+### 원인
+1. `await FirebaseAuthentication.signOut()` — native Capacitor 플러그인이 Android에서 네트워크 응답 없이 무한 대기
+2. `await setUserOffline()` — Firestore `updateDoc`이 Android 네트워크 불안정 시 hang
+3. `setScreen('LOGIN')`이 `try` 본문에만 있어 hang 시 실행 안 됨 (finally 블록이 아님)
+4. 기존 5초 타임아웃은 설계상 맞지만, Android WebView에서 `setTimeout`이 지연되는 경우 timeout도 안 터질 수 있음
+
+### 해결 (ProfileScreen.tsx `handleLogout`)
+
+```typescript
+// ❌ 기존: await 사용으로 Android native hang 유발
+await FirebaseAuthentication.signOut();
+await userM.setUserOffline(firebaseUser.uid);
+setScreen('LOGIN'); // try 본문에 있어 hang 시 미실행
+
+// ✅ 수정: fire-and-forget + finally 보장
+// setUserOffline: fire-and-forget
+import('../userService').then(m => m.setUserOffline(firebaseUser.uid)).catch(() => {});
+
+// FirebaseAuthentication.signOut: fire-and-forget
+import('@capacitor-firebase/authentication')
+    .then(({ FirebaseAuthentication }) => FirebaseAuthentication.signOut())
+    .catch(() => {});
+
+// auth.signOut만 3초 타임아웃과 함께 await
+await Promise.race([auth.signOut(), new Promise<void>(resolve => setTimeout(resolve, 3000))]);
+
+// finally 블록에서 항상 실행 보장
+} finally {
+    setIsLoggingOut(false);
+    setScreen('LOGIN'); // 에러/hang 무관하게 항상 LOGIN으로 이동
+}
+```
+
+### 핵심 원칙
+- **Android native 플러그인 호출은 절대 `await` 하지 말 것** (응답 보장 없음)
+- **화면 전환(`setScreen`)은 항상 `finally` 블록에 배치**
+
+---
+
+## 9. 주의사항
 
 1. **`cap sync ios` 실행 시 Podfile이 덮어써지지 않음** — Podfile은 직접 관리
 2. **`cap sync ios`가 pod install을 자동 실행함** — Podfile 변경 후에는 별도 `pod install` 권장
