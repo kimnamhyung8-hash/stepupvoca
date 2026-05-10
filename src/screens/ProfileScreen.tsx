@@ -111,59 +111,42 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             return;
         }
 
-        if (!window.confirm(lang === 'ko' ? "정말 로그아웃 하시겠습니까?\n모든 학습 데이터가 서버에 안전하게 저장됩니다." : lang === 'ja' ? "本当にログアウトしますか？\nすべての学習データはサーバー에 안전하게 저장됩니다." : "Are you sure you want to log out?\nYour learning data will be safely stored on the server.")) {
+        if (!window.confirm(lang === 'ko' ? "정말 로그아웃 하시겠습니까?\n모든 학습 데이터가 서버에 안전하게 저장됩니다." : lang === 'ja' ? "本当にログアウトしますか？\nすべての学習データはサーバーに안全に保存されます。" : "Are you sure you want to log out?\nYour learning data will be safely stored on the server.")) {
             return;
         }
 
         try {
             setIsLoggingOut(true);
-            
-            // 1. Force final sync before logout
+
+            // 1. 동기화 체크포인트 발행 후 짧게 대기
             window.dispatchEvent(new CustomEvent('voca_sync_checkpoint'));
-            
-            // Give a small delay for sync to start/complete and show the message
-            await new Promise(r => setTimeout(r, 1500));
+            await new Promise(r => setTimeout(r, 800));
 
-            // Create a logout promise with all steps
-            const performLogout = async () => {
-                // 2. Mark user as offline in Firestore
-                try {
-                    const userM = await import('../userService');
-                    await userM.setUserOffline(firebaseUser.uid);
-                } catch (e) { console.warn("Offline sync failed", e); }
+            const isNative = typeof (window as any).Capacitor !== 'undefined' && (window as any).Capacitor.getPlatform() !== 'web';
 
-                const isNative = typeof (window as any).Capacitor !== 'undefined' && (window as any).Capacitor.getPlatform() !== 'web';
-                
-                // 3. Native Google plugin Sign Out
-                if (isNative) {
-                    try {
-                        const { FirebaseAuthentication } = await import('@capacitor-firebase/authentication');
-                        await FirebaseAuthentication.signOut();
-                    } catch (e) {
-                        console.warn('Native Google sign out failed', e);
-                    }
-                }
+            // 2. Firestore offline 표시 (fire-and-forget: 네트워크 hang 방지)
+            import('../userService').then(m => m.setUserOffline(firebaseUser.uid)).catch(() => {});
 
-                // 4. Firebase Sign Out
-                await auth.signOut();
-            };
-
-            // Race the logout against a 5-second timeout
-            const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("LOGOUT_TIMEOUT")), 5000));
-            
-            try {
-                await Promise.race([performLogout(), timeout]);
-            } catch (e) {
-                console.warn("Logout timed out or failed, forcing redirect", e);
+            // 3. Native plugin sign out (fire-and-forget: Android hang 방지)
+            //    await 하면 native 플러그인이 응답 없을 때 무한 대기 발생
+            if (isNative) {
+                import('@capacitor-firebase/authentication')
+                    .then(({ FirebaseAuthentication }) => FirebaseAuthentication.signOut())
+                    .catch(() => {});
             }
-            
-            // 5. Always redirect to LOGIN screen
-            setScreen('LOGIN');
+
+            // 4. Firebase JS SDK sign out — 3초 타임아웃 보장
+            await Promise.race([
+                auth.signOut(),
+                new Promise<void>(resolve => setTimeout(resolve, 3000)),
+            ]);
+
         } catch (error: any) {
             console.error("Logout Error", error);
-            setScreen('LOGIN');
         } finally {
+            // setScreen은 반드시 finally에서 호출 → 에러/hang 무관하게 항상 LOGIN으로
             setIsLoggingOut(false);
+            setScreen('LOGIN');
         }
     };
 
