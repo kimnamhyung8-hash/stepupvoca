@@ -19,7 +19,7 @@ const config: CapacitorConfig = {
   },
   plugins: {
     CapacitorHttp: {
-      enabled: true,
+      enabled: false,
     },
     AdMob: {
       // Test App IDs - Replace with real IDs for production
