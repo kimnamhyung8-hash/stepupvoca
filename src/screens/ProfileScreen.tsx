@@ -124,11 +124,18 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
             const isNative = typeof (window as any).Capacitor !== 'undefined' && (window as any).Capacitor.getPlatform() !== 'web';
 
-            // 2. Firestore offline 표시 (fire-and-forget: 네트워크 hang 방지)
-            import('../userService').then(m => m.setUserOffline(firebaseUser.uid)).catch(() => {});
+            // 2. Firestore offline 표시 — auth.signOut() 전에 반드시 완료되어야 함
+            //    (auth 만료 후 Firestore 보안 룰이 write를 거부하면 isOnline=true 잔류 → 재로그인 차단 버그)
+            try {
+                const userM = await import('../userService');
+                await Promise.race([
+                    userM.setUserOffline(firebaseUser.uid),
+                    new Promise<void>(resolve => setTimeout(resolve, 2000)),
+                ]);
+            } catch (e) { console.warn('setUserOffline failed', e); }
 
-            // 3. Native plugin sign out (fire-and-forget: Android hang 방지)
-            //    await 하면 native 플러그인이 응답 없을 때 무한 대기 발생
+            // 3. Native plugin sign out (fire-and-forget: Android native hang 방지)
+            //    auth.signOut()과 달리 이쪽은 await 하면 무한 대기 발생
             if (isNative) {
                 import('@capacitor-firebase/authentication')
                     .then(({ FirebaseAuthentication }) => FirebaseAuthentication.signOut())
