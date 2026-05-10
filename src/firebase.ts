@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { initializeAuth, indexedDBLocalPersistence, browserLocalPersistence, browserPopupRedirectResolver, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, initializeFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { Capacitor } from '@capacitor/core';
 
@@ -28,5 +28,12 @@ if (!isNative) {
 
 export const auth = initializeAuth(app, authOptions);
 export const googleProvider = new GoogleAuthProvider();
-export const db = getFirestore(app);
+
+// Android에서 CapacitorHttp가 fetch()를 가로채면 Firestore gRPC-web streaming이 깨짐.
+// Android에서만 experimentalForceLongPolling을 사용해 일반 HTTP 방식으로 우회.
+const isAndroid = typeof window !== 'undefined' && Capacitor && Capacitor.getPlatform() === 'android';
+export const db = isAndroid
+    ? initializeFirestore(app, { experimentalForceLongPolling: true })
+    : getFirestore(app);
+
 export const storage = getStorage(app);

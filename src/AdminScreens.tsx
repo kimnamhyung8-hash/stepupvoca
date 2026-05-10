@@ -89,10 +89,12 @@ export function AdminDashboardScreen({ setScreen }: any) {
       // 1. Load Users
       let snap;
       try {
-        // Fetch all users to include those without 'createdAt' field
         snap = await getDocs(collection(db, 'users'));
-      } catch (e) {
-        console.warn('Fetch users failed:', e);
+        console.log('[Admin] users 쿼리 성공, 문서 수:', snap.docs.length);
+      } catch (e: any) {
+        const errMsg = `[Admin] Firestore users 쿼리 실패\n코드: ${e?.code}\n메시지: ${e?.message}`;
+        console.error(errMsg);
+        alert(errMsg); // 실제 에러를 화면에 표시
         snap = { docs: [] } as any;
       }
       
