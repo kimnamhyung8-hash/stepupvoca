@@ -27,7 +27,10 @@ export const decryptApiKey = (encrypted: string) => {
 
 // ─── [NEW] HYBRID AI CONFIGURATION ──────────────────────────────────────────
 // GitHub의 구글 보안 스캐너(Leaked 봇)를 속이기 위해 토큰을 Base64로 감싸서(난독화) 방어합니다.
-export let SERVER_API_KEY = typeof window !== 'undefined' ? atob("QUl6YVN5Q0JVRm13b3JQMmZ0amxEdklFb0o5YWs0b1lYamVCbzBj") : "";
+// [SECURITY WARNING] The hardcoded API key has been removed because the project was suspended due to key exposure.
+// Moving to a backend-based architecture is required for security.
+export let SERVER_API_KEY = ""; 
+
 export let HIGH_PERFORMANCE_MODEL = "gemini-3.1-flash-lite-preview";
 export let LIGHTWEIGHT_MODEL = "gemini-3-flash-preview";
 export let DEFAULT_AI_MODEL = LIGHTWEIGHT_MODEL;
