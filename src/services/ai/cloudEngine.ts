@@ -1,15 +1,17 @@
 // src/services/ai/cloudEngine.ts
 // 기존 Gemini Cloud API를 래핑하는 클라우드 엔진
-// 기존 apiUtils.ts의 fetchGemini, getActiveApiKey 등을 그대로 활용
+// 개인 키가 있으면 직접 호출, 없으면 안전한 백엔드 프록시를 경유하여 키 유출을 원천 방지
 
 import { fetchGemini, getActiveApiKey, LIGHTWEIGHT_MODEL, HIGH_PERFORMANCE_MODEL } from '../../apiUtils';
 import type { AIEngine, AIResponse, AIEngineType } from './types';
+
+// 환경 변수 또는 프록시 기본 엔드포인트
+export const DEFAULT_AI_PROXY_URL = (import.meta as any).env?.VITE_AI_PROXY_URL || '';
 
 export class CloudEngine implements AIEngine {
   readonly type: AIEngineType = 'CLOUD';
 
   isReady(): boolean {
-    // 클라우드는 API 키만 있으면 항상 준비 상태
     return true;
   }
 
@@ -19,38 +21,63 @@ export class CloudEngine implements AIEngine {
     const dailyCount = parseInt(localStorage.getItem('vq_ai_daily_count') || '0');
     const activeKey = getActiveApiKey(userSavedKey, isPremium, dailyCount);
 
-    if (!activeKey) {
-      throw new Error('NO_API_KEY');
+    // 1. 유저의 개인 API 키 또는 서버 키가 직접 존재하는 경우: 직접 호출
+    if (activeKey) {
+      const model = isPremium ? HIGH_PERFORMANCE_MODEL : LIGHTWEIGHT_MODEL;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeKey}`;
+
+      const body: any = {
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.8,
+          maxOutputTokens: 1024,
+          responseMimeType: 'application/json',
+        },
+      };
+
+      if (systemInstruction) {
+        body.systemInstruction = { parts: [{ text: systemInstruction }] };
+      }
+
+      const res = await fetchGemini(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        throw new Error(`CLOUD_API_ERROR_${res.status}`);
+      }
+
+      const data = await res.json();
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      return { content: text, engine: 'CLOUD' };
     }
 
-    const model = isPremium ? HIGH_PERFORMANCE_MODEL : LIGHTWEIGHT_MODEL;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeKey}`;
+    // 2. 클라이언트에 키가 없는 경우: 보안 백엔드 프록시 경유
+    const proxyUrl = localStorage.getItem('vq_ai_proxy_url') || DEFAULT_AI_PROXY_URL;
+    if (proxyUrl && proxyUrl.trim() !== '') {
+      const res = await fetch(proxyUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt,
+          systemInstruction,
+          model: isPremium ? HIGH_PERFORMANCE_MODEL : LIGHTWEIGHT_MODEL,
+        }),
+      });
 
-    const body: any = {
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.8,
-        maxOutputTokens: 1024,
-        responseMimeType: 'application/json',
-      },
-    };
+      if (!res.ok) {
+        throw new Error(`PROXY_API_ERROR_${res.status}`);
+      }
 
-    if (systemInstruction) {
-      body.systemInstruction = { parts: [{ text: systemInstruction }] };
+      const data = await res.json();
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      return { content: text, engine: 'CLOUD' };
     }
 
-    const res = await fetchGemini(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-
-    if (!res.ok) {
-      throw new Error(`CLOUD_API_ERROR_${res.status}`);
-    }
-
-    const data = await res.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-    return { content: text, engine: 'CLOUD' };
+    // 3. 키도 없고 프록시도 없는 경우
+    throw new Error('NO_API_KEY');
   }
 }
+
