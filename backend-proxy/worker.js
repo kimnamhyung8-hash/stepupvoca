@@ -48,34 +48,49 @@ export default {
       }
 
       const body = await request.json();
-      let { prompt, systemInstruction, model = "gemini-3.5-flash-lite", temperature = 0.7, maxOutputTokens = 1024 } = body;
+      let model = body.model || "gemini-3.5-flash-lite";
 
       // 구형 모델 요청 시 최신 모델로 자동 리디렉션
       if (!model || model.includes("1.5") || model.includes("2.0") || model.includes("2.5") || model.includes("preview")) {
         model = "gemini-3.5-flash-lite";
       }
 
-      if (!prompt) {
-        return new Response(JSON.stringify({ error: "Prompt is required" }), {
+      let geminiPayload;
+
+      // 1. Gemini 정규 규격 (contents 배열이 직접 전달된 경우: AI 회화, 챗 등 전체 지원)
+      if (body.contents && Array.isArray(body.contents)) {
+        geminiPayload = {
+          contents: body.contents,
+          generationConfig: body.generationConfig || body.generation_config || {
+            temperature: 0.7,
+            maxOutputTokens: 1024,
+            responseMimeType: "application/json",
+          },
+        };
+        if (body.systemInstruction || body.system_instruction) {
+          geminiPayload.systemInstruction = body.systemInstruction || body.system_instruction;
+        }
+      } else if (body.prompt) {
+        // 2. 단일 prompt 형태
+        geminiPayload = {
+          contents: [{ role: "user", parts: [{ text: body.prompt }] }],
+          generationConfig: {
+            temperature: body.temperature || 0.7,
+            maxOutputTokens: body.maxOutputTokens || 1024,
+            responseMimeType: "application/json",
+          },
+        };
+        if (body.systemInstruction) {
+          geminiPayload.systemInstruction = { parts: [{ text: body.systemInstruction }] };
+        }
+      } else {
+        return new Response(JSON.stringify({ error: "prompt or contents is required" }), {
           status: 400,
           headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
         });
       }
 
       const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-
-      const geminiPayload = {
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature,
-          maxOutputTokens,
-          responseMimeType: "application/json",
-        },
-      };
-
-      if (systemInstruction) {
-        geminiPayload.systemInstruction = { parts: [{ text: systemInstruction }] };
-      }
 
       const geminiRes = await fetch(geminiUrl, {
         method: "POST",
