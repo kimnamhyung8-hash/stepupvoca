@@ -41,15 +41,20 @@ export const AiEngineSetupCard: React.FC<Props> = ({ lang }) => {
       // 2. 준비는 안 되었지만 모델 파일은 있는지 확인
       const isDownloaded = await manager.isModelDownloaded();
       if (isDownloaded) {
-        // 파일은 있는데 초기화가 안 된 경우 -> 에러 상태로 표시하여 재시도 유도
-        setStatus('error');
-        return;
+        for (let i = 0; i < 2; i++) {
+          await aiDispatcher.init();
+          if (aiDispatcher.isOnDeviceReady) {
+            setStatus('ready');
+            return;
+          }
+        }
       }
     } catch (e) {
       console.warn('[AiSetup] 상태 체크 중 오류:', e);
     }
 
-    setStatus('not_downloaded');
+    // 3. 모델이 없으면 자동으로 다운로드 시작
+    handleDownload();
   };
 
   const handleDownload = async () => {
