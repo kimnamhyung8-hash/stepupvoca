@@ -6,7 +6,7 @@ import { fetchGemini, getActiveApiKey, LIGHTWEIGHT_MODEL, HIGH_PERFORMANCE_MODEL
 import type { AIEngine, AIResponse, AIEngineType } from './types';
 
 // 환경 변수 또는 프록시 기본 엔드포인트
-export const DEFAULT_AI_PROXY_URL = (import.meta as any).env?.VITE_AI_PROXY_URL || '';
+export const DEFAULT_AI_PROXY_URL = (import.meta as any).env?.VITE_AI_PROXY_URL || 'https://vocaquest-ai-proxy.kimnamhyung8.workers.dev';
 
 export class CloudEngine implements AIEngine {
   readonly type: AIEngineType = 'CLOUD';

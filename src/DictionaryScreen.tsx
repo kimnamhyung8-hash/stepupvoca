@@ -4,8 +4,9 @@ import { PcAdSlot } from './components/PcComponents';
 import { playNaturalTTS } from './utils/ttsUtils';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { t } from './i18n';
-import { getActiveApiKey, LIGHTWEIGHT_MODEL, fetchGemini, checkAiCache, saveAiCache, parseFlexibleJson } from './apiUtils';
+import { getActiveApiKey, checkAiCache, saveAiCache, parseFlexibleJson } from './apiUtils';
 import { aiDispatcher } from './services/ai/dispatcher';
+import { DEFAULT_AI_PROXY_URL } from './services/ai/cloudEngine';
 
 
 // 국기 이모지 맵 (외부 CDN 의존 제거 — 오프라인 대응)
@@ -60,40 +61,21 @@ export function DictionaryScreen({ settings, setScreen, setIncorrectNotes, aiUsa
     };
     const ui = dictI18n[lang] || dictI18n['en'];
 
-    const callGemini = async (prompt: string, apiKey: string) => {
-        const res = await fetchGemini(
-            `https://generativelanguage.googleapis.com/v1beta/models/${LIGHTWEIGHT_MODEL}:generateContent?key=${apiKey}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    contents: [{ parts: [{ text: prompt }] }]
-                }),
-            }
-        );
-
-        if (!res.ok) {
-            const errJson = await res.json().catch(() => ({}));
-            throw new Error(errJson.error?.message || `HTTP ${res.status}`);
-        }
-
-        return res.json();
-    };
-
     const handleTranslate = async (text: string) => {
         if (!text || !text.trim()) return;
 
         const userSavedKey = localStorage.getItem('vq_gemini_key');
         const activeKey = getActiveApiKey(userSavedKey, isPremium, aiUsage);
-        if (!activeKey) {
+        const hasProxy = Boolean(DEFAULT_AI_PROXY_URL || localStorage.getItem('vq_ai_proxy_url'));
+        
+        // 개인키도 없고 프록시도 없고 온디바이스도 준비 안 된 경우에만 모달 표시
+        if (!activeKey && !hasProxy && !aiDispatcher.isOnDeviceReady) {
             if (setShowApiModal) setShowApiModal(true);
             return;
         }
 
-
-
-        // 2. 오프라인 체크 — AI 기능은 인터넷 필요
-        if (!navigator.onLine) {
+        // 2. 오프라인 체크 — 온디바이스가 준비되지 않은 상태에서 오프라인이면 경고
+        if (!navigator.onLine && !aiDispatcher.isOnDeviceReady) {
             alert(t(lang, 'offline_ai_warning') || (lang === 'ko' ? '📵 현재 오프라인 상태입니다.\nAI 사전은 인터넷 연결이 필요합니다.' : '📵 You are offline.\nAI Dictionary requires internet.'));
             return;
         }
@@ -150,34 +132,15 @@ Return ONLY in PURE JSON format (no markdown):
                 return;
             }
 
-            // 온디바이스 AI 우선 시도
-            if (aiDispatcher.isOnDeviceReady) {
-                try {
-                    console.log('[Dict] 온디바이스 추론 시도...');
-                    const onDeviceResult = await aiDispatcher.generate(prompt);
-                    const jsonPart = onDeviceResult.content.match(/\{[\s\S]*\}/)?.[0];
-                    if (jsonPart) {
-                        const parsedResult = parseFlexibleJson(jsonPart);
-                        if (parsedResult.word) {
-                            await saveAiCache(cacheKey, parsedResult);
-                            setResult(parsedResult);
-                            setIsLoading(false);
-                            console.log('[Dict] ✅ 온디바이스 응답 성공');
-                            return;
-                        }
-                    }
-                } catch (e) {
-                    console.warn('[Dict] 온디바이스 실패, 클라우드로 폴백:', e);
-                }
-            }
-
-            // --- 기존 클라우드 코드 (그대로 유지) ---
-            const data = await callGemini(prompt, activeKey);
-            const textContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            // 하이브리드 AI 디스패처 호출 (온디바이스 우선 -> 실패시 보안 프록시 클라우드 자동 폴백)
+            const aiRes = await aiDispatcher.generate(prompt);
+            const textContent = aiRes.content || '';
             const jsonPart = textContent.match(/\{[\s\S]*\}/)?.[0];
             if (!jsonPart) throw new Error('AI returned a non-JSON response.');
             
             const parsedResult = parseFlexibleJson(jsonPart);
+            if (!parsedResult.word) throw new Error('Invalid dictionary result structure.');
+
             await saveAiCache(cacheKey, parsedResult);
             setResult(parsedResult);
         } catch (err: any) {

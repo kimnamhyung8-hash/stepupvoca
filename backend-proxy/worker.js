@@ -48,7 +48,12 @@ export default {
       }
 
       const body = await request.json();
-      const { prompt, systemInstruction, model = "gemini-2.5-flash-lite", temperature = 0.7, maxOutputTokens = 1024 } = body;
+      let { prompt, systemInstruction, model = "gemini-3.5-flash-lite", temperature = 0.7, maxOutputTokens = 1024 } = body;
+
+      // 구형 모델 요청 시 최신 모델로 자동 리디렉션
+      if (!model || model.includes("1.5") || model.includes("2.0") || model.includes("2.5") || model.includes("preview")) {
+        model = "gemini-3.5-flash-lite";
+      }
 
       if (!prompt) {
         return new Response(JSON.stringify({ error: "Prompt is required" }), {
