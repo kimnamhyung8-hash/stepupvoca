@@ -139,10 +139,8 @@ Return ONLY in PURE JSON format (no markdown):
             if (!jsonPart) throw new Error('AI returned a non-JSON response.');
             
             const parsedResult = parseFlexibleJson(jsonPart);
-            if (!parsedResult.word) throw new Error('Invalid dictionary result structure.');
-
-            await saveAiCache(cacheKey, parsedResult);
             setResult(parsedResult);
+            saveAiCache(cacheKey, parsedResult).catch(() => {});
         } catch (err: any) {
             console.error('Dictionary API Error:', err);
             const msg = err.message || '';

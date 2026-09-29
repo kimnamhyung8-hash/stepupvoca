@@ -121,33 +121,38 @@ export const fetchGemini = async (url: string, init: RequestInit, maxRetries = 1
  */
 export const checkAiCache = async (cacheKey: string): Promise<any | null> => {
     try {
-        const docRef = doc(db, "ai_cache", cacheKey);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            const now = Date.now();
-            // Handle both number (old format) and Firestore Timestamp/Date (new format)
-            let createdAtMs = 0;
-            if (data.createdAt) {
-                if (typeof data.createdAt === 'number') createdAtMs = data.createdAt;
-                else if (data.createdAt.toMillis) createdAtMs = data.createdAt.toMillis();
-                else if (data.createdAt instanceof Date) createdAtMs = data.createdAt.getTime();
-            }
+        const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 1500));
+        const fetchPromise = (async () => {
+            const docRef = doc(db, "ai_cache", cacheKey);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                const now = Date.now();
+                // Handle both number (old format) and Firestore Timestamp/Date (new format)
+                let createdAtMs = 0;
+                if (data.createdAt) {
+                    if (typeof data.createdAt === 'number') createdAtMs = data.createdAt;
+                    else if (data.createdAt.toMillis) createdAtMs = data.createdAt.toMillis();
+                    else if (data.createdAt instanceof Date) createdAtMs = data.createdAt.getTime();
+                }
 
-            const daysDiff = (now - createdAtMs) / (1000 * 60 * 60 * 24);
+                const daysDiff = (now - createdAtMs) / (1000 * 60 * 60 * 24);
 
-            // Lazy TTL check: Only return if it's less than 30 days old
-            if (daysDiff <= 30) {
-                console.log(`[AI Cache Hit] ⚡ Reusing Firebase data for: ${cacheKey}`);
-                return data.payload;
-            } else {
-                console.log(`[AI Cache Expired] Data older than 30 days for: ${cacheKey}`);
+                // Lazy TTL check: Only return if it's less than 30 days old
+                if (daysDiff <= 30) {
+                    console.log(`[AI Cache Hit] ⚡ Reusing Firebase data for: ${cacheKey}`);
+                    return data.payload;
+                } else {
+                    console.log(`[AI Cache Expired] Data older than 30 days for: ${cacheKey}`);
+                }
             }
-        }
+            return null;
+        })();
+        return await Promise.race([fetchPromise, timeoutPromise]);
     } catch (e) {
         console.warn("[AI Cache Error] Failed to read cache:", e);
+        return null;
     }
-    return null;
 };
 
 /**
@@ -156,14 +161,16 @@ export const checkAiCache = async (cacheKey: string): Promise<any | null> => {
 export const saveAiCache = async (cacheKey: string, payload: any) => {
     try {
         const docRef = doc(db, "ai_cache", cacheKey);
-        await setDoc(docRef, {
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT')), 2000));
+        const setDocPromise = setDoc(docRef, {
             payload,
             // MUST be a Date object for Firebase TTL policy to automatically delete it
             createdAt: new Date()
         });
+        await Promise.race([setDocPromise, timeoutPromise]);
         console.log(`[AI Cache Saved] 💾 Data stored in Firebase for: ${cacheKey}`);
     } catch (e) {
-        console.warn("[AI Cache Error] Failed to save cache:", e);
+        console.warn("[AI Cache Error] Failed to save cache (non-blocking):", e);
     }
 };
 

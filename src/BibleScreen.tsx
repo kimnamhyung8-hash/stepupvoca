@@ -261,13 +261,11 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
                     const jsonPart = onDeviceResult.content.match(/\{[\s\S]*\}/)?.[0];
                     if (jsonPart) {
                         const parsedResult = parseFlexibleJson(jsonPart);
-                        if (parsedResult.nuance || parsedResult.examples) {
-                            await saveAiCache(cacheKey, parsedResult);
                             setWordDetails(parsedResult);
                             setIsLoadingDetails(false);
+                            saveAiCache(cacheKey, parsedResult).catch(() => {});
                             console.log('[Bible] ✅ 온디바이스 응답 성공');
                             return;
-                        }
                     }
                 } catch (e) {
                     console.warn('[Bible] 온디바이스 실패, 클라우드로 폴백:', e);
@@ -292,8 +290,8 @@ export function BibleScreen({ settings, setScreen, aiUsage, incrementAiUsage, is
             if (!jsonPart) throw new Error("Invalid AI response");
 
             const parsedResult = parseFlexibleJson(jsonPart);
-            await saveAiCache(cacheKey, parsedResult);
             setWordDetails(parsedResult);
+            saveAiCache(cacheKey, parsedResult).catch(() => {});
         } catch (err: any) {
             setDetailError(t(lang, 'analysis_failed'));
         } finally {
