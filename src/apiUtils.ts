@@ -50,103 +50,61 @@ export const DEFAULT_AI_PROXY_URL = 'https://vocaquest-ai-proxy.kimnamhyung8.wor
 
 /**
  * AI 요청 시 사용할 최종 API 키를 결정합니다.
- * 개인 키가 있으면 우선 반환하고, 없더라도 보안 프록시가 작동하므로 항상 활성 상태를 유지합니다.
+ * 개인 키가 있으면 반환하고, 없더라도 Cloudflare 보안 프록시가 모든 유저에게 기본 제공되므로 항상 활성 상태를 유지합니다.
  */
 export const getActiveApiKey = (userSavedKey: string | null, _isPremium?: boolean, _dailyCount?: number) => {
-    // 1. 개인 키가 있으면 최우선으로 사용
     if (userSavedKey) {
         const key = decryptApiKey(userSavedKey);
         if (key && key.trim() !== "") return key;
     }
-
-    // 2. 서버 키가 명시되어 있으면 사용
-    if (SERVER_API_KEY && SERVER_API_KEY.trim() !== "") {
-        return SERVER_API_KEY;
-    }
-
-    // 3. 보안 프록시가 준비되어 있으므로 유효한 프록시 모드로 진입
-    return "proxy_active";
+    // 보안 프록시 모드 (항상 활성화)
+    return "proxy_mode";
 };
 
 /**
  * [Safe Gemini API Fetch Wrapper]
- * 직접 호출 시 400(잘못된 키), 401, 403, 404, 500 등 오류가 발생하면,
- * Cloudflare 보안 프록시(DEFAULT_AI_PROXY_URL)로 즉시 자동 우회하여 100% 정상 응답을 반환합니다.
+ * - 개인 키(AIzaSy...)가 있으면 직접 호출을 시도하고, 실패 시 프록시로 폴백합니다.
+ * - 개인 키가 없는 모든 기본 상태에서는 구글에 옛날 키를 직접 보내지 않고,
+ *   100% Cloudflare 보안 프록시(DEFAULT_AI_PROXY_URL)로 즉시 전달하여 API 키 에러를 원천 차단합니다.
  */
 export const fetchGemini = async (url: string, init: RequestInit, maxRetries = 1) => {
-    let response: Response = {} as Response;
-    const baseDelay = 500;
+    const rawUserKey = typeof window !== 'undefined' ? localStorage.getItem('vq_gemini_key') : null;
+    const personalKey = rawUserKey ? decryptApiKey(rawUserKey) : null;
+    const hasPersonalKey = Boolean(personalKey && personalKey.trim() !== '' && personalKey.startsWith('AIzaSy'));
 
-    // 만약 URL에 포함된 키가 'proxy_active'이거나 없으면 바로 프록시로 직행
-    if (url.includes('key=proxy_active') || url.includes('key=null') || url.includes('key=&') || url.endsWith('key=')) {
-        try {
-            const bodyObj = typeof init.body === 'string' ? JSON.parse(init.body) : init.body;
-            const modelMatch = url.match(/\/models\/([^:]+):/);
-            const requestedModel = modelMatch ? modelMatch[1] : 'gemini-3.5-flash-lite';
-
-            return await fetch(DEFAULT_AI_PROXY_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...bodyObj,
-                    model: requestedModel
-                })
-            });
-        } catch (e) {
-            console.error('[fetchGemini] 직접 프록시 호출 실패:', e);
+    // 1. 유효한 개인 키가 등록되어 있는 경우에만 구글 직접 호출 시도
+    if (hasPersonalKey) {
+        let response: Response = {} as Response;
+        for (let i = 0; i <= maxRetries; i++) {
+            try {
+                response = await fetch(url, init);
+                if (response.ok) return response;
+            } catch (e) {
+                console.warn('[fetchGemini] 개인 키 호출 네트워크 에러:', e);
+            }
+            if (response.status === 400 || response.status === 401 || response.status === 403) break;
         }
+        console.warn(`[fetchGemini] 개인 키 직접 호출 실패(${response.status}). 보안 프록시로 자동 우회합니다.`);
     }
 
-    // 개인 키로 1차 시도
-    for (let i = 0; i <= maxRetries; i++) {
-        try {
-            response = await fetch(url, init);
-            if (response.ok) break;
-        } catch (e) {
-            console.warn('[fetchGemini] fetch network error:', e);
-        }
+    // 2. 기본 모드: 모든 AI 요청(회화, 사전, 바이블, 채팅)을 Cloudflare 보안 프록시로 직행
+    try {
+        const bodyObj = typeof init.body === 'string' ? JSON.parse(init.body) : init.body;
         
-        // 400 (API key not valid 등), 401, 403 인증 에러는 재시도 없이 즉시 중단하고 프록시로 폴백
-        if (response.status === 400 || response.status === 401 || response.status === 403) {
-            break;
-        }
+        const proxyRes = await fetch(DEFAULT_AI_PROXY_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                ...bodyObj,
+                model: 'gemini-3.5-flash-lite'
+            })
+        });
 
-        if (response.status === 503 || response.status === 429 || response.status >= 500 || response.status === 404) {
-            if (i < maxRetries) {
-                await new Promise(resolve => setTimeout(resolve, baseDelay));
-            }
-        } else {
-            break;
-        }
+        return proxyRes;
+    } catch (proxyErr) {
+        console.error('[fetchGemini] Cloudflare 보안 프록시 통신 실패:', proxyErr);
+        throw proxyErr;
     }
-
-    // 직접 호출 실패 시 Cloudflare 보안 프록시로 즉시 자동 우회 (투명한 폴백)
-    if (!response.ok) {
-        console.warn(`[fetchGemini] 직접 호출 실패 (${response.status}). Cloudflare 보안 프록시로 자동 우회합니다.`);
-        try {
-            const bodyObj = typeof init.body === 'string' ? JSON.parse(init.body) : init.body;
-            const modelMatch = url.match(/\/models\/([^:]+):/);
-            const requestedModel = modelMatch ? modelMatch[1] : 'gemini-3.5-flash-lite';
-
-            const proxyRes = await fetch(DEFAULT_AI_PROXY_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...bodyObj,
-                    model: requestedModel
-                })
-            });
-
-            if (proxyRes.ok) {
-                console.log('[fetchGemini] ✅ Cloudflare 보안 프록시 우회 응답 성공');
-                return proxyRes;
-            }
-        } catch (proxyErr) {
-            console.error('[fetchGemini] 프록시 우회 실패:', proxyErr);
-        }
-    }
-    
-    return response;
 };
 
 // ─── [NEW] FIRESTORE AI CACHING SYSTEM ──────────────────────────────────────────
